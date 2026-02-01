@@ -12,32 +12,12 @@ namespace SabzMarket.Domain.Entities
     {
         public long Id { get; set; }
         public long UserId { get; set; }
-        public virtual User? User { get; set; }
-        [Column(TypeName = "nvarchar")]
-        [StringLength(500)]
-        [Required]
         public string? Address { get; set; }
-        [Column(TypeName = "varchar")]
-        [StringLength(10)]
-        [Required]
         public string? DataBuilt { get; set; }
-        [Required]
         public int LandArea { get; set; }
-        [Column(TypeName = "char")]
-        [StringLength(10)]
-        [Required]
         public string? NationalCode { get; set; }
-        [Column(TypeName = "varchar")]
-        [StringLength(50)]
-        [Required]
         public string? CodParvaneBHB { get; set; }
-        [Column(TypeName = "nvarchar(max)")]
-
-        [Required]
         public string? ProfileImage { get; set; }
-        [Required]
-        [Column(TypeName ="char(10)")]
         public string? CodePosti {  get; set; }
-        public virtual ICollection<Order>? Orders { get; set; }
     }
 }

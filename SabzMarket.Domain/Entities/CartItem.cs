@@ -10,10 +10,7 @@ namespace SabzMarket.Domain.Entities
     {
         public int Id { get; set; }
         public long FarmerId { get; set; }
-        public Farmer Farmer { get; set; } 
         public long ProductId { get; set; }
-        public Product Product { get; set; }
-
         public int Quantity { get; set; }
         public DateTime AddedDate { get; set; }
     }

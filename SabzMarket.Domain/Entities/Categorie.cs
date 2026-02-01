@@ -11,9 +11,6 @@ namespace SabzMarket.Domain.Entities
     public class Categorie
     {
         public long Id { get; set; }
-        [Column(TypeName = "nvarchar")]
-        [StringLength(50)]
-        [Required]
         public  string? Name { get; set; }
     }
 }

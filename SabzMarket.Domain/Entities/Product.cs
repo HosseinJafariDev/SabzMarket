@@ -12,27 +12,12 @@ namespace SabzMarket.Domain.Entities
     {
         public long Id { get; set; }
         public long SellerId { get; set; }
-        public virtual Seller? Seller { get; set; }
         public long CategorieId { get; set; }
-        public virtual Categorie? Categorie { get; set; }
-
-        [Column(TypeName = "nvarchar")]
-        [StringLength(50)]
-        [Required]
         public string? ProductName { get; set; }
-        [Column(TypeName = "nvarchar")]
-        [StringLength(500)]
-        [Required]
         public string? Description { get; set; }
-        [Required]
         public int Price { get; set; }
-        [Required]
         public int Number { get; set; }
-        [Column(TypeName = "nvarchar(max)")]
-       
-        [Required]
         public string? ImageProduct { get; set; }
         public bool IsDeleted { get; set; } = false;
-        public virtual ICollection<OrderDetail>? OrderDetails { get; set; }
     }
 }

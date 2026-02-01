@@ -9,9 +9,8 @@ namespace SabzMarket.Domain.Entities
     public class FeaturedSeller
     {
         public int Id { get; set; }
-        public long SellerId {  get; set; }
-        public virtual Seller? Seller { get; set; }
-        public DateTime StartDate {  get; set; }
+        public long SellerId { get; set; }
+        public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public bool IsActive { get; set; } = true;
     }
