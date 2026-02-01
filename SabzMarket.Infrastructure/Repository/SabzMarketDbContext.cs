@@ -1,5 +1,5 @@
-﻿    using Microsoft.EntityFrameworkCore;
-using SabzMarket.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using SabzMarket.Infrastructure.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,60 +15,72 @@ namespace SabzMarket.Infrastructure
         }
 
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Seller> Sellers { get; set; }
-        public DbSet<Product> Products { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<Categorie> Categories { get; set; }
-        public DbSet<Chat> Chats { get; set; }
+        public DbSet<UserTable> Users { get; set; }
+        public DbSet<SellerTable> Sellers { get; set; }
+        public DbSet<ProductTable> Products { get; set; }
+        public DbSet<OrderTable> Orders { get; set; }
+        public DbSet<CategorieTable> Categories { get; set; }
+        public DbSet<ChatTable> Chats { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
-        public DbSet<Farmer> Farmers { get; set; }
-        public DbSet<ErrorLog> ErrorLogs { get; set; }
-        public DbSet<FeaturedSeller> FeaturedSellers {  get; set; }
-        public DbSet<CartItem> CartItems { get; set; } 
+        public DbSet<FarmerTable> Farmers { get; set; }
+        public DbSet<ErrorTable> ErrorLogs { get; set; }
+        public DbSet<FeaturedSellerTable> FeaturedSellers { get; set; }
+        public DbSet<CartItemTable> CartItems { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Categorie>()
+            modelBuilder.Entity<CategorieTable>().ToTable("Categorie")
                 .HasData(
-                new Categorie { Id = 1, Name = "کود های شیمیایی" },
-                new Categorie { Id = 2, Name = "کود های آلی " },
-                new Categorie { Id = 3, Name = "کودهای بیولوژیک" },
-                new Categorie { Id = 4, Name = "حشره کش ها " },
-                new Categorie { Id = 5, Name = "علف کش ها" },
-                new Categorie { Id = 6, Name = "سموم معدنی " },
-                new Categorie { Id = 7, Name = "سموم آلی " }
+                new CategorieTable { Id = 1, Name = "کود های شیمیایی" },
+                new CategorieTable { Id = 2, Name = "کود های آلی " },
+                new CategorieTable { Id = 3, Name = "کودهای بیولوژیک" },
+                new CategorieTable { Id = 4, Name = "حشره کش ها " },
+                new CategorieTable { Id = 5, Name = "علف کش ها" },
+                new CategorieTable { Id = 6, Name = "سموم معدنی " },
+                new CategorieTable { Id = 7, Name = "سموم آلی " }
                 );
-            modelBuilder.Entity<Seller>()
+            modelBuilder.Entity<SellerTable>().ToTable("Seller")
                 .HasOne(s => s.User)
                 .WithOne(u => u.Seller)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Farmer>()
+            modelBuilder.Entity<FarmerTable>().ToTable("Farmer")
                 .HasOne(f => f.User)
                 .WithOne(u => u.Farmer)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<OrderDetail>()
+            modelBuilder.Entity<OrderDetail>().ToTable("OrderDetail")
                 .HasOne(od => od.Product)
                 .WithMany(p => p.OrderDetails)
                 .HasForeignKey(od => od.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Chat>()
+            modelBuilder.Entity<ChatTable>().ToTable("Chat")
                 .HasOne(c => c.FromUser)
                 .WithMany()
                 .HasForeignKey(c => c.FromUserId)
                 .OnDelete(DeleteBehavior.Restrict);
-             
-            modelBuilder.Entity<Chat>()
+
+            modelBuilder.Entity<ChatTable>()
                 .HasOne(c => c.ToUser)
                 .WithMany()
                 .HasForeignKey(c => c.ToUserId)
                 .OnDelete(DeleteBehavior.Restrict);
-            
-            modelBuilder.Entity<FeaturedSeller>()
+
+            modelBuilder.Entity<FeaturedSellerTable>().ToTable("FeaturedSeller")
                 .HasIndex(x => x.SellerId)
                 .IsUnique();
+
+            modelBuilder.Entity<UserTable>().ToTable("User");
+
+            modelBuilder.Entity<CartItemTable>().ToTable("CartItem");
+
+            modelBuilder.Entity<ErrorTable>().ToTable("Error");
+
+            modelBuilder.Entity<OrderTable>().ToTable("Order");
+
+            modelBuilder.Entity<ProductTable>().ToTable("Product");
+
         }
     }
 }
