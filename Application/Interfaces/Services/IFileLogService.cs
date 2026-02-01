@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SabzMarket.Application.Interfaces.Services
 {
-    public interface ILogService 
+    public interface IFileLogService 
     {
         public Task<string> SaveFailedLogAsync(Exception? ex );
     }
