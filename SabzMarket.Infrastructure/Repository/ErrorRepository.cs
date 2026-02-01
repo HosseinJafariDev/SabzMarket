@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SabzMarket.Application.Errors;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Application.Interfaces.Services;
-using SabzMarket.DAL.Entities;
-using SabzMarket.Share.Models;
+using SabzMarket.Domain.Entities;
+using SabzMarket.Infrastructure.Entities;
+using SabzMarket.Infrastructure.Mappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,22 +16,23 @@ namespace SabzMarket.Infrastructure
     public class ErrorRepository:IErrorRepository
     {
         private readonly IDbContextFactory<SabzMarketDbContext> _contextFactory;
-        private readonly ILogService _logServiceRepository;
+        private readonly IFileLogService _fileLogService;
 
         public ErrorRepository
             (IDbContextFactory<SabzMarketDbContext> contextFactory,
-            ILogService logServiceRepository) 
+            IFileLogService fileLogService) 
         {
             _contextFactory = contextFactory;
-            _logServiceRepository = logServiceRepository;
+            _fileLogService = fileLogService;
         }
 
-        public async Task<OperationResult> LogErrorAsync(ErrorLogDTO error)
+        public async Task<string> LogErrorAsync(Exception ex, String layer)
         {
-            ErrorLog errorLog = new ErrorLog
+            var error = ex.ExceptionToErrorDTO(layer);
+            var errorLog = new ErrorTable
             {
                 CreatedAt = error.CreatedAt,
-                Message = error.Message,
+                Message = error.Message!,
                 Source = error.Source,
                 StackTrace = error.StackTrace,
                 Layer= error.Layer,
@@ -43,12 +46,12 @@ namespace SabzMarket.Infrastructure
                 context.ErrorLogs.Add(errorLog);
                 await context.SaveChangesAsync();
                
-                return OperationResult.Failed(errorLog.Id.ToString());
+                return errorLog.Id.ToString();
             }
             catch (Exception ex2)
             {
-               var result= await _logServiceRepository.SaveFailedLogAsync(ex2);
-                return OperationResult.Failed(result.Message!);
+               var result= await _fileLogService.SaveFailedLogAsync(ex2);
+                return result;  
             }
 
 
