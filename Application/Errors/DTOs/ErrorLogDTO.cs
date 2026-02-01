@@ -1,8 +1,8 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SabzMarket.Application.Errors
+namespace SabzMarket.Application.Errors.DTOs
 {
     public class ErrorLogDTO
     {

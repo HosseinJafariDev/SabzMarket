@@ -13,7 +13,6 @@
     <Folder Include="Categoris\DTOs\" />
     <Folder Include="Categoris\Mappers\" />
     <Folder Include="Categoris\UseCases\" />
-    <Folder Include="Errors\DTOs\" />
     <Folder Include="Errors\Mappers\" />
     <Folder Include="Errors\UseCases\" />
     <Folder Include="Farmers\DTOs\" />
