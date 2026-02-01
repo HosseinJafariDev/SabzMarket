@@ -1,15 +1,16 @@
-﻿using SabzMarket.Share.Models;
+﻿using SabzMarket.Domain.Entities;
+using SabzMarket.Infrastructure.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SabzMarket.Share.Mappers
+namespace SabzMarket.Infrastructure.Mappers
 {
     public static class ErrorMapper
     {
-        public static ErrorLogDTO ExceptionToErrorDTO(this Exception ex,String layer)
+        public static ErrorTable ExceptionToErrorDTO(this Exception ex,String layer)
         {
-            return new ErrorLogDTO
+            return new ErrorTable
             {
                 Layer = layer,
                 Message = ex.InnerException?.Message ?? ex.Message,
