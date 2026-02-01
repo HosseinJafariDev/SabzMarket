@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SabzMarket.Application.Interfaces.Services;
+using SabzMarket.Application.SharedMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 namespace SabzMarket.Infrastructure.Logging
 {
-    public class FileLogService : ILogService
+    public class FileLogService : IFileLogService
     {
         private static readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
         private static readonly string _filePath =
