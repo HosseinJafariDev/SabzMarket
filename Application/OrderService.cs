@@ -12,7 +12,7 @@ using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SabzMarket.BLL
+namespace SabzMarket.Application
 {
     public class OrderService : IOrderService
     {

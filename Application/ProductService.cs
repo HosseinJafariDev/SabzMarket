@@ -13,7 +13,7 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SabzMarket.BLL
+namespace SabzMarket.Application
 {
     public class ProductService : IProductService
     {

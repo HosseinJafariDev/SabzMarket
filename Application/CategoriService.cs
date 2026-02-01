@@ -8,7 +8,7 @@ using SabzMarket.Share.Models;
 using SabzMarket.Share.ErrorHandling;
 using Application.Interfaces.Services;
 using SabzMarket.Application.Interfaces.Repository;
-namespace SabzMarket.BLL
+namespace SabzMarket.Application
 {
     public class CategoriService : ICategoriService
     {

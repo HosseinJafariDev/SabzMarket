@@ -12,7 +12,7 @@ using Application.Interfaces.Services;
 using System.Net.WebSockets;
 using SabzMarket.Application.Interfaces.Repository;
 
-namespace SabzMarket.BLL
+namespace SabzMarket.Application
 {
     public class SellerService : ISellerService
     {

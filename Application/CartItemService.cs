@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SabzMarket.BLL
+namespace SabzMarket.Application
 {
     public class CartItemService : ICartItemService
     {
