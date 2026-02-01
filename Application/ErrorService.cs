@@ -1,6 +1,6 @@
 ﻿using Application.Interfaces.Services;
+using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
-using SabzMarket.Share.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +16,10 @@ namespace SabzMarket.BLL
         {
             _errorRepository = errorRepository;
         }
-        public async Task<OperationResult> LogErrorAsync(ErrorLogDTO error)
+        public async Task<OperationResult> LogErrorAsync(Exception ex, String layer)
         {
-           var result= await _errorRepository.LogErrorAsync(error);
-            return result;
+           var result= await _errorRepository.LogErrorAsync(ex,layer);
+            return OperationResult.SuccessedResult(true,result);
         }
     }
 }
