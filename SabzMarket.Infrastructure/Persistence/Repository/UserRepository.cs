@@ -60,7 +60,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
                 .SaveChangesAsync();
         }
 
-        public async Task<User> SelectAsync(string username)
+        public async Task<User> SelectByUserNameAsync(string username)
         {
             var result = await _context.Users
              .AsNoTracking()
