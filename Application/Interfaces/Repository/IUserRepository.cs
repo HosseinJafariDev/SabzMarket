@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SabzMarket.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,10 @@ namespace SabzMarket.Application.Interfaces.Repository
 {
     public interface IUserRepository
     {
-        Task< OperationResult >InsertAsync(UserDTO userDTO);
-        Task< OperationResult >UpdateAsync(UserDTO userDTO);
-        Task< OperationResult<UserDTO> >SelectAsync(string username);
-        Task<OperationResult> CheckUserAsync(string username);
-        Task<OperationResult> ChangePasswordAsync(UserDTO userDTO);
-        
+        Task InsertAsync(User user);
+        Task UpdateAsync(User user);
+        Task<User> SelectAsync(string username);
+        Task<User?> SelectByUserNameForLoginAsync(string userName);
+        Task<bool> CheckUserAsync(string username);
     }
 }
