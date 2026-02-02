@@ -11,7 +11,7 @@ namespace SabzMarket.Application.Interfaces.Repository
     {
         Task InsertAsync(User user);
         Task UpdateAsync(User user);
-        Task<User> SelectAsync(string username);
+        Task<User> SelectByUserNameAsync(string username);
         Task<User?> SelectByUserNameForLoginAsync(string userName);
         Task<bool> CheckUserAsync(string username);
     }
