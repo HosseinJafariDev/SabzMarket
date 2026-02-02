@@ -4,7 +4,7 @@
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace SabzMarket.Infrastructure.Migrations
+namespace SabzMarket.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class SeedCategories : Migration

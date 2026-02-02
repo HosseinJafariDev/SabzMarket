@@ -2,13 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.DAL.Entities;
+using SabzMarket.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SabzMarket.Infrastructure
+namespace SabzMarket.Infrastructure.Persistence.Repository
 {
     public class CartItemRepository : ICartItemRepository
     {

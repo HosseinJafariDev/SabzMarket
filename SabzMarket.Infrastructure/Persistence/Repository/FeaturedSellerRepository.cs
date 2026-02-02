@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.DAL.Migrations;
+using SabzMarket.Infrastructure.Persistence;
 using SabzMarket.Share.Models;
 using SabzMarket.Share.ViewModels;
 using System;
@@ -10,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SabzMarket.Infrastructure
+namespace SabzMarket.Infrastructure.Persistence.Repository
 {
     public class FeaturedSellerRepository : IFeaturedSellerRepository
     {

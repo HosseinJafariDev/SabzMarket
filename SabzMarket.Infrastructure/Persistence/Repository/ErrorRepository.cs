@@ -5,13 +5,14 @@ using SabzMarket.Application.Interfaces.Services;
 using SabzMarket.Domain.Entities;
 using SabzMarket.Infrastructure.Entities;
 using SabzMarket.Infrastructure.Mappers;
+using SabzMarket.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SabzMarket.Infrastructure
+namespace SabzMarket.Infrastructure.Persistence.Repository
 {
     public class ErrorRepository:IErrorRepository
     {

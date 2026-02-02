@@ -7,8 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SabzMarket.Application.Interfaces.Repository;
+using SabzMarket.Infrastructure.Persistence;
 
-namespace SabzMarket.Infrastructure
+namespace SabzMarket.Infrastructure.Persistence.Repository
 {
     public class CategorieRepository : ICategorieRepository
     {

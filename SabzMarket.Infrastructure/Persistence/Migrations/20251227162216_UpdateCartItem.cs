@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace SabzMarket.Infrastructure.Migrations
+namespace SabzMarket.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class UpdateCartItem : Migration
