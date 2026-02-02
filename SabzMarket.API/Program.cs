@@ -7,10 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SabzMarket.API.DependencyInjection;
 using SabzMarket.Application.Interfaces.Repositories.Services;
-using SabzMarket.BLL;
-using SabzMarket.DAL;
-using SabzMarket.Infrastructure;
+using SabzMarket.Application.UseCases.Auth.Mappers;
 using SabzMarket.Infrastructure.Configuration;
+using SabzMarket.Infrastructure.Persistence;
 using SabzMarket.Infrastructure.Storage;
 using System.Runtime;
 
@@ -24,7 +23,7 @@ if (string.IsNullOrEmpty(connectionString))
 
 var s3Settings = builder.Configuration.GetSection("S3").Get<S3Settings>();
 builder.Services.AddSingleton(s3Settings);
-
+//builder.Services.AddAutoMapper(typeof(SignUpProfile));
 
 builder.Services.AddScoped<IAmazonS3>(sp =>
 {
