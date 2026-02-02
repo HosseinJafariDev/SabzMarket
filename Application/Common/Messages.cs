@@ -27,5 +27,6 @@ namespace SabzMarket.Application.Common
         public const string CodeError = "کد خطا:  ";
         public const string EnterUsernameAndPassword = "نام کاربری و رمز عبور را وارد کنید";
         public const string InvalidPasswordAndUsername = "رمز عبور یا نام کاربری صحیح نمیباشد";
+        public const string UserNotFound = "کاربر پیدا نشد";
     }
 }
