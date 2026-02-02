@@ -30,11 +30,8 @@
     <Folder Include="Products\DTOs\" />
     <Folder Include="Products\Mappers\" />
     <Folder Include="Products\UseCases\" />
-    <Folder Include="Sellers\DTOs\" />
     <Folder Include="Sellers\Mappers\" />
     <Folder Include="Sellers\UseCases\" />
-    <Folder Include="Users\UseCases\Interfaces\" />
-    <Folder Include="Users\UseCases\Implementations\" />
   </ItemGroup>
 
   <ItemGroup>
