@@ -1,8 +1,10 @@
 ﻿using Application.Interfaces.Services;
 using AutoMapper;
+using FluentValidation;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Application.UseCases.Auth.Mappers;
+using SabzMarket.Application.UseCases.Sellers.CreateSeller;
 using SabzMarket.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,15 +12,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SabzMarket.Application.UseCases.Auth.UseCases.SignUp
+namespace SabzMarket.Application.UseCases.Auth.SignUp
 {
     public class SignUpUseCase : ISignUpUseCase
     {
-        private readonly SignUpValidator _validator;
+        private readonly IValidator<SignUpInputDTO> _validator;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly IErrorService _errorService;
-        public SignUpUseCase(SignUpValidator validator, IUserRepository userRepository, IMapper mapper, IErrorService errorService)
+        public SignUpUseCase(IValidator<SignUpInputDTO> validator, IUserRepository userRepository, IMapper mapper, IErrorService errorService)
         {
             _validator = validator;
             _userRepository = userRepository;

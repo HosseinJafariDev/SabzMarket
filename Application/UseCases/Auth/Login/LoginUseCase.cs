@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SabzMarket.Application.UseCases.Auth.UseCases.Login
+namespace SabzMarket.Application.UseCases.Auth.Login
 {
     public class LoginUseCase : ILoginUseCase
     {

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SabzMarket.Application.UseCases.Auth.UseCases.SignUp;
+using SabzMarket.Application.UseCases.Auth.SignUp;
 using SabzMarket.Domain.Entities;
 using System;
 using System.Collections.Generic;

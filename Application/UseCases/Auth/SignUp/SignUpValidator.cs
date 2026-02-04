@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SabzMarket.Application.UseCases.Auth.UseCases.SignUp
+namespace SabzMarket.Application.UseCases.Auth.SignUp
 {
     public class SignUpValidator : AbstractValidator<SignUpInputDTO>
     {
