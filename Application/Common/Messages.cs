@@ -1,8 +1,10 @@
-﻿using System;
+﻿using SabzMarket.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace SabzMarket.Application.Common
 {
@@ -16,6 +18,7 @@ namespace SabzMarket.Application.Common
         public const string PhoneRequired = "شماره تلفن الزامی است";
         public const string UserNameRequired = "لطفا نام کاربری برای خود انتخاب کنید";
         public const string UserNameMinLength = "نام کاربری حداقل 6 کاراکتر باشد";
+        public const string UserNameMaxLength = "نام کاربری باید حداکثر 50 کاراکتر باشد";
         public const string UsernameNotFarsi = "نام کاربری نباید شامل حروف فارسی باشد";
         public const string Password1Required = "لطفا رمز عبوری برای خود انتخاب کنید";
         public const string Password1Powerful = "لطفا رمز عبوری قوی انتخاب کنید ";
@@ -28,5 +31,15 @@ namespace SabzMarket.Application.Common
         public const string EnterUsernameAndPassword = "نام کاربری و رمز عبور را وارد کنید";
         public const string InvalidPasswordAndUsername = "رمز عبور یا نام کاربری صحیح نمیباشد";
         public const string UserNotFound = "کاربر پیدا نشد";
+        public const string AddressRequired = "وارد کردن آدرس الزامی است";
+        public const string AddressMaxLength = "آدرس باید حداکثر 500 کاراکتر باشد";
+        public const string ProfileImageRequired = "یک تصویر برای پروفایل انتخاب کنید";
+        public const string WorkHistoryMinlength = "سابقه کاری باید حداقل 1 باشد";
+        public const string WorkHistoryMaxLength = "سابقه کاری باید حداکثر 999 باشد";
+        public const string SaveSellerProfileSuccessful = "پروفایل فروشنده با موفقیت تکمیل شد";
+        public const string NoSellerFoundWithId = "فروشنده ای با این ایدی پیدا نشد";
+        public const string NoSellerFoundWithPhone = "فروشنده ای با این شماره تلفن پیدا نشد";
+        public const string NoSellerFoundWhithUsename = "فروشنده ای با این نام کاربری پیدا نشد";
+        public const string UpdateSuccessful = "ویرایش شد";
     }
 }
