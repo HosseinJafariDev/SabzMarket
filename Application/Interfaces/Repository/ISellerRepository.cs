@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SabzMarket.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,11 +8,11 @@ namespace SabzMarket.Application.Interfaces.Repository
 {
     public interface ISellerRepository
     {
-        Task<OperationResult> InsertAsync(SellerDTO sellerDto);
-        Task<OperationResult> UserExistsInSellerAsync(string username);
-        Task<OperationResult<SellerDTO>> SelectByUsernameAsync(string username);
-        Task<OperationResult>UpdateAsync(UserDTO userDto,SellerDTO sellerDto);
-        Task<OperationResult<List<SellerDTO>>> SelectByPhoneNumberAsync(string phone);
-        Task<OperationResult<SellerDTO>> SelectByIdAsync(long id);
+        Task InsertAsync(string username, Seller seller);
+        Task<bool> UserIsSellerAsync(string username);
+        Task<Seller> SelectByUsernameAsync(string username);
+        Task UpdateAsync(Seller seller);
+        Task<List<Seller>> SelectByPhoneNumberAsync(string phone);
+        Task<Seller> SelectByIdAsync(long id);
     }
 }
