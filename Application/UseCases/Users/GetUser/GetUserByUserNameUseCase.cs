@@ -2,21 +2,20 @@
 using AutoMapper;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
-using SabzMarket.Application.UseCases.Users.UseCases.CheckUsernameAvailability;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SabzMarket.Application.UseCases.Users.UseCases.GetUser
+namespace SabzMarket.Application.UseCases.Users.GetUser
 {
-    public class GetUserByUserName : IGetUserByUserName
+    public class GetUserByUserNameUseCase : IGetUserByUserNameUseCase
     {
         private readonly IUserRepository _userRepository;
         private readonly IErrorService _errorService;
         private readonly IMapper _mapper;
-        public GetUserByUserName(IUserRepository userRepository, IErrorService errorService, IMapper mapper)
+        public GetUserByUserNameUseCase(IUserRepository userRepository, IErrorService errorService, IMapper mapper)
         {
             _userRepository = userRepository;
             _errorService = errorService;

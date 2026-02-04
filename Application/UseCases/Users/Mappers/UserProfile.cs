@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using SabzMarket.Application.UseCases.Users.DTOs;
-using SabzMarket.Application.UseCases.Users.UseCases.GetUser;
+using SabzMarket.Application.UseCases.Users.GetUser;
 using SabzMarket.Domain.Entities;
 using System;
 using System.Collections.Generic;

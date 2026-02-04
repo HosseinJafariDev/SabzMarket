@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SabzMarket.Application.UseCases.Users.UseCases.GetUser
+namespace SabzMarket.Application.UseCases.Users.GetUser
 {
-    public interface IGetUserByUserName
+    public interface IGetUserByUserNameUseCase
     {
         Task<OperationResult<GetUserByUserNameOutputDTO>> ExecuteAsync(string username);
     }

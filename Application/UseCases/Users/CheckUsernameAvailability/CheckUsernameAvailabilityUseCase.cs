@@ -1,14 +1,13 @@
 ﻿using Application.Interfaces.Services;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
-using SabzMarket.Application.UseCases.Users.UseCases.GetUser;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SabzMarket.Application.UseCases.Users.UseCases.CheckUsernameAvailability
+namespace SabzMarket.Application.UseCases.Users.CheckUsernameAvailability
 {
     public class CheckUsernameAvailabilityUseCase : ICheckUsernameAvailabilityUseCase
     {
