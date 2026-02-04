@@ -80,9 +80,26 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             return result!;
         }
 
-        public Task UpdateAsync(User user)
+        public async Task UpdateAsync(User user)
         {
-            throw new NotImplementedException();
+            var userTable = new UserTable { Id = user.Id };
+            _context.Attach(userTable);
+            userTable.UserName = user.UserName;
+            userTable.Password = user.Password;
+            userTable.FirstName = user.FirstName;
+            userTable.LastName = user.LastName;
+            userTable.Email = user.Email;
+            userTable.Phone = user.Phone;
+
+            var entryUser = _context.Entry(userTable);
+            entryUser.Property(x => x.UserName).IsModified = true;
+            entryUser.Property(x => x.Password).IsModified = true;
+            entryUser.Property(x => x.FirstName).IsModified = true;
+            entryUser.Property(x => x.LastName).IsModified = true;
+            entryUser.Property(x => x.Email).IsModified = true;
+            entryUser.Property(x => x.Phone).IsModified = true;
+
+            await _context.SaveChangesAsync();
         }
     }
 }
