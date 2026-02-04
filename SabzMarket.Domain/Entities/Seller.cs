@@ -12,6 +12,7 @@ namespace SabzMarket.Domain.Entities
     {
         public long Id { get; set; }
         public long UserId { get; set; }
+        public User? Users { get;  set; }
         public string? Address { get; set; }
         public string? ProfileImage { get; set; }
         public string? WorkHistory { get; set; }
