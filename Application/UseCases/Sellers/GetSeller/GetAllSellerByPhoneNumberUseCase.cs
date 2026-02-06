@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace SabzMarket.Application.UseCases.Sellers.GetSeller
 {
-    public class GetAllSellerByPhoneNumber : IGetAllSellerByPhoneNumber
+    public class GetAllSellerByPhoneNumberUseCase : IGetAllSellerByPhoneNumberUseCase
     {
         private readonly ISellerRepository _sellerRepository;
-        private readonly IErrorService _errorService;
+        private readonly IErrorRepository _errorRepository;
         private readonly IMapper _mapper;
-        public GetAllSellerByPhoneNumber(ISellerRepository sellerRepository, IErrorService errorService, IMapper mapper)
+        public GetAllSellerByPhoneNumberUseCase(ISellerRepository sellerRepository, IErrorRepository errorRepository, IMapper mapper)
         {
-            _errorService = errorService;
+            _errorRepository = errorRepository;
             _sellerRepository = sellerRepository;
             _mapper = mapper;
         }
@@ -35,8 +35,8 @@ namespace SabzMarket.Application.UseCases.Sellers.GetSeller
             }
             catch (Exception ex)
             {
-                var errorResult =await _errorService.LogErrorAsync(ex, GetType().Name);
-                return OperationResult<List<GetSellerOutputDTO>>.Failed(errorResult.Message!.ErrorMessage());
+                var errorResult = await _errorRepository.LogErrorAsync(ex, GetType().Name);
+                return OperationResult<List<GetSellerOutputDTO>>.Failed(errorResult.ErrorMessage());
             }
         }
     }
