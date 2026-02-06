@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SabzMarket.Application.UseCases.Sellers.GetSeller
 {
-    public interface IGetAllSellerByPhoneNumber
+    public interface IGetAllSellerByPhoneNumberUseCase
     {
         Task<OperationResult<List<GetSellerOutputDTO>>> ExecuteAsync(string phone);
     }
