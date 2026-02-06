@@ -19,13 +19,13 @@ namespace SabzMarket.Application.UseCases.Auth.SignUp
         private readonly IValidator<SignUpInputDTO> _validator;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        private readonly IErrorService _errorService;
-        public SignUpUseCase(IValidator<SignUpInputDTO> validator, IUserRepository userRepository, IMapper mapper, IErrorService errorService)
+        private readonly IErrorRepository _errorRepository;
+        public SignUpUseCase(IValidator<SignUpInputDTO> validator, IUserRepository userRepository, IMapper mapper, IErrorRepository errorRepository)
         {
             _validator = validator;
             _userRepository = userRepository;
             _mapper = mapper;
-            _errorService = errorService;
+            _errorRepository = errorRepository;
         }
         public async Task<OperationResult> ExecuteAsync(SignUpInputDTO input)
         {
@@ -46,8 +46,8 @@ namespace SabzMarket.Application.UseCases.Auth.SignUp
             }
             catch (Exception ex)
             {
-                var result = await _errorService.LogErrorAsync(ex, GetType().Name);
-                return OperationResult.Failed(result.Message!.ErrorMessage());
+                var result = await _errorRepository.LogErrorAsync(ex, GetType().Name);
+                return OperationResult.Failed(result.ErrorMessage());
             }
 
         }

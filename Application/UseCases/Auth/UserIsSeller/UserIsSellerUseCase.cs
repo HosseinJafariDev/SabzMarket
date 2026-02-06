@@ -12,10 +12,10 @@ namespace SabzMarket.Application.UseCases.Auth.UserIsSeller
     public class UserIsSellerUseCase : IUserIsSellerUseCase
     {
         private readonly ISellerRepository _sellerRepository;
-        private readonly IErrorService _errorService;
-        public UserIsSellerUseCase(ISellerRepository sellerRepository, IErrorService errorService)
+        private readonly IErrorRepository _errorRepository;
+        public UserIsSellerUseCase(ISellerRepository sellerRepository, IErrorRepository errorRepository)
         {
-            _errorService = errorService;
+            _errorRepository = errorRepository;
             _sellerRepository = sellerRepository;
         }
         public async Task<OperationResult> ExecuteAsync(string username)
@@ -31,8 +31,8 @@ namespace SabzMarket.Application.UseCases.Auth.UserIsSeller
             }
             catch (Exception ex)
             {
-                var errorResult = await _errorService.LogErrorAsync(ex,GetType().Name);
-                return OperationResult.Failed(errorResult.Message!.ErrorMessage());
+                var errorResult = await _errorRepository.LogErrorAsync(ex, GetType().Name);
+                return OperationResult.Failed(errorResult.ErrorMessage());
             }
         }
     }

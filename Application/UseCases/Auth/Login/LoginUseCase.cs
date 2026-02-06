@@ -13,11 +13,11 @@ namespace SabzMarket.Application.UseCases.Auth.Login
     public class LoginUseCase : ILoginUseCase
     {
         private readonly IUserRepository _userRepository;
-        private readonly IErrorService _errorService;
-        public LoginUseCase(IErrorService errorService, IUserRepository userRepository)
+        private readonly IErrorRepository _errorRepository;
+        public LoginUseCase(IErrorRepository errorRepository, IUserRepository userRepository)
         {
             _userRepository = userRepository;
-            _errorService = errorService;
+            _errorRepository = errorRepository;
         }
         public async Task<OperationResult> ExecuteAsync(LoginInputDTO input)
         {
@@ -38,8 +38,8 @@ namespace SabzMarket.Application.UseCases.Auth.Login
             }
             catch (Exception ex)
             {
-                var result = await _errorService.LogErrorAsync(ex, GetType().Name);
-                return OperationResult.Failed(result.Message!.ErrorMessage());
+                var result = await _errorRepository.LogErrorAsync(ex, GetType().Name);
+                return OperationResult.Failed(result.ErrorMessage());
             }
         }
     }
