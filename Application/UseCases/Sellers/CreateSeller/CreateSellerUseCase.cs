@@ -16,13 +16,13 @@ namespace SabzMarket.Application.UseCases.Sellers.CreateSeller
     public class CreateSellerUseCase : ICreateSellerUseCase
     {
         private readonly ISellerRepository _sellerRepository;
-        private readonly IErrorService _errorService;
+        private readonly IErrorRepository _errorRepository;
         private readonly IValidator<CreateSellerInputDTO> _validator;
         public readonly IMapper _mapper;
         public readonly IFileStorageService _fileStorageService;
-        public CreateSellerUseCase(ISellerRepository sellerRepository, IErrorService errorService, IValidator<CreateSellerInputDTO> validator, IFileStorageService fileStorageService, IMapper mapper)
+        public CreateSellerUseCase(ISellerRepository sellerRepository, IErrorRepository errorRepository, IValidator<CreateSellerInputDTO> validator, IFileStorageService fileStorageService, IMapper mapper)
         {
-            _errorService = errorService;
+            _errorRepository = errorRepository;
             _sellerRepository = sellerRepository;
             _validator = validator;
             _fileStorageService = fileStorageService;
@@ -45,8 +45,8 @@ namespace SabzMarket.Application.UseCases.Sellers.CreateSeller
             }
             catch (Exception ex)
             {
-                var errorResult = await _errorService.LogErrorAsync(ex, GetType().Name);
-                return OperationResult.Failed(errorResult.Message!.ErrorMessage());
+                var errorResult = await _errorRepository.LogErrorAsync(ex, GetType().Name);
+                return OperationResult.Failed(errorResult.ErrorMessage());
             }
 
         }

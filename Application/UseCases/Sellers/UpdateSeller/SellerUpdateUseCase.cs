@@ -17,13 +17,13 @@ namespace SabzMarket.Application.UseCases.Sellers.UpdateSeller
 {
     public class SellerUpdateUseCase : ISellerUpdateUseCase
     {
-        public readonly IUserRepository _userRepository;
-        public readonly ISellerRepository _sellerRepository;
-        public readonly IFileStorageService _fileStorageService;
-        public readonly IMapper _mapper;
+        private readonly IUserRepository _userRepository;
+        private readonly ISellerRepository _sellerRepository;
+        private readonly IFileStorageService _fileStorageService;
+        private readonly IMapper _mapper;
         private readonly IValidator<SellerUpdateInputDTO> _validator;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IErrorService _errorService;
+        private readonly IErrorRepository _errorRepository;
         public SellerUpdateUseCase(
             IUserRepository userRepository,
             ISellerRepository sellerRepository,
@@ -31,7 +31,7 @@ namespace SabzMarket.Application.UseCases.Sellers.UpdateSeller
             IValidator<SellerUpdateInputDTO> validator,
             IFileStorageService fileStorageService,
             IUnitOfWork unitOfWork,
-            IErrorService errorService)
+            IErrorRepository errorRepository)
         {
             _mapper = mapper;
             _userRepository = userRepository;
@@ -39,7 +39,7 @@ namespace SabzMarket.Application.UseCases.Sellers.UpdateSeller
             _validator = validator;
             _fileStorageService = fileStorageService;
             _unitOfWork = unitOfWork;
-            _errorService = errorService;
+            _errorRepository = errorRepository;
         }
         public async Task<OperationResult> ExecuteAsync(SellerUpdateInputDTO updateSellerInputDTO)
         {
@@ -66,15 +66,15 @@ namespace SabzMarket.Application.UseCases.Sellers.UpdateSeller
                 var user = _mapper.Map<User>(updateSellerInputDTO);
                 await _userRepository.UpdateAsync(user);
 
-                var seller=_mapper.Map<Seller>(updateSellerInputDTO);
+                var seller = _mapper.Map<Seller>(updateSellerInputDTO);
                 await _sellerRepository.UpdateAsync(seller);
                 await _unitOfWork.CommitAsync();
-                return OperationResult.SuccessedResult(true,Messages.UpdateSuccessful);
+                return OperationResult.SuccessedResult(true, Messages.UpdateSuccessful);
             }
             catch (Exception ex)
             {
-                var errorResult = await _errorService.LogErrorAsync(ex, GetType().Name);
-                return OperationResult.Failed(errorResult.Message!.ErrorMessage());
+                var errorResult = await _errorRepository.LogErrorAsync(ex, GetType().Name);
+                return OperationResult.Failed(errorResult.ErrorMessage());
             }
 
         }

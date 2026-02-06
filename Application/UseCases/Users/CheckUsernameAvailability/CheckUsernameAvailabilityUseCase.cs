@@ -11,11 +11,11 @@ namespace SabzMarket.Application.UseCases.Users.CheckUsernameAvailability
 {
     public class CheckUsernameAvailabilityUseCase : ICheckUsernameAvailabilityUseCase
     {
-        private readonly IErrorService _errorService;
+        private readonly IErrorRepository _errorRepository;
         private readonly IUserRepository _userRepository;
-        public CheckUsernameAvailabilityUseCase(IUserRepository userRepository, IErrorService errorService)
+        public CheckUsernameAvailabilityUseCase(IUserRepository userRepository, IErrorRepository errorRepository)
         {
-            _errorService = errorService;
+            _errorRepository = errorRepository;
             _userRepository = userRepository;
         }
         public async Task<OperationResult> ExecuteAsync(string username)
@@ -34,8 +34,8 @@ namespace SabzMarket.Application.UseCases.Users.CheckUsernameAvailability
             }
             catch (Exception ex)
             {
-                var errorResult = await _errorService.LogErrorAsync(ex, GetType().Name);
-                return OperationResult.Failed(errorResult.Message!.ErrorMessage());
+                var errorResult = await _errorRepository.LogErrorAsync(ex, GetType().Name);
+                return OperationResult.Failed(errorResult.ErrorMessage());
             }
 
         }

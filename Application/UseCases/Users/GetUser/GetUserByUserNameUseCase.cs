@@ -13,12 +13,12 @@ namespace SabzMarket.Application.UseCases.Users.GetUser
     public class GetUserByUserNameUseCase : IGetUserByUserNameUseCase
     {
         private readonly IUserRepository _userRepository;
-        private readonly IErrorService _errorService;
+        private readonly IErrorRepository _errorRepository;
         private readonly IMapper _mapper;
-        public GetUserByUserNameUseCase(IUserRepository userRepository, IErrorService errorService, IMapper mapper)
+        public GetUserByUserNameUseCase(IUserRepository userRepository, IErrorRepository errorRepository, IMapper mapper)
         {
             _userRepository = userRepository;
-            _errorService = errorService;
+            _errorRepository = errorRepository;
             _mapper = mapper;
         }
 
@@ -39,8 +39,8 @@ namespace SabzMarket.Application.UseCases.Users.GetUser
             }
             catch (Exception ex)
             {
-                var errorResult = await _errorService.LogErrorAsync(ex, GetType().Name);
-                return OperationResult<GetUserByUserNameOutputDTO>.Failed(errorResult.Message!.ErrorMessage());
+                var errorResult = await _errorRepository.LogErrorAsync(ex, GetType().Name);
+                return OperationResult<GetUserByUserNameOutputDTO>.Failed(errorResult.ErrorMessage());
             }
 
         }
