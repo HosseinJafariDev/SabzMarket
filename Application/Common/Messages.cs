@@ -10,6 +10,7 @@ namespace SabzMarket.Application.Common
 {
     public static class Messages
     {
+        public const string Url = "http";
         public const string FirstNameMaxLength = "نام باید حداکثر 50 کاراکتر باشد";
         public const string FirstNameMinLength = "نام باید حداقل 3 کاراکتر باشد";
         public const string LastNameMaxLength = "نام خانوادگی باید حداکثر 50 کاراکتر باشد";
@@ -41,5 +42,16 @@ namespace SabzMarket.Application.Common
         public const string NoSellerFoundWithPhone = "فروشنده ای با این شماره تلفن پیدا نشد";
         public const string NoSellerFoundWhithUsename = "فروشنده ای با این نام کاربری پیدا نشد";
         public const string UpdateSuccessful = "ویرایش شد";
+        public const string ProductNameRequired = "نام محصول الزامی است";
+        public const string ProductDescriptionRequired = "توضیحات محصول الزامی است";
+        public const string ProductDescriptionMaxLength = "توضیحات محصول باید  حداکثر 500کاراکتر باشد";
+        public const string ProductNumberRequired = "تعداد محصول الزامی است";
+        public const string ProductPriceRequired = "قیمت محصول الزامی است";
+        public const string ProductImageRequired = "تصویری برای محصول انتخاب کنید";
+        public const string CreateProductSuccessful = "محصول اضافه شد";
+        public const string ProductNotFoundByName = "محصولی با این نام پیدا نشد";
+        public const string ProductNotFoundBySellerId = "محصولی با این فروشنده پیدا نشد";
+        public const string ProductIsOnOrder = "این مجصول داره سفارش است . ابتدا تکلیف محصول را مشخص کنید سپس اقدام به حذف کنید";
+        public const string ProductDelete = "محصول حذف شد";
     }
 }
