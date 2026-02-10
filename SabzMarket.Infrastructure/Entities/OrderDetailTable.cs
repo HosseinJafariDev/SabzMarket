@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SabzMarket.Infrastructure.Entities
 {
-    public class OrderDetail
+    public class OrderDetailTable
     {
         public long Id { get; set; }
         public long OrderId { get; set; }

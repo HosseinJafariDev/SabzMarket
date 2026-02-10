@@ -21,7 +21,7 @@ namespace SabzMarket.Infrastructure.Persistence
         public DbSet<OrderTable> Orders { get; set; }
         public DbSet<CategorieTable> Categories { get; set; }
         public DbSet<ChatTable> Chats { get; set; }
-        public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<OrderDetailTable> OrderDetails { get; set; }
         public DbSet<FarmerTable> Farmers { get; set; }
         public DbSet<ErrorTable> ErrorLogs { get; set; }
         public DbSet<FeaturedSellerTable> FeaturedSellers { get; set; }
@@ -50,7 +50,7 @@ namespace SabzMarket.Infrastructure.Persistence
                 .WithOne(u => u.Farmer)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<OrderDetail>().ToTable("OrderDetail")
+            modelBuilder.Entity<OrderDetailTable>().ToTable("OrderDetail")
                 .HasOne(od => od.Product)
                 .WithMany(p => p.OrderDetails)
                 .HasForeignKey(od => od.ProductId)
