@@ -60,7 +60,7 @@ namespace SabzMarket.Application.UseCases.Sellers.UpdateSeller
                         return OperationResult.FailedResult(Messages.ExistingUserName);
                 }
 
-                if (!updateSellerInputDTO.ProfileImage!.StartsWith("http"))
+                if (!updateSellerInputDTO.ProfileImage!.StartsWith(Messages.Url))
                     updateSellerInputDTO.ProfileImage = await _fileStorageService.SaveAsync(updateSellerInputDTO.ProfileImage);
 
                 var user = _mapper.Map<User>(updateSellerInputDTO);
