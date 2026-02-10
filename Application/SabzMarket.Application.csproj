@@ -27,9 +27,7 @@
     <Folder Include="Orders\DTOs\" />
     <Folder Include="Orders\Mappers\" />
     <Folder Include="Orders\UseCases\" />
-    <Folder Include="Products\DTOs\" />
-    <Folder Include="Products\Mappers\" />
-    <Folder Include="Products\UseCases\" />
+    <Folder Include="UseCases\Products\UpdateProduct\" />
   </ItemGroup>
 
   <ItemGroup>
