@@ -39,6 +39,15 @@ namespace SabzMarket.Application.UseCases.Sellers.CreateSeller
                 }
                 var imageUrl = await _fileStorageService.SaveAsync(sellerInputDTO.ProfileImage!);
                 sellerInputDTO.ProfileImage = imageUrl;
+            }
+            catch (Exception ex)
+            {
+                var errorResult = await _errorRepository.LogErrorAsync(ex, Messages.SavePhotoLayer);
+                return OperationResult.Failed(errorResult.ErrorMessage());
+            }
+
+            try
+            {
                 var seller = _mapper.Map<Seller>(sellerInputDTO);
                 await _sellerRepository.InsertAsync(sellerInputDTO.Username!, seller);
                 return OperationResult.SuccessedResult(true, Messages.SaveSellerProfileSuccessful);
