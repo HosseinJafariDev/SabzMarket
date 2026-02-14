@@ -43,26 +43,34 @@ namespace SabzMarket.Application.UseCases.Sellers.UpdateSeller
         }
         public async Task<OperationResult> ExecuteAsync(SellerUpdateInputDTO updateSellerInputDTO)
         {
+            var validationResult = _validator.Validate(updateSellerInputDTO);
+            if (!validationResult.IsValid)
+            {
+                return OperationResult.FailedResult(validationResult.Errors.First().ErrorMessage);
+            }
+
+            await _unitOfWork.BeginAsync();
+
+            if (updateSellerInputDTO.NewUsername != updateSellerInputDTO.CurrentUsername)
+            {
+                var result = await _userRepository.CheckUserAsync(updateSellerInputDTO.NewUsername!);
+                if (result)
+                    return OperationResult.FailedResult(Messages.ExistingUserName);
+            }
+
             try
             {
-                var validationResult = _validator.Validate(updateSellerInputDTO);
-                if (!validationResult.IsValid)
-                {
-                    return OperationResult.FailedResult(validationResult.Errors.First().ErrorMessage);
-                }
-
-                await _unitOfWork.BeginAsync();
-
-                if (updateSellerInputDTO.NewUsername != updateSellerInputDTO.CurrentUsername)
-                {
-                    var result = await _userRepository.CheckUserAsync(updateSellerInputDTO.NewUsername!);
-                    if (result)
-                        return OperationResult.FailedResult(Messages.ExistingUserName);
-                }
-
                 if (!updateSellerInputDTO.ProfileImage!.StartsWith(Messages.Url))
                     updateSellerInputDTO.ProfileImage = await _fileStorageService.SaveAsync(updateSellerInputDTO.ProfileImage);
+            }
+            catch (Exception ex)
+            {
+                var errorResult = await _errorRepository.LogErrorAsync(ex, Messages.SavePhotoLayer);
+                return OperationResult.Failed(Messages.UnsuccessfulSavePhoto);
+            }
 
+            try
+            {
                 var user = _mapper.Map<User>(updateSellerInputDTO);
                 await _userRepository.UpdateAsync(user);
 
