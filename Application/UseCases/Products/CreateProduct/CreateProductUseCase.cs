@@ -38,14 +38,22 @@ namespace SabzMarket.Application.UseCases.Products.CreateProduct
             try
             {
                 var validationResult = _validator.Validate(createProductInputDTO);
-                if (validationResult.IsValid)
+                if (!validationResult.IsValid)
                 {
                     return OperationResult.FailedResult(validationResult.Errors.First().ErrorMessage);
                 }
 
                 var imageUrl = await _fileStorageService.SaveAsync(createProductInputDTO.ImageProduct!);
                 createProductInputDTO.ImageProduct = imageUrl;
+            }
+            catch (Exception ex)
+            {
+                var errorResult = await _errorRepository.LogErrorAsync(ex, Messages.SavePhotoLayer);
+                return OperationResult.Failed(Messages.UnsuccessfulSavePhoto);
+            }
 
+            try
+            {
                 var product = _mapper.Map<Product>(createProductInputDTO);
                 await _productRepository.InsertAsync(product);
 
@@ -56,8 +64,6 @@ namespace SabzMarket.Application.UseCases.Products.CreateProduct
                 var errorResult = await _errorRepository.LogErrorAsync(ex, GetType().Name);
                 return OperationResult.Failed(errorResult.ErrorMessage());
             }
-
-
         }
     }
 }
