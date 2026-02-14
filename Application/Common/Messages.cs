@@ -11,6 +11,8 @@ namespace SabzMarket.Application.Common
     public static class Messages
     {
         public const string Url = "http";
+        public const string SavePhotoLayer = "SavePhoto";
+        public const string UnsuccessfulSavePhoto = "تصویر ذخیره نشد با پشتیبانی تماس بگیرید";
         public const string FirstNameMaxLength = "نام باید حداکثر 50 کاراکتر باشد";
         public const string FirstNameMinLength = "نام باید حداقل 3 کاراکتر باشد";
         public const string LastNameMaxLength = "نام خانوادگی باید حداکثر 50 کاراکتر باشد";
