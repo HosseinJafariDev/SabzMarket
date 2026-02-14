@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SabzMarket.Application.UseCases.Products.CreateProduct;
 using SabzMarket.Application.UseCases.Products.GetProduct;
+using SabzMarket.Application.UseCases.Products.UpdateProduct;
 using SabzMarket.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,9 @@ namespace SabzMarket.Application.UseCases.Products.Mappers
                 .ForMember(dest=>dest.IsDeleted,opt=>opt.Ignore());
 
             CreateMap<Product, GetProductOutputDTO>();
+
+            CreateMap<UpdateProductInputDTO, Product>()
+                .ForMember(dest => dest.IsDeleted, opt => opt.Ignore());
         }
     }
 }
