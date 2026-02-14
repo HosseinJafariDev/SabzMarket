@@ -95,11 +95,12 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             {
                 Id = product.Id,
                 CategorieId = product.CategorieId,
-                ImageProduct = product.ImageProduct,
-                Number = product.Number,
-                Price = product.Price,
-                ProductName = product.Name,
                 SellerId = product.SellerId,
+                ProductName = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                Number = product.Number,
+                ImageProduct = product.ImageProduct,
             };
             _Context.Attach(produc);
             var entry = _Context.Entry(produc);
@@ -112,6 +113,5 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             entry.Property(x => x.CategorieId).IsModified = true;
             await _Context.SaveChangesAsync();
         }
-
     }
 }
