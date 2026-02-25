@@ -9,11 +9,12 @@ using System.Threading.Tasks;
 
 namespace SabzMarket.Application.UseCases.Auth.Mappers
 {
-    public class SignUpProfile:Profile
+    public class SignUpProfile : Profile
     {
         public SignUpProfile()
         {
-            CreateMap<SignUpInputDTO,User>();
+            CreateMap<SignUpInputDTO, User>()
+                .ForMember(x => x.Password, opt => opt.MapFrom(src => src.Password1));
         }
     }
 }
