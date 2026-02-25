@@ -41,10 +41,6 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
            .Where(x => x.FarmerId == farmerId && x.SellerId == SellerId)
            .AnyAsync();
             return result;
-            var result1 = await _context
-          .Orders
-          .AsNoTracking()
-          .Where(x => x.FarmerId == farmerId && x.SellerId == SellerId).SingleAsync();
         }
         public async Task<long> FindOrderByFarmerAndSellerAsync(long farmerId, long SellerId)
         {
