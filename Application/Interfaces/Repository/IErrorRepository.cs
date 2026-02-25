@@ -1,4 +1,5 @@
-﻿using SabzMarket.Application.Errors;
+﻿using SabzMarket.Application.Common;
+using SabzMarket.Application.Errors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace SabzMarket.Application.Interfaces.Repository
 {
     public interface IErrorRepository
     {
-        Task<string> LogErrorAsync(Exception ex, String layer);
+        Task<string> LogErrorAsync(ErrorLogDTO errorLogDTO);
     }
 }
