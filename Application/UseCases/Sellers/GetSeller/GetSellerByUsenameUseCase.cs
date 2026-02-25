@@ -35,7 +35,7 @@ namespace SabzMarket.Application.UseCases.Sellers.GetSeller
             }
             catch (Exception ex)
             {
-                var errorResult = await _errorRepository.LogErrorAsync(ex, GetType().Name);
+                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
                 return OperationResult<GetSellerOutputDTO>.Failed(errorResult.ErrorMessage());
             }
 
