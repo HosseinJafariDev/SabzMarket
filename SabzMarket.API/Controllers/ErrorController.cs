@@ -1,22 +1,24 @@
 ﻿using Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
-using SabzMarket.Share.Models;
+using SabzMarket.Application.Common;
+using SabzMarket.Application.Interfaces.Repository;
+using SabzMarket.Application.UseCases.Erorr;
 using System.Buffers.Text;
 
 namespace SabzMarket.API.Controllers
 {
-    public class ErrorController:BaseController
+    public class ErrorController : BaseController
     {
-        public readonly IErrorService _errorService;
-        public ErrorController(IErrorService errorService) 
+        public readonly IAddLogErrorUseCase _addLogErrorUseCase;
+        public ErrorController(IAddLogErrorUseCase addLogErrorUseCase)
         {
-            _errorService = errorService;
+            _addLogErrorUseCase = addLogErrorUseCase;
         }
         [HttpPost]
-        public async Task<OperationResult> LogErrorAsync([FromBody]ErrorLogDTO error)
+        public async Task<OperationResult> LogErrorAsync([FromBody] ErrorLogDTO error)
         {
-            var result=await _errorService.LogErrorAsync(error);
-            return result;
+            var errorResult = await _addLogErrorUseCase.ExecuteAsync(error);
+            return errorResult;
         }
     }
 }
