@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SabzMarket.Application.Interfaces.Repository;
-using SabzMarket.DAL.Entities;
+using SabzMarket.Domain.Entities;
+using SabzMarket.Domain.Enums;
+using SabzMarket.Infrastructure.Entities;
 using SabzMarket.Infrastructure.Persistence;
-using SabzMarket.Share.Enums;
-using SabzMarket.Share.Models;
-using SabzMarket.Share.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,173 +19,41 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
         {
             _context = context;
         }
-        public async Task<OperationResult<List<OrderDTO>>> SelectPendingOrdersForSellerAsync(long id, string search)
+        public async Task<long> InsertAsync(Order order)
         {
-            try
+            var orderTable = new OrderTable
             {
-                var query = _context.Orders
-                  .AsNoTracking()
-                  .Include(x => x.OrderDetails)
-                  .ThenInclude(x => x.Product)
-                  .Include(x => x.Farmer)
-                  .Where(u => u.SellerId == id);
+                FarmerId = order.FarmerId,
+                OrderDate = order.OrderDate,
+                SellerId = order.SellerId,
+            };
 
-                var queryDetails = query
-                    .SelectMany(o => o.OrderDetails, (order, detail) => new { order, detail })
-                    .Where(x => x.detail.Status == OrderStatus.Pending.ToString());
-
-                if (!string.IsNullOrEmpty(search))
-                {
-                    queryDetails = queryDetails.Where(o => o.order.Farmer!.User!.FirstName!.Contains(search)
-                                          || o.order.Farmer!.User!.LastName!.Contains(search)
-                                            || o.detail.Product!.ProductName!.Contains(search));
-                }
-
-
-                var result = await queryDetails.Select(o => new OrderDTO
-
-                {
-                    OrderId = o.order.Id,
-                    OrderDetailId = o.detail.Id,
-                    Status = o.detail.Status,
-                    product = new ProductViewModel
-                    {
-                        Id = o.detail.Product!.Id,
-                        Number = o.detail.Number,
-                        ImageProduct = o.detail.Product.ImageProduct,
-                        Name = o.detail.Product.ProductName,
-                    }
-                           ,
-                    farmer = new FarmerDTOForSeller
-                    {
-                        Id = o.order.Farmer!.Id,
-                        Address = o.order.Farmer.Address,
-                        ProfileImage = o.order.Farmer.ProfileImage,
-                        Phone = o.order.Farmer.User!.Phone,
-                        FirstName = o.order.Farmer.User!.FirstName,
-                        CodePosti = o.order.Farmer.CodePosti,
-                        LastName = o.order.Farmer.User!.LastName
-                    }
-                }
-                    ).ToListAsync();
-                return OperationResult<List<OrderDTO>>.SuccessedResult(result);
-
-
-
-            }
-            catch (Exception ex)
-            {
-                return OperationResult<List<OrderDTO>>.Failed(GetType().FullName!, ex);
-            }
-
+            _context.Orders.AddRange(orderTable);
+            await _context.SaveChangesAsync();
+            return order.Id;
         }
 
-        public async Task<OperationResult<List<OrderDTO>>> SelectNonPendingOrdersForSellerAsync(long id, string search)
+        public async Task<bool> CheckOrderAsync(long farmerId, long SellerId)
         {
-
-            try
-            {
-                var query = _context.Orders
-                  .AsNoTracking()
-                  .Include(x => x.OrderDetails)
-                  .ThenInclude(x => x.Product)
-                  .Include(x => x.Farmer)
-                  .Where(u => u.SellerId == id);
-
-                var queryDetails = query
-                    .SelectMany(o => o.OrderDetails, (order, detail) => new { order, detail })
-                    .Where(x => x.detail.Status != OrderStatus.Pending.ToString());
-
-                if (!string.IsNullOrEmpty(search))
-                {
-                    queryDetails = queryDetails.Where(o => o.order.Farmer!.User!.FirstName!.Contains(search)
-                                          || o.order.Farmer!.User!.LastName!.Contains(search)
-                                            || o.detail.Product!.ProductName!.Contains(search));
-                }
-
-
-                var result = await queryDetails.Select(o => new OrderDTO
-
-                {
-                    OrderId = o.order.Id,
-                    OrderDetailId = o.detail.Id,
-                    Status = o.detail.Status,
-                    product = new ProductViewModel
-                    {
-                        Id = o.detail.Product!.Id,
-                        Number = o.detail.Number,
-                        ImageProduct = o.detail.Product.ImageProduct,
-                        Name = o.detail.Product.ProductName,
-                    }
-                           ,
-                    farmer = new FarmerDTOForSeller
-                    {
-                        Id = o.order.Farmer!.Id,
-                        Address = o.order.Farmer.Address,
-                        ProfileImage = o.order.Farmer.ProfileImage,
-                        Phone = o.order.Farmer.User!.Phone,
-                        FirstName = o.order.Farmer.User!.FirstName,
-                        CodePosti = o.order.Farmer.CodePosti,
-                        LastName = o.order.Farmer.User!.LastName
-                    }
-                }
-                    ).ToListAsync();
-                return OperationResult<List<OrderDTO>>.SuccessedResult(result);
-
-
-
-            }
-            catch (Exception ex)
-            {
-                return OperationResult<List<OrderDTO>>.Failed(GetType().FullName!, ex);
-            }
+            var result = await _context
+           .Orders
+           .AsNoTracking()
+           .Where(x => x.FarmerId == farmerId && x.SellerId == SellerId)
+           .AnyAsync();
+            return result;
+            var result1 = await _context
+          .Orders
+          .AsNoTracking()
+          .Where(x => x.FarmerId == farmerId && x.SellerId == SellerId).SingleAsync();
         }
-
-        public async Task<OperationResult<long>> InsertAsync(FullCartItemDTO fullCartItemDTO)
+        public async Task<long> FindOrderByFarmerAndSellerAsync(long farmerId, long SellerId)
         {
-            try
-            {
-                var order = new Order
-                {
-                    FarmerId = fullCartItemDTO.FarmerId,
-                    OrderDate =fullCartItemDTO.AddedDate,
-                    SellerId = fullCartItemDTO.SellerId,
-                };
+            var order = await _context
+          .Orders
+          .AsNoTracking()
+          .Where(x => x.FarmerId == farmerId && x.SellerId == SellerId).SingleAsync();
 
-                _context.Orders.AddRange(order);
-                await _context.SaveChangesAsync();
-
-                return OperationResult<long>.SuccessedResult(order.Id);
-            }
-            catch (Exception ex)
-            {
-                return OperationResult<long>.Failed(GetType().Name, ex);
-            }
-        }
-
-        public async Task<OperationResult<long>> CheckOrderAsync(long farmerId, long SellerId)
-        {
-            try
-            {
-                var result = await _context
-               .Orders
-               .AsNoTracking()
-               .Where(x => x.FarmerId == farmerId && x.SellerId == SellerId)
-               .AnyAsync();
-                if (result == false)
-                {
-                    return OperationResult<long>.FailedResult();
-                }
-                var result1 = await _context
-              .Orders
-              .AsNoTracking()
-              .Where(x => x.FarmerId == farmerId && x.SellerId == SellerId).SingleAsync();
-                return OperationResult<long>.SuccessedResult(result1.Id);
-            }
-            catch (Exception ex)
-            {
-                return OperationResult<long>.Failed(GetType().Name, ex);
-            }
+            return order.Id;
         }
     }
 }

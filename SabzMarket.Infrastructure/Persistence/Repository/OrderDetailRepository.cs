@@ -58,13 +58,28 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
 
         public async Task SetOrderDetailStatusToSentAsync(long orderDetaileId)
         {
-                var orderDetail = new OrderDetailTable { Id = orderDetaileId };
-                _context.Attach(orderDetail);
-                orderDetail.Status = OrderStatus.Sent.ToString();
-                var entry = _context.Entry(orderDetail);
-                entry.Property(x => x.Status).IsModified = true;
-                await _context.SaveChangesAsync();
+            var orderDetail = new OrderDetailTable { Id = orderDetaileId };
+            _context.Attach(orderDetail);
+            orderDetail.Status = OrderStatus.Sent.ToString();
+            var entry = _context.Entry(orderDetail);
+            entry.Property(x => x.Status).IsModified = true;
+            await _context.SaveChangesAsync();
         }
 
+        public async Task<bool> StatusIsReject(long id)
+        {
+            var result = await _context.OrderDetails
+                .AsNoTracking()
+                .AnyAsync(x => x.Id == id && x.Status == OrderStatus.Rejected.ToString());
+            return result;
+        }
+
+        public async Task<bool> StatusIsSent(long id)
+        {
+            var result = await _context.OrderDetails
+                .AsNoTracking()
+                .AnyAsync(x => x.Id == id && x.Status == OrderStatus.Sent.ToString());
+            return result;
+        }
     }
 }
