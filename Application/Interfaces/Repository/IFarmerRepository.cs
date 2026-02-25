@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SabzMarket.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,8 @@ namespace SabzMarket.Application.Interfaces.Repository
 {
     public interface IFarmerRepository
     {
-        public Task<OperationResult> UserExistsInFarmerAsync(string username);
-        public Task<OperationResult> InsertAsync(string username,FarmerDTO farmer);
-        public Task<OperationResult<FarmerDTO>> SelectByUsernameAsync(string username);
-        public Task<OperationResult> UpdateAsync(FarmerDTO farmerDTO);
+        public Task<bool> UserExistsInFarmerAsync(string username);
+        public Task InsertAsync(string username,Farmer farmer);
+        public Task UpdateAsync(Farmer farmer);
     }
 }

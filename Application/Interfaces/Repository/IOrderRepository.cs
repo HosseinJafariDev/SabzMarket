@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SabzMarket.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,8 @@ namespace SabzMarket.Application.Interfaces.Repository
 {
     public interface IOrderRepository
     {
-        public Task<OperationResult<List<OrderDTO>>> SelectPendingOrdersForSellerAsync(long id, string search);
-        public Task<OperationResult<List<OrderDTO>>> SelectNonPendingOrdersForSellerAsync(long id, string search);
-        public Task<OperationResult<long>> InsertAsync(FullCartItemDTO fullCartItemDTO);
-        public Task<OperationResult<long>> CheckOrderAsync(long farmerId, long SellerId);
+        public Task<long> InsertAsync(Order order);
+        public Task<bool> CheckOrderAsync(long farmerId, long SellerId);
+        Task<long> FindOrderByFarmerAndSellerAsync(long farmerId, long SellerId);
     }
 }

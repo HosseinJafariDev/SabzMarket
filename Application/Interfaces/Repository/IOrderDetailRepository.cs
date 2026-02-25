@@ -13,5 +13,7 @@ namespace SabzMarket.Application.Interfaces.Repository
         public Task SetOrderDetailStatusToRejectedAsync(long orderDetile);
         public Task<bool> HasPendingOrdersForProductAsync(long productId);
         public Task InsertAsync(OrderDetail orderDetail);
+        Task<bool> StatusIsReject(long id);
+        Task<bool> StatusIsSent(long id);
     }
 }
