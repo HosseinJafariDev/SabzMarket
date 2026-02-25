@@ -1,33 +1,42 @@
 ﻿using Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
-using SabzMarket.Share.Models;
+using SabzMarket.Application.Common;
+using SabzMarket.Application.UseCases.Orders.Checkout;
+using SabzMarket.Application.UseCases.Orders.GetOrders;
 
 namespace SabzMarket.API.Controllers
 {
-    public class OrderController:BaseController
+    public class OrderController : BaseController
     {
-        private readonly IOrderService _orderService;
-        public OrderController(IOrderService orderService)
+        private readonly IGetPendingOrdersForSellerUseCase _getPendingOrdersForSellerUseCase;
+        private readonly IGetNonPendingOrdersForSellerUseCase _getNonPendingOrdersForSellerUseCase;
+        private readonly ICheckoutOrderUseCase _checkoutOrderUseCase;
+        public OrderController(
+            IGetPendingOrdersForSellerUseCase getPendingOrdersForSellerUseCase,
+            IGetNonPendingOrdersForSellerUseCase getNonPendingOrdersForSellerUseCase,
+            ICheckoutOrderUseCase checkoutOrderUseCase)
         {
-            _orderService=orderService;
+            _getPendingOrdersForSellerUseCase = getPendingOrdersForSellerUseCase;
+            _getNonPendingOrdersForSellerUseCase = getNonPendingOrdersForSellerUseCase;
+            _checkoutOrderUseCase = checkoutOrderUseCase;
         }
         [HttpGet]
-        public async Task<OperationResult<List<OrderDTO>>> GetPendingOrdersForSellerAsync(long id, string search)
+        public async Task<OperationResult<List<GetOrdersForSellerOutputDTO>>> GetPendingOrdersForSellerAsync(long id, string search)
         {
-          var result=await  _orderService.GetPendingOrdersForSellerAsync(id,search);
+            var result = await _getPendingOrdersForSellerUseCase.ExecuteAsync(id, search);
             return result;
         }
         [HttpGet]
-        public async Task<OperationResult<List<OrderDTO>>> GetNonPendingOrdersForSellerAsync(long id, string search)
+        public async Task<OperationResult<List<GetOrdersForSellerOutputDTO>>> GetNonPendingOrdersForSellerAsync(long id, string search)
         {
-            var result = await _orderService.GetNonPendingOrdersForSellerAsync(id, search);
+            var result = await _getNonPendingOrdersForSellerUseCase.ExecuteAsync(id, search);
             return result;
         }
         [HttpGet]
         public async Task<OperationResult> CheckoutAsync(long farmerId)
         {
-           var result=await _orderService.CheckoutAsync(farmerId);
-            return result;  
+            var result = await _checkoutOrderUseCase.ExecuteAsync(farmerId);
+            return result;
         }
     }
 }

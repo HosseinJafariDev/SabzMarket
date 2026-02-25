@@ -1,11 +1,8 @@
-﻿using Castle.DynamicProxy.Generators;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SabzMarket.Application.Interfaces.Repository;
-using SabzMarket.DAL.Entities;
 using SabzMarket.Domain.Entities;
 using SabzMarket.Infrastructure.Entities;
 using SabzMarket.Infrastructure.Persistence;
-using SabzMarket.Share.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

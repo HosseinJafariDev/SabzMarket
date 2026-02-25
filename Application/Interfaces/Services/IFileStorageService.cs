@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SabzMarket.Application.Interfaces.Repositories.Services
+namespace SabzMarket.Application.Interfaces.Services
 {
     public interface IFileStorageService
     {

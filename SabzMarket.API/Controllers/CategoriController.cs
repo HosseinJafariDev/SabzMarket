@@ -1,23 +1,22 @@
 ﻿using Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
-using SabzMarket.Share.Models;
+using SabzMarket.Application.Common;
+using SabzMarket.Application.UseCases.Categories.GetCategory;
 
 namespace SabzMarket.API.Controllers
 {
     public class CategoriController : BaseController
     {
-        public readonly ICategoriService _categoriService;
-        public CategoriController(ICategoriService categoriService) 
+        public readonly IGetAllCategoriesUseCase _getAllCategoriesUseCase;
+        public CategoriController(IGetAllCategoriesUseCase getAllCategoriesUseCase)
         {
-            _categoriService = categoriService;
+            _getAllCategoriesUseCase = getAllCategoriesUseCase;
         }
         [HttpGet]
-        public async Task <OperationResult<List<CategorieDTO>>> GetAllCategoriesAsync()
+        public async Task<OperationResult<List<GetAllCategoriesOutputDTO>>> GetAllCategoriesAsync()
         {
-             var result= await _categoriService.GetAllCategoriesAsync();
+            var result = await _getAllCategoriesUseCase.ExecuteAsync();
             return result;
         }
-
-
     }
 }

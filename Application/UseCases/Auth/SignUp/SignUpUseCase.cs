@@ -1,5 +1,4 @@
-﻿using Application.Interfaces.Services;
-using AutoMapper;
+﻿using AutoMapper;
 using FluentValidation;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;

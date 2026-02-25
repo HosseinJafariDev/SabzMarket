@@ -22,7 +22,7 @@ namespace SabzMarket.Application.UseCases.CartItems.GetCartItem
             _cartItemQueryService = cartItemQueryService;
             _cartItemRepository = cartItemRepository;
         }
-        public async Task<OperationResult<List<GetCartItemByFarmerIdOutputDTO>>> Execute(long farmerId)
+        public async Task<OperationResult<List<GetCartItemByFarmerIdOutputDTO>>> ExecuteAsync(long farmerId)
         {
             try
             {

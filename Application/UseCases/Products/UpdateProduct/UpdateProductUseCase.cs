@@ -2,8 +2,8 @@
 using FluentValidation;
 using FluentValidation.Internal;
 using SabzMarket.Application.Common;
-using SabzMarket.Application.Interfaces.Repositories.Services;
 using SabzMarket.Application.Interfaces.Repository;
+using SabzMarket.Application.Interfaces.Services;
 using SabzMarket.Domain.Entities;
 using System;
 using System.Collections.Generic;

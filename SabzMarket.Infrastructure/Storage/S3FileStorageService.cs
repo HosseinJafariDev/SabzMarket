@@ -1,7 +1,6 @@
 ﻿using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Model;
-using SabzMarket.Application.Interfaces.Repositories.Services;
 using SabzMarket.Application.Interfaces.Services;
 using SabzMarket.Infrastructure.Configuration;
 using System;

@@ -1,21 +1,21 @@
 ﻿using Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
-using SabzMarket.Share.Models;
-using SabzMarket.Share.ViewModels;
+using SabzMarket.Application.Common;
+using SabzMarket.Application.UseCases.FeaturedSellers.GetFeaturedSeller;
 
 namespace SabzMarket.API.Controllers
 {
-    public class FeaturedSellerController:BaseController
+    public class FeaturedSellerController : BaseController
     {
-        private readonly IFeaturedSellerSevice _featuredSellerSevice;
-        public FeaturedSellerController(IFeaturedSellerSevice featuredSellerSevice)
+        private readonly IGetAllSellerUseCase _getAllSellerUseCase;
+        public FeaturedSellerController(IGetAllSellerUseCase getAllSellerUseCase)
         {
-            _featuredSellerSevice = featuredSellerSevice;   
+            _getAllSellerUseCase = getAllSellerUseCase;
         }
         [HttpGet]
-        public async Task<OperationResult<List<SellerFullViewModel>>> GetAllSellerAsync()
+        public async Task<OperationResult<List<GetAllFeaturedSellerOutputDTO>>> GetAllSellerAsync()
         {
-            var result=await _featuredSellerSevice.GetAllSellerAsync();
+            var result = await _getAllSellerUseCase.ExecuteAsync();
             return result;
         }
     }

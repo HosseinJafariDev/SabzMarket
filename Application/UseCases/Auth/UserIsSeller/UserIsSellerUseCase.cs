@@ -1,5 +1,4 @@
-﻿using Application.Interfaces.Services;
-using SabzMarket.Application.Common;
+﻿using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
 using System;
 using System.Collections.Generic;

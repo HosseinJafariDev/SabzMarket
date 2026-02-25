@@ -1,35 +1,20 @@
 ﻿using Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
-using SabzMarket.Share.Models;
-using SabzMarket.Share.ViewModels;
-
+using SabzMarket.Application.Common;
+using SabzMarket.Application.UseCases.Users.GetUser;
 namespace SabzMarket.API.Controllers
 {
     public class UserController : BaseController
     {
-        private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly IGetUserByUserNameUseCase _getUserByUserNameUseCase;
+        public UserController(IGetUserByUserNameUseCase getUserByUserNameUseCase)
         {
-            _userService = userService;
-        }
-        [HttpPost]
-        public async Task<OperationResult> SignUpAsync([FromBody] UserViewModel userViewModel)
-        {
-            var result = await _userService
-                .SignUpAsync(userViewModel);
-            return result;
-        }
-        [HttpPost]
-        public async Task<OperationResult> LoginAsync([FromBody] UserViewModel userViewModel)
-        {
-            var result = await _userService
-                 .LoginAsync(userViewModel);
-            return result;
+            _getUserByUserNameUseCase = getUserByUserNameUseCase;
         }
         [HttpGet]
-        public async Task<OperationResult<UserViewModel>> GetUserAsync(string username)
+        public async Task<OperationResult<GetUserByUserNameOutputDTO>> GetUserAsync(string username)
         {
-            var result = await _userService.GetUserAsync(username);
+            var result = await _getUserByUserNameUseCase.ExecuteAsync(username);
             return result;
         }
     }

@@ -1,55 +1,71 @@
 ﻿using Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
-using SabzMarket.Share.Models;
-using SabzMarket.Share.Requests;
-using SabzMarket.Share.ViewModels;
+using SabzMarket.Application.Common;
+using SabzMarket.Application.UseCases.Auth.UserIsSeller;
+using SabzMarket.Application.UseCases.Sellers.CreateSeller;
+using SabzMarket.Application.UseCases.Sellers.GetSeller;
+using SabzMarket.Application.UseCases.Sellers.UpdateSeller;
 
 namespace SabzMarket.API.Controllers
 {
     public class SellerController : BaseController
     {
-        private readonly ISellerService _sellerService;
-        public SellerController(ISellerService sellerService)
+        private readonly ICreateSellerUseCase _createSellerUseCase;
+        private readonly IUserIsSellerUseCase _userIsSellerUseCase;
+        private readonly IGetSellerByUsenameUseCase _getSellerByUsenameUseCase;
+        private readonly IGetSellerByIdUseCase _getSellerByIdUseCase;
+        private readonly IGetAllSellerByPhoneNumberUseCase _getAllSellerByPhoneNumberUseCase;
+        private readonly ISellerUpdateUseCase _sellerUpdateUseCase;
+        public SellerController(
+            ICreateSellerUseCase createSellerUseCase,
+            IUserIsSellerUseCase userIsSellerUseCase,
+            IGetSellerByUsenameUseCase getSellerByUsenameUseCase,
+            IGetSellerByIdUseCase getSellerByIdUseCase,
+            IGetAllSellerByPhoneNumberUseCase getAllSellerByPhoneNumberUseCase,
+            ISellerUpdateUseCase sellerUpdateUseCase)
         {
-            _sellerService = sellerService;
+            _createSellerUseCase = createSellerUseCase;
+            _userIsSellerUseCase = userIsSellerUseCase;
+            _getSellerByUsenameUseCase = getSellerByUsenameUseCase;
+            _getSellerByIdUseCase = getSellerByIdUseCase;
+            _getAllSellerByPhoneNumberUseCase = getAllSellerByPhoneNumberUseCase;
+            _sellerUpdateUseCase = sellerUpdateUseCase;
         }
         [HttpPost]
-        public async Task<OperationResult> CreateSelllerAsync([FromBody] SellerPartialViewModel sellerViewMode2)
+        public async Task<OperationResult> CreateSelllerAsync([FromBody] CreateSellerInputDTO createSellerInputDTO)
         {
-            var result = await _sellerService
-                .CreateSelllerAsync(sellerViewMode2);
+            var result = await _createSellerUseCase.ExecuteAsync(createSellerInputDTO);
             return result;
         }
         [HttpGet]
         public async Task<OperationResult> CheckUserInSellerAsync(string username)
         {
-            var result = await _sellerService
-                 .CheckUserExistsInSellerAsync(username);
+            var result = await _userIsSellerUseCase.ExecuteAsync(username);
             return result;
         }
         [HttpGet]
-        public async Task<OperationResult<SellerFullViewModel>> GetSellerByUsernameAsync(string username)
+        public async Task<OperationResult<GetSellerOutputDTO>> GetSellerByUsernameAsync(string username)
         {
-            var result = await _sellerService.GetSellerByUsernameAsync(username);
+            var result = await _getSellerByUsenameUseCase.ExecuteAsync(username);
             return result;
 
         }
         [HttpPost]
-        public async Task<OperationResult> UpdateAsync(string username, [FromBody] RequestPayload requestPayload)
+        public async Task<OperationResult> UpdateAsync(SellerUpdateInputDTO sellerUpdateInputDTO)
         {
-            var result = await _sellerService.UpdateAsync(username, requestPayload.UserViewModel, requestPayload.SellerPartial);
+            var result = await _sellerUpdateUseCase.ExecuteAsync(sellerUpdateInputDTO);
             return result;
         }
         [HttpGet]
-        public async Task<OperationResult<List<SellerFullViewModel>>> GetByPhoneNumberAsync(string phone)
+        public async Task<OperationResult<List<GetSellerOutputDTO>>> GetByPhoneNumberAsync(string phone)
         {
-            var result = await _sellerService.GetByPhoneNumberAsync(phone);
+            var result = await _getAllSellerByPhoneNumberUseCase.ExecuteAsync(phone);
             return result;
         }
         [HttpGet]
-        public async Task<OperationResult<SellerFullViewModel>> GetByIdAsync(long id)
+        public async Task<OperationResult<GetSellerOutputDTO>> GetByIdAsync(long id)
         {
-            var result=await _sellerService.GetByIdAsync(id);
+            var result = await _getSellerByIdUseCase.ExecuteAsync(id);
             return result;
         }
     }

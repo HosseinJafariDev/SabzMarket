@@ -1,5 +1,4 @@
 ﻿using Application.Interfaces.Repositories;
-using Application.Interfaces.Services;
 using AutoMapper;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Persistence;

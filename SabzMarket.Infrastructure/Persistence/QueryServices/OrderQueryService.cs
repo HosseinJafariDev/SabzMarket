@@ -24,7 +24,7 @@ namespace SabzMarket.Infrastructure.Persistence.QueryServices
                   .Include(x => x.OrderDetails)
                   .ThenInclude(x => x.Product)
                   .Include(x => x.Farmer)
-                  .Where(u => u.SellerId == id);
+                  .Where(u => u.SellerId == sellerId);
 
             var queryDetails = query
                 .SelectMany(o => o.OrderDetails, (order, detail) => new { order, detail })
@@ -68,7 +68,7 @@ namespace SabzMarket.Infrastructure.Persistence.QueryServices
                   .Include(x => x.OrderDetails)
                   .ThenInclude(x => x.Product)
                   .Include(x => x.Farmer)
-                  .Where(u => u.SellerId == id);
+                  .Where(u => u.SellerId == sellerId);
 
             var queryDetails = query
                 .SelectMany(o => o.OrderDetails, (order, detail) => new { order, detail })
