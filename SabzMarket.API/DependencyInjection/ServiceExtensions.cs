@@ -1,5 +1,8 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.Repositories;
+using SabzMarket.Application.Interfaces.Persistence;
+using SabzMarket.Application.Interfaces.Repository;
+using SabzMarket.Infrastructure.Persistence.Repository;
 
 namespace SabzMarket.API.DependencyInjection
 {
@@ -15,26 +18,26 @@ namespace SabzMarket.API.DependencyInjection
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
             services.AddScoped<IFarmerRepository, FarmerRepository>();
-            services.AddScoped<IFeaturedSellerRepository, FeaturedSellerRepository>();
+            //services.AddScoped<IFeaturedSellerRepository, FeaturedSellerRepository>();
             services.AddScoped<ICartItemRepository, CartItemRepository>();
-            services.AddScoped<ILogServiceRepository, LogServiceRepository>();
+            //services.AddScoped<ILogServiceRepository, LogServiceRepository>();
 
             return services;
         }
 
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IErrorService, ErrorService>();
-            services.AddScoped<ISellerService, SellerService>();
-            services.AddScoped<ICategoriService, CategoriService>();
-            services.AddScoped<IProductService, ProductService>();
-            services.AddScoped<IOrderService, OrderService>();
-            services.AddScoped<IOrderDetailService, OrderDetailService>();
-            services.AddScoped<IProductOrderDetailHelperService, ProductOrderDetailHelperService>();
-            services.AddScoped<IFarmerService, FarmerService>();
-            services.AddScoped<IFeaturedSellerSevice, FeaturedSellerSevice>();
-            services.AddScoped<ICartItemService, CartItemService>();
+            //services.AddScoped<IUserService, UserService>();
+            //services.AddScoped<IErrorService, ErrorService>();
+            //services.AddScoped<ISellerService, SellerService>();
+            //services.AddScoped<ICategoriService, CategoriService>();
+            //services.AddScoped<IProductService, ProductService>();
+            //services.AddScoped<IOrderService, OrderService>();
+            //services.AddScoped<IOrderDetailService, OrderDetailService>();
+            //services.AddScoped<IProductOrderDetailHelperService, ProductOrderDetailHelperService>();
+            //services.AddScoped<IFarmerService, FarmerService>();
+            //services.AddScoped<IFeaturedSellerSevice, FeaturedSellerSevice>();
+            //services.AddScoped<ICartItemService, CartItemService>();
 
             return services;
         }

@@ -1,5 +1,4 @@
-﻿using Application.Interfaces.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.UseCases.OrderDetails.MarkOrderDetail;
 
