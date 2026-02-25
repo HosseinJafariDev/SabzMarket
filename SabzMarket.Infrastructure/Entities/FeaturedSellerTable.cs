@@ -11,6 +11,7 @@ namespace SabzMarket.Infrastructure.Entities
         public int Id { get; set; }
         public long SellerId {  get; set; }
         public virtual SellerTable? Seller { get; set; }
+        //UTC Time
         public DateTime StartDate {  get; set; }
         public DateTime EndDate { get; set; }
         public bool IsActive { get; set; } = true;
