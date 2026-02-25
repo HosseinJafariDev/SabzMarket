@@ -1,6 +1,7 @@
 ﻿using SabzMarket.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,5 +56,18 @@ namespace SabzMarket.Application.Common
         public const string ProductNotFoundBySellerId = "محصولی با این فروشنده پیدا نشد";
         public const string ProductIsOnOrder = "این مجصول داره سفارش است . ابتدا تکلیف محصول را مشخص کنید سپس اقدام به حذف کنید";
         public const string ProductDelete = "محصول حذف شد";
+        public const string OrderAlreadyRejectedMessage = "این سفارش قبلا رد شده است";
+        public const string OrderReject = "سفارش رد شد";
+        public const string OrderSent = "سفارش ارسال شد";
+        public const string CartEmpty = "سبد خرید خالی است";
+        public const string RemoveAddToCart = "با موفقیت از سبد خرید حذف شد";
+        public const string SuccessAddToCart = "با موفقیت به سبد خرید اضافه شد";
+        public const string UserIdRequired = "یوز آیدی الزامی است";
+        public const string EnterDataBuilt = "تاریخ احداث را با فرمت 1380/12/24 وارد کنید ";
+        public const string EnterLandArea = "مساحت زمین قابل کشت را به عدد وارد کنید";
+        public const string NotValidNationalCode = "کد ملی معتبر نیست";
+        public const string NationalCodeRequired = "کد ملی الزامی است";
+        public const string EnterCodParvaneBHB = "شماره پروانه بهره برداری را درست وارد کنید";
+        public const string EnterCodePosti = "کد پستی را درست وارد کنید";
     }
 }
