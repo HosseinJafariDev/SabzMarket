@@ -38,7 +38,7 @@ namespace SabzMarket.Application.UseCases.Auth.Login
             }
             catch (Exception ex)
             {
-                var result = await _errorRepository.LogErrorAsync(ex, GetType().Name);
+                var result = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
                 return OperationResult.Failed(result.ErrorMessage());
             }
         }

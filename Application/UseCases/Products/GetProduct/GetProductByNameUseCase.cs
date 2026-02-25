@@ -41,7 +41,7 @@ namespace SabzMarket.Application.UseCases.Products.GetProduct
             catch (Exception ex)
             {
                 var errorResult = await _errorRepository
-                    .LogErrorAsync(ex, GetType().Name);
+                    .LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
 
                 return OperationResult<List<GetProductOutputDTO>>
                     .Failed(errorResult.ErrorMessage());

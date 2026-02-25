@@ -48,7 +48,7 @@ namespace SabzMarket.Application.UseCases.Products.CreateProduct
             }
             catch (Exception ex)
             {
-                var errorResult = await _errorRepository.LogErrorAsync(ex, Messages.SavePhotoLayer);
+                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(Messages.SavePhotoLayer));
                 return OperationResult.Failed(Messages.UnsuccessfulSavePhoto);
             }
 
@@ -61,7 +61,7 @@ namespace SabzMarket.Application.UseCases.Products.CreateProduct
             }
             catch (Exception ex)
             {
-                var errorResult = await _errorRepository.LogErrorAsync(ex, GetType().Name);
+                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
                 return OperationResult.Failed(errorResult.ErrorMessage());
             }
         }

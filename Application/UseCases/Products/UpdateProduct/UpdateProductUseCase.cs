@@ -27,7 +27,11 @@ namespace SabzMarket.Application.UseCases.Products.UpdateProduct
             IMapper mapper,
             IValidator<UpdateProductInputDTO> validator)
         {
-
+            _productRepository = productRepository;
+            _fileStorageService = fileStorageService;
+            _errorRepository = errorRepository;
+            _mapper = mapper;
+            _validator = validator;
         }
         public async Task<OperationResult> ExecuteAsync(UpdateProductInputDTO updateProductInputDTO)
         {
@@ -46,7 +50,7 @@ namespace SabzMarket.Application.UseCases.Products.UpdateProduct
                 }
                 catch (Exception ex)
                 {
-                    var errorResult = await _errorRepository.LogErrorAsync(ex, Messages.SavePhotoLayer);
+                    var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(Messages.SavePhotoLayer));
                     return OperationResult.Failed(Messages.UnsuccessfulSavePhoto);
                 }
             }
@@ -59,7 +63,7 @@ namespace SabzMarket.Application.UseCases.Products.UpdateProduct
             }
             catch (Exception ex)
             {
-                var errorResult = await _errorRepository.LogErrorAsync(ex, GetType().Name);
+                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
                 return OperationResult.Failed(errorResult.ErrorMessage());
             }
         }

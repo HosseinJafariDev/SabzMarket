@@ -39,7 +39,7 @@ namespace SabzMarket.Application.UseCases.Users.GetUser
             }
             catch (Exception ex)
             {
-                var errorResult = await _errorRepository.LogErrorAsync(ex, GetType().Name);
+                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
                 return OperationResult<GetUserByUserNameOutputDTO>.Failed(errorResult.ErrorMessage());
             }
 
