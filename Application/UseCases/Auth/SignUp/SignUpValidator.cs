@@ -21,7 +21,7 @@ namespace SabzMarket.Application.UseCases.Auth.SignUp
                 .MinimumLength(2).WithMessage(Messages.LastNameMinLength);
 
             RuleFor(x => x.Phone)
-                .NotNull().WithMessage(Messages.PhoneRequired)
+                .NotEmpty().WithMessage(Messages.PhoneRequired)
                 .Must(p =>
                      p.StartsWith("09") &&
                      p.Length == 11 &&
@@ -29,13 +29,13 @@ namespace SabzMarket.Application.UseCases.Auth.SignUp
                 .WithMessage(Messages.PhoneInvalid);
 
             RuleFor(x => x.UserName)
-                .NotNull().WithMessage(Messages.UserNameRequired)
+                .NotEmpty().WithMessage(Messages.UserNameRequired)
                 .MinimumLength(6).WithMessage(Messages.UserNameMinLength)
                 .Matches(@"^[^\u0600-\u06FF]+$")
                 .WithMessage(Messages.UsernameNotFarsi);
 
             RuleFor(x => x.Password1)
-                .NotNull().WithMessage(Messages.Password1Required)
+                .NotEmpty().WithMessage(Messages.Password1Required)
                 .MinimumLength(5).WithMessage(Messages.Password1Powerful);
 
             RuleFor(x => x.Password2)

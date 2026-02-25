@@ -13,16 +13,16 @@ namespace SabzMarket.Application.UseCases.Sellers.CreateSeller
         public CreateSellerValidator()
         {
             RuleFor(x => x.Username)
-                .NotNull().WithMessage(Messages.UserNameMinLength)
+                .NotEmpty().WithMessage(Messages.UserNameMinLength)
                 .MinimumLength(6).WithMessage(Messages.UserNameMinLength)
                 .MaximumLength(50).WithMessage(Messages.UserNameMaxLength);
 
             RuleFor(x => x.Address)
-                .NotNull().WithMessage(Messages.AddressRequired)
+                .NotEmpty().WithMessage(Messages.AddressRequired)
                 .MaximumLength(500).WithMessage(Messages.AddressMaxLength);
 
             RuleFor(x => x.ProfileImage)
-                .NotNull().WithMessage(Messages.ProfileImageRequired);
+                .NotEmpty().WithMessage(Messages.ProfileImageRequired);
 
             RuleFor(x => x.WorkHistory)
                 .MinimumLength(1).WithMessage(Messages.WorkHistoryMinlength)
