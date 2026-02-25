@@ -7,26 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="CartItems\DTOs\" />
-    <Folder Include="CartItems\Mappers\" />
-    <Folder Include="CartItems\UseCases\" />
-    <Folder Include="Categoris\DTOs\" />
-    <Folder Include="Categoris\Mappers\" />
-    <Folder Include="Categoris\UseCases\" />
-    <Folder Include="Errors\Mappers\" />
-    <Folder Include="Errors\UseCases\" />
-    <Folder Include="Farmers\DTOs\" />
-    <Folder Include="Farmers\Mappers\" />
-    <Folder Include="Farmers\UseCases\" />
-    <Folder Include="FeaturedSellers\DTOs\" />
-    <Folder Include="FeaturedSellers\Mappers\" />
-    <Folder Include="FeaturedSellers\UseCases\" />
-    <Folder Include="OrderDetails\DTOs\" />
-    <Folder Include="OrderDetails\Mappers\" />
-    <Folder Include="OrderDetails\UseCases\" />
-    <Folder Include="Orders\DTOs\" />
-    <Folder Include="Orders\Mappers\" />
-    <Folder Include="Orders\UseCases\" />
+    <Folder Include="UseCases\FeaturedSellers\Mappers\" />
+    <Folder Include="UseCases\OrderDetails\Mappers\" />
   </ItemGroup>
 
   <ItemGroup>
