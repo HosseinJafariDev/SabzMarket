@@ -16,7 +16,8 @@ namespace SabzMarket.Application.UseCases.Products.Mappers
         public PrpductProfile()
         {
             CreateMap<CreateProductInputDTO, Product>()
-                .ForMember(dest=>dest.IsDeleted,opt=>opt.Ignore());
+                .ForMember(dest=>dest.IsDeleted,opt=>opt.Ignore())
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
 
             CreateMap<Product, GetProductOutputDTO>();
 
