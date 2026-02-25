@@ -1,0 +1,35 @@
+﻿using SabzMarket.Application.Common;
+using SabzMarket.Application.Interfaces.Repository;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SabzMarket.Application.UseCases.Auth.UserIsFarmer
+{
+    public class UserIsFarmerUseCase : IUserIsFarmerUseCase
+    {
+        private readonly IFarmerRepository _farmerRepository;
+        private readonly IErrorRepository _errorRepository;
+        public UserIsFarmerUseCase(IFarmerRepository farmerRepository, IErrorRepository errorRepository)
+        {
+            _errorRepository = errorRepository;
+            _farmerRepository = farmerRepository;
+        }
+        public async Task<OperationResult<bool>> ExecuteAsync(string username)
+        {
+            try
+            {
+                var result = await _farmerRepository.UserExistsInFarmerAsync(username);
+
+                return OperationResult<bool>.SuccessedResult(result);
+            }
+            catch (Exception ex)
+            {
+                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
+                return OperationResult<bool>.Failed(errorResult.ErrorMessage());
+            }
+        }
+    }
+}
