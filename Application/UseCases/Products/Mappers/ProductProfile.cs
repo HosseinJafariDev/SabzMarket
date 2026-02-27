@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace SabzMarket.Application.UseCases.Products.Mappers
 {
-    public class PrpductProfile:Profile
+    public class ProductProfile:Profile
     {
-        public PrpductProfile()
+        public ProductProfile()
         {
             CreateMap<CreateProductInputDTO, Product>()
                 .ForMember(dest=>dest.IsDeleted,opt=>opt.Ignore())
