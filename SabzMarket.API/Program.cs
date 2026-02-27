@@ -1,16 +1,11 @@
-using Amazon.Runtime;
-using Amazon.S3;
-using Application.Interfaces;
-using Application.Interfaces.Repositories;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using SabzMarket.API.DependencyInjection;
-using SabzMarket.Application.Interfaces.Services;
 using SabzMarket.Application.UseCases.Auth.Mappers;
 using SabzMarket.Infrastructure.Configuration;
 using SabzMarket.Infrastructure.Persistence;
-using SabzMarket.Infrastructure.Storage;
-using System.Runtime;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = Environment.GetEnvironmentVariable("SABZMARKET_DB");
@@ -21,31 +16,19 @@ if (string.IsNullOrEmpty(connectionString))
 }
 
 var s3Settings = builder.Configuration.GetSection("S3").Get<S3Settings>();
-builder.Services.AddSingleton(s3Settings);
-//builder.Services.AddAutoMapper(typeof(SignUpProfile));
-
-builder.Services.AddScoped<IAmazonS3>(sp =>
-{
-    var settings = sp.GetRequiredService<S3Settings>();
-    var config = new AmazonS3Config
-    {
-        ServiceURL = settings.ServiceURL,
-        ForcePathStyle = true,
-        AuthenticationRegion = settings.Region
-    };
-    var credentials = new BasicAWSCredentials(settings.AccessKey, settings.SecretKey);
-    return new AmazonS3Client(credentials, config);
-});
-
-
-builder.Services.AddScoped<IFileStorageService, S3FileStorageService>();
 
 builder.Services
     .AddDatabase(connectionString)
     .AddRepositories()
-    .AddApplicationServices()
-    .AddUnitOfWork();
-//builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+    .AddInfrastructureServices(s3Settings!)
+    .AddUnitOfWork()
+    .AddUseCase()
+    .AddAutoMapper()
+    .AddValidator();
+
+
+
+
 // Add services to the container.
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
@@ -57,6 +40,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var app = builder.Build();
+
+//CreateDatabase
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider
@@ -64,6 +49,7 @@ using (var scope = app.Services.CreateScope())
 
     dbContext.Database.Migrate();
 }
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
