@@ -24,7 +24,8 @@ builder.Services
     .AddUnitOfWork()
     .AddUseCase()
     .AddAutoMapper()
-    .AddValidator();
+    .AddValidator()
+    .AddQueryService();
 
 
 
