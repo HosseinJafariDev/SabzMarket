@@ -76,7 +76,7 @@ namespace SabzMarket.Application.UseCases.Sellers.UpdateSeller
                 var seller = _mapper.Map<Seller>(updateSellerInputDTO);
                 await _sellerRepository.UpdateAsync(seller);
                 await _unitOfWork.CommitAsync();
-                return OperationResult.SuccessedResult(true, Messages.UpdateSuccessful);
+                return OperationResult.SuccessedResult(Messages.UpdateSuccessful);
             }
             catch (Exception ex)
             {

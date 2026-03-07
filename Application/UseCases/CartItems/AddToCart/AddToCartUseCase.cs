@@ -33,12 +33,15 @@ namespace SabzMarket.Application.UseCases.CartItems.AddToCart
                 {
                     await _cartItemRepository
                         .ChangeQuantityAsync(addToCartInputDTO.ProductId, addToCartInputDTO.FarmerId, 1);
+
+                    return OperationResult.SuccessedResult(Messages.SuccessAddToCart);
                 }
                 var cartItem = _mapper.Map<CartItem>(addToCartInputDTO);
 
 
                 await _cartItemRepository.InsertAsync(cartItem);
-                return OperationResult.SuccessedResult(true, Messages.SuccessAddToCart);
+
+                return OperationResult.SuccessedResult(Messages.SuccessAddToCart);
             }
             catch (Exception ex)
             {

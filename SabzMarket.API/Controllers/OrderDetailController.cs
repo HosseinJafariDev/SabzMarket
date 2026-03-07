@@ -7,10 +7,10 @@ namespace SabzMarket.API.Controllers
     public class OrderDetailController : BaseController
     {
         private readonly IMarkOrderDetailAsRejectedUseCase _markOrderDetailAsRejectedUseCase;
-        private readonly IMarkOrderDetailAsSent _markOrderDetailAsSent;
+        private readonly IMarkOrderDetailAsSentUseCase _markOrderDetailAsSent;
         public OrderDetailController(
             IMarkOrderDetailAsRejectedUseCase markOrderDetailAsRejectedUseCase,
-            IMarkOrderDetailAsSent markOrderDetailAsSent)
+            IMarkOrderDetailAsSentUseCase markOrderDetailAsSent)
         {
             _markOrderDetailAsRejectedUseCase = markOrderDetailAsRejectedUseCase;
             _markOrderDetailAsSent = markOrderDetailAsSent;

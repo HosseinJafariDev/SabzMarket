@@ -9,6 +9,6 @@ namespace SabzMarket.Application.UseCases.Auth.UserIsSeller
 {
     public interface IUserIsSellerUseCase
     {
-        Task<OperationResult> ExecuteAsync(string username);
+        Task<OperationResult<bool>> ExecuteAsync(string username);
     }
 }

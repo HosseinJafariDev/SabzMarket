@@ -31,7 +31,7 @@ namespace SabzMarket.Application.UseCases.Products.DeleteProduct
                 }
 
                 await _productRepository.DeleteAsync(id);
-                return OperationResult.SuccessedResult(true, Messages.ProductDelete);
+                return OperationResult.SuccessedResult(Messages.ProductDelete);
             }
             catch (Exception ex)
             {

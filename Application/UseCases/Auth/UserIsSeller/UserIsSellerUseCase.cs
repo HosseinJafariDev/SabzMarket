@@ -17,21 +17,18 @@ namespace SabzMarket.Application.UseCases.Auth.UserIsSeller
             _errorRepository = errorRepository;
             _sellerRepository = sellerRepository;
         }
-        public async Task<OperationResult> ExecuteAsync(string username)
+        public async Task<OperationResult<bool>> ExecuteAsync(string username)
         {
             try
             {
                 var result = await _sellerRepository.UserIsSellerAsync(username);
-                if (result)
-                {
-                    return OperationResult.SuccessedResult();
-                }
-                return OperationResult.FailedResult();
+
+                return OperationResult<bool>.SuccessedResult(result);
             }
             catch (Exception ex)
             {
                 var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(errorResult.ErrorMessage());
+                return OperationResult<bool>.Failed(errorResult.ErrorMessage());
             }
         }
     }

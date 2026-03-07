@@ -41,7 +41,7 @@ namespace SabzMarket.Application.UseCases.Auth.SignUp
                 }
                 var user = _mapper.Map<User>(input);
                 await _userRepository.InsertAsync(user);
-                return OperationResult.SuccessedResult(true, Messages.SignUpSuccessful);
+                return OperationResult.SuccessedResult(Messages.SignUpSuccessful);
             }
             catch (Exception ex)
             {

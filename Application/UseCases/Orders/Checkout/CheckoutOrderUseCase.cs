@@ -69,14 +69,17 @@ namespace SabzMarket.Application.UseCases.Orders.Checkout
                     {
                         var order = _mapper.Map<Order>(item);
                         var resultOrder = await _orderRepository.InsertAsync(order);
+
                         var orderDetail = _mapper.Map<OrderDetail>(item);
                         await _orderDetailRepository.InsertAsync(orderDetail);
+
                         await _productRepository.IncreaseNumberAsync(item.ProductId, -item.Quantity);
                         await _cartItemRepository.DeleteAsync(item.Id);
                     }
                     else
                     {
                         var orderId = await _orderRepository.FindOrderByFarmerAndSellerAsync(farmerId, item.SellerId);
+
                         var order = _mapper.Map<OrderDetail>(item);
                         await _orderDetailRepository.InsertAsync(order);
                         await _cartItemRepository.DeleteAsync(item.Id);

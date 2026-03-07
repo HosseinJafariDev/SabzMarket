@@ -43,9 +43,9 @@ namespace SabzMarket.API.Controllers
             return result;
         }
         [HttpPost]
-        public async Task<OperationResult> UpdateAsync([FromBody] UpdateFarmerInputDTO updateFarmerInputDTO, string username)
+        public async Task<OperationResult> UpdateAsync([FromBody] UpdateFarmerInputDTO updateFarmerInputDTO)
         {
-            var result = await _updateFarmerUseCase.ExecuteAsync(username, updateFarmerInputDTO);
+            var result = await _updateFarmerUseCase.ExecuteAsync(updateFarmerInputDTO);
             return result;
         }
     }

@@ -29,13 +29,14 @@ namespace SabzMarket.Application.UseCases.Sellers.CreateSeller
         }
         public async Task<OperationResult> ExecuteAsync(CreateSellerInputDTO sellerInputDTO)
         {
+            var validationResult = _validator.Validate(sellerInputDTO);
+            if (!validationResult.IsValid)
+            {
+                return OperationResult.FailedResult(validationResult.Errors.First().ErrorMessage);
+            }
+
             try
             {
-                var validationResult = _validator.Validate(sellerInputDTO);
-                if (!validationResult.IsValid)
-                {
-                    return OperationResult.FailedResult(validationResult.Errors.First().ErrorMessage);
-                }
                 var imageUrl = await _fileStorageService.SaveAsync(sellerInputDTO.ProfileImage!);
                 sellerInputDTO.ProfileImage = imageUrl;
             }
@@ -49,7 +50,7 @@ namespace SabzMarket.Application.UseCases.Sellers.CreateSeller
             {
                 var seller = _mapper.Map<Seller>(sellerInputDTO);
                 await _sellerRepository.InsertAsync(sellerInputDTO.Username!, seller);
-                return OperationResult.SuccessedResult(true, Messages.SaveSellerProfileSuccessful);
+                return OperationResult.SuccessedResult(Messages.SaveSellerProfileSuccessful);
             }
             catch (Exception ex)
             {

@@ -18,7 +18,7 @@ namespace SabzMarket.Application.UseCases.Erorr
         public async Task<OperationResult> ExecuteAsync(ErrorLogDTO errorLogDTO)
         {
             var errorResult = await _errorRepository.LogErrorAsync(errorLogDTO);
-            return OperationResult.SuccessedResult(true, errorResult.ErrorMessage());
+            return OperationResult.SuccessedResult(errorResult.ErrorMessage());
         }
     }
 }

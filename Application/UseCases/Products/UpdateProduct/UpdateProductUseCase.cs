@@ -59,7 +59,7 @@ namespace SabzMarket.Application.UseCases.Products.UpdateProduct
             {
                 var product = _mapper.Map<Product>(updateProductInputDTO);
                 await _productRepository.UpdateAsync(product);
-                return OperationResult.SuccessedResult(true, Messages.UpdateSuccessful);
+                return OperationResult.SuccessedResult(Messages.UpdateSuccessful);
             }
             catch (Exception ex)
             {

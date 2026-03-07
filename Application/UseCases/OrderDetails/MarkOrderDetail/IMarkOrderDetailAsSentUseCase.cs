@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SabzMarket.Application.UseCases.OrderDetails.MarkOrderDetail
 {
-    public interface IMarkOrderDetailAsSent
+    public interface IMarkOrderDetailAsSentUseCase
     {
         Task<OperationResult> ExecuteAsync(long orderDetaileId);
     }

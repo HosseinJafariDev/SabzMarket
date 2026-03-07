@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace SabzMarket.Application.UseCases.OrderDetails.MarkOrderDetail
 {
-    public class MarkOrderDetailAsSent : IMarkOrderDetailAsSent
+    public class MarkOrderDetailAsSentUseCase : IMarkOrderDetailAsSentUseCase
     {
         private readonly IErrorRepository _errorRepository;
         private readonly IOrderDetailRepository _orderDetailRepository;
-        public MarkOrderDetailAsSent(IErrorRepository errorRepository, IOrderDetailRepository orderDetailRepository)
+        public MarkOrderDetailAsSentUseCase(IErrorRepository errorRepository, IOrderDetailRepository orderDetailRepository)
         {
             _errorRepository = errorRepository;
             _orderDetailRepository = orderDetailRepository;
@@ -22,7 +22,7 @@ namespace SabzMarket.Application.UseCases.OrderDetails.MarkOrderDetail
             try
             {
                 await _orderDetailRepository.SetOrderDetailStatusToSentAsync(orderDetaileId);
-                return OperationResult.SuccessedResult(true, Messages.OrderSent);
+                return OperationResult.SuccessedResult(Messages.OrderSent);
             }
             catch (Exception ex)
             {

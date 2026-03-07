@@ -8,31 +8,27 @@ namespace SabzMarket.Share.Models
 {
     public class OperationResult
     {
-        public bool Success { get;  set; }
-        public bool Result { get; set; }
-        public string? Message { get;  set; }
-        public Exception? Exception { get;  set; }
+        public bool Success { get; set; }
+        public string? Message { get; set; }
+        public bool? Result { get; set; }
 
-        public static OperationResult SuccessedResult(bool success= true,
+        public static OperationResult SuccessedResult(
             string message = "")
         {
             return new OperationResult
             {
-                Success = success,
+                Success = true,
                 Message = message
-                ,Result=true
             };
 
         }
         public static OperationResult Failed(
-            string message = "", Exception? ex=null)
+            string message = "")
         {
             return new OperationResult
             {
                 Success = false,
                 Message = message,
-                Exception=ex,
-                Result=false
             };
         }
         public static OperationResult FailedResult(
@@ -42,7 +38,7 @@ namespace SabzMarket.Share.Models
             {
                 Success = false,
                 Message = message,
-                Result=true
+                Result = true
             };
         }
 

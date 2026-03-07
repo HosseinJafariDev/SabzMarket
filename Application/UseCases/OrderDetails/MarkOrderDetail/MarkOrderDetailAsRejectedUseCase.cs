@@ -40,7 +40,7 @@ namespace SabzMarket.Application.UseCases.OrderDetails.MarkOrderDetail
                 await _orderDetailRepository.SetOrderDetailStatusToRejectedAsync(orderDetaileId);
                 await _productRepository.IncreaseNumberAsync(productId, number);
                 await _unitOfWork.CommitAsync();
-                return OperationResult.SuccessedResult(true, Messages.OrderReject);
+                return OperationResult.SuccessedResult(Messages.OrderReject);
             }
             catch (Exception ex)
             {

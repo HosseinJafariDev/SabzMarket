@@ -47,7 +47,7 @@ namespace SabzMarket.Application.UseCases.Farmers.CreateFarmer
 
                 var farmer = _mapper.Map<Farmer>(createFarmerInputDTO);
                 await _farmerRepository.InsertAsync(username, farmer);
-                return OperationResult.SuccessedResult(true, Messages.SignUpSuccessful);
+                return OperationResult.SuccessedResult(Messages.SignUpSuccessful);
             }
             catch (Exception ex)
             {
