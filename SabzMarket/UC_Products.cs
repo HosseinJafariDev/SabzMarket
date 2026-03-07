@@ -1,4 +1,6 @@
 ﻿using SabzMarket.Share.Models;
+using SabzMarket.Share.ViewModels;
+using SabzMarket.UI.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +15,7 @@ namespace SabzMarket
 {
     public partial class UC_Products : UserControl
     {
-        public ProductDTO Product { get; set; }
+        public GetProductOutputViewModel Product { get; set; }
         public UC_Products()
         {
             InitializeComponent();
@@ -44,7 +46,7 @@ namespace SabzMarket
         {
             if (e.Error != null)
             {
-                pb_Image.Image = Properties.Resources.defultprodect;
+                pb_Image.Image = Resources.defultprodect;
             }
         }
 

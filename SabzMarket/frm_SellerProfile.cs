@@ -17,11 +17,11 @@ namespace SabzMarket
 {
     public partial class frm_SellerProfile : FormStyle
     {
-        
+
         public frm_SellerProfile()
         {
             InitializeComponent();
-            
+
         }
 
         private void Frm_SellerProfile_Load(object sender, EventArgs e)
@@ -49,12 +49,12 @@ namespace SabzMarket
         //https://localhost:7267/Seller/SignUp
         private async void btn_registration_Click(object sender, EventArgs e)
         {
-            SellerPartialViewModel seller = new SellerPartialViewModel
+            CreateSellerInputViewModel seller = new CreateSellerInputViewModel
             {
-                Username=CurrentUser.UserName,
+                Username = CurrentUser.UserName,
                 Address = txt_Address.Text,
                 ProfileImage = pathImage,
-                WorkHistory =cmb_WorkHistory.Text
+                WorkHistory = cmb_WorkHistory.Text
             };
             if (!seller.IsValid)
             {
@@ -65,7 +65,7 @@ namespace SabzMarket
             btn_Save.Text = Messages.pleaseWaitText;
             var httpClientHelper = HttpClientHelper.Instance;
             var result = await httpClientHelper
-                .PostAsync<OperationResult, SellerPartialViewModel>(ApiRoutes.SellerFillProfile, seller);
+                .PostAsync<OperationResult, CreateSellerInputViewModel>(ApiRoutes.SellerFillProfile, seller);
             if (result == null)
             {
                 btn_Save.Enabled = true;

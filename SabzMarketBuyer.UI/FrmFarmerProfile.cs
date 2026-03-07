@@ -42,12 +42,12 @@ namespace SabzMarketBuyer.UI
 
         private async void btnSave_Click(object sender, EventArgs e)
         {
-            FarmerPartiaViewModel farmer;
+            CreateFarmerInputViewModel farmer;
             int LandArea;
             var landAreaIsInt = int.TryParse(txtLandArea.Text, out LandArea);
             if (!landAreaIsInt)
             {
-                farmer = new FarmerPartiaViewModel()
+                farmer = new CreateFarmerInputViewModel()
                 {
                     Address = txtAddress.Text,
                     CodePosti = txtCodePosti.Text,
@@ -63,7 +63,7 @@ namespace SabzMarketBuyer.UI
                 }
             }
 
-            farmer = new FarmerPartiaViewModel()
+            farmer = new CreateFarmerInputViewModel()
             {
                 Address = txtAddress.Text,
                 CodePosti = txtCodePosti.Text,
@@ -83,7 +83,7 @@ namespace SabzMarketBuyer.UI
             btnSave.Text = Messages.pleaseWaitText;
             var client = HttpClientHelper.Instance;
             var rout = string.Format(ApiRoutes.CreateFarmer, CurrentUser.UserName);
-            var result = await client.PostAsync<OperationResult, FarmerPartiaViewModel>(rout, farmer);
+            var result = await client.PostAsync<OperationResult, CreateFarmerInputViewModel>(rout, farmer);
             if (result == null)
             {
                 btnSave.Enabled = true;

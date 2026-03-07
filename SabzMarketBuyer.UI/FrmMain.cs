@@ -111,7 +111,7 @@ namespace SabzMarketBuyer.UI
         {
             var client = HttpClientHelper.Instance;
             var rout = string.Format(ApiRoutes.GetFarmerFullByUsername, CurrentUser.UserName);
-            var result = await client.GetAsync<OperationResult<FarmerDTO>>(rout);
+            var result = await client.GetAsync<OperationResult<GetFarmerByUsernameOutputViewModel>>(rout);
             if (result == null)
             {
                 ShowInfoError(Messages.InternetErrorMessage);
@@ -136,7 +136,7 @@ namespace SabzMarketBuyer.UI
             CurrentUser.UserId = result.Data.UserId;
             CurrentUser.FarmerId = result.Data.Id;
         }
-        private void RenderProduct(List<ProductDTO> products)
+        private void RenderProduct(List<GetProductOutputViewModel> products)
         {
             pnlShowProduct.Controls.Clear();
             foreach (var product in products)
@@ -154,7 +154,8 @@ namespace SabzMarketBuyer.UI
             btnAddToCart.Enabled = false;
             btnAddToCart.Text = Messages.pleaseWaitText;
             var cliet = HttpClientHelper.Instance;
-            var result = await cliet.PostAsync<OperationResult, CartItemDTO>(ApiRoutes.AddToCart, e.CartItemDTO);
+            var result = await cliet
+                .PostAsync<OperationResult, AddToCartInputViewModel>(ApiRoutes.AddToCart, e.CartItemDTO);
             if (result == null)
             {
                 btnAddToCart.Enabled = true;
@@ -175,7 +176,7 @@ namespace SabzMarketBuyer.UI
             e.uCProduct.Product.Number -= 1;
             e.uCProduct.UCProduct_Load(null, e);
         }
-        private void RenderSeller(List<SellerFullViewModel> sellers)
+        private void RenderSeller(List<GetSellerOutputViewModel> sellers)
         {
             pnlShowProduct.Controls.Clear();
             foreach (var seller in sellers)
@@ -215,12 +216,12 @@ namespace SabzMarketBuyer.UI
                 RenderSeller(sellers);
             }
         }
-        List<SellerFullViewModel> sellers;
+        List<GetSellerOutputViewModel> sellers;
         private async Task GetFeaturedSeller()
         {
             var client = HttpClientHelper.Instance;
             var rou = ApiRoutes.GetFeaturedSeller;
-            var result = await client.GetAsync<OperationResult<List<SellerFullViewModel>>>(rou);
+            var result = await client.GetAsync<OperationResult<List<GetAllFeaturedSellerOutputViewModel>>>(rou);
             if (result == null)
             {
                 ShowInfoError(result.Message!);
@@ -234,13 +235,23 @@ namespace SabzMarketBuyer.UI
                 }
                 ShowInfo(result.Message!);
             }
-            sellers = result.Data;
+            var seller = result.Data.Select(x => new GetSellerOutputViewModel()
+            {
+                Id = x.SellerId,
+                Address = x.Address,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                UserId = x.UserId,
+                ProfileImage = x.ProfileImage
+            }).ToList();
+            
+            sellers = seller;
         }
         private void FrmMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
         }
-        List<ProductDTO> products;
+        List<GetProductOutputViewModel> products;
         private async void myButon2_Click(object sender, EventArgs e)
         {
             btnSearch.Enabled = false;
@@ -258,7 +269,7 @@ namespace SabzMarketBuyer.UI
             if (rbtSearchProduct.Checked)
             {
                 var routProduct = string.Format(ApiRoutes.GetProductByName, Uri.EscapeDataString(txtSearch.Text));
-                var resultProduct = await client.GetAsync<OperationResult<List<ProductDTO>>>(routProduct);
+                var resultProduct = await client.GetAsync<OperationResult<List<GetProductOutputViewModel>>>(routProduct);
                 if (resultProduct == null)
                 {
                     btnSearch.Enabled = true;
@@ -284,7 +295,7 @@ namespace SabzMarketBuyer.UI
                 return;
             }
             var rout = string.Format(ApiRoutes.GetSellerByPhoneNumber, Uri.EscapeDataString(txtSearch.Text));
-            var result = await client.GetAsync<OperationResult<List<SellerFullViewModel>>>(rout);
+            var result = await client.GetAsync<OperationResult<List<GetSellerOutputViewModel>>>(rout);
             if (result == null)
             {
                 btnSearch.Enabled = true;

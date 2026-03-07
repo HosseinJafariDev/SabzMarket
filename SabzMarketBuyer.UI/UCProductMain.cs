@@ -1,5 +1,6 @@
 ﻿using HttpClientToCurl.Utility;
 using SabzMarket.Share.Models;
+using SabzMarket.Share.ViewModels;
 using SabzMarketBuyer.UI.Auth;
 using System;
 using System.Collections.Generic;
@@ -19,11 +20,11 @@ namespace SabzMarketBuyer.UI
         {
             InitializeComponent();
         }
-        public ProductDTO Product { get; set; }
+        public GetProductOutputViewModel Product { get; set; }
         public event EventHandler<ProductEventArgs<UCProductMain>> AddToCart;
         private void btnAddToCart_Click(object sender, EventArgs e)
         {
-            CartItemDTO cartItemDTO = new CartItemDTO()
+            AddToCartInputViewModel cartItemDTO = new AddToCartInputViewModel()
             {
                 FarmerId = CurrentUser.FarmerId,
                 ProductId = Product.Id,

@@ -1,4 +1,5 @@
 ﻿using SabzMarket.Share.Models;
+using SabzMarket.Share.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,12 @@ namespace SabzMarket
 {
     public class OrderDetailEventArgs: EventArgs
     {
-        public OrderDetailEventArgs(OrderDTO orderDTO, UC_Orders uC_Orders) 
+        public OrderDetailEventArgs(GetOrdersForSellerOutputViewModel orderDTO, UC_Orders uC_Orders) 
         {
             this.orderDTO = orderDTO;
             C_Orders = uC_Orders;
         }
-        public OrderDTO orderDTO { get; set; }
+        public GetOrdersForSellerOutputViewModel orderDTO { get; set; }
         public UC_Orders C_Orders {  get; set; }
     }
 }

@@ -38,7 +38,7 @@ namespace SabzMarket
         {
             btn_SignUp.Enabled = false;
             btn_SignUp.Text = Messages.pleaseWaitText;
-            var userviewmodel = new UserViewModel()
+            var signUpInputViewModel = new SignUpInputViewModel()
             {
                 FirstName = txt_FirstName.Text,
                 LastName = txt_LastName.Text,
@@ -48,15 +48,15 @@ namespace SabzMarket
                 Password2 = txt_Password2.Text,
                 Phone = txt_Phone.Text
             };
-            if (!userviewmodel.IsValid)
+            if (!signUpInputViewModel.IsValid)
             {
-                ShowInfo(userviewmodel.ErrorMessage);
+                ShowInfo(signUpInputViewModel.ErrorMessage);
                 btn_SignUp.Enabled = true;
                 btn_SignUp.Text = Messages.SingUpText;
                 return;
             }
             var client = HttpClientHelper.Instance;
-            var result = await client.PostAsync<OperationResult, UserViewModel>(ApiRoutes.SignUp, userviewmodel);
+            var result = await client.PostAsync<OperationResult, SignUpInputViewModel>(ApiRoutes.SignUp, signUpInputViewModel);
             if (result == null)
             {
                 ShowInfoError(Messages.InternetErrorMessage);

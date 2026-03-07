@@ -1,5 +1,7 @@
 ﻿using SabzMarket.Share.Enums;
 using SabzMarket.Share.Models;
+using SabzMarket.Share.ViewModels;
+using SabzMarket.UI.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,28 +20,28 @@ namespace SabzMarket
         {
             InitializeComponent();
         }
-        public OrderDTO Order { get; set; }
+        public GetOrdersForSellerOutputViewModel Order { get; set; }
         public event EventHandler<BuyerDetailsEventArgs> ShowBuyerDetails;
         private void pb_Image_LoadCompleted(object sender, AsyncCompletedEventArgs e)
         {
             if (e.Error != null)
             {
-                pb_Image.Image = Properties.Resources.DefultProduct;
+                pb_Image.Image = Resources.DefultProduct;
             }
         }
 
         private void UC_Orders_Load(object sender, EventArgs e)
         {
-            lbl_Name.Text = $"{Order.farmer!.FirstName} {Order.farmer!.LastName}";
-            lbl_Number.Text = Order.product!.Number.ToString();
-            lbl_ProductName.Text = Order.product.Name;
-            pb_Image.Load(Order.product.ImageProduct);
+            lbl_Name.Text = $"{Order.FirstName} {Order.LastName}";
+            lbl_Number.Text = Order.Number.ToString();
+            lbl_ProductName.Text = Order.ProductName;
+            pb_Image.Load(Order.ImageProduct);
         }
 
         private void btn_Details_Click(object sender, EventArgs e)
         {
             BuyerDetailsEventArgs buyerDetails = new BuyerDetailsEventArgs();
-            buyerDetails.FarmerViewModel = Order.farmer;
+            buyerDetails.FarmerViewModel = Order;
             ShowBuyerDetails?.Invoke(this, buyerDetails);
         }
         public event EventHandler<OrderDetailEventArgs> RejectOrder;

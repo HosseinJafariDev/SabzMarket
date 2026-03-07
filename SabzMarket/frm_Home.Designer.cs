@@ -1,4 +1,6 @@
-﻿namespace SabzMarket
+﻿using SabzMarket.UI.Properties;
+
+namespace SabzMarket
 {
     partial class frm_Home
     {
@@ -101,7 +103,7 @@
             // 
             // pb_Profile
             // 
-            pb_Profile.Image = Properties.Resources.profile;
+            pb_Profile.Image = Resources.profile;
             pb_Profile.Location = new Point(8, 16);
             pb_Profile.Margin = new Padding(3, 4, 3, 4);
             pb_Profile.Name = "pb_Profile";
@@ -182,7 +184,7 @@
             btn_Orders.Location = new Point(14, 110);
             btn_Orders.Margin = new Padding(3, 4, 3, 4);
             btn_Orders.Name = "btn_Orders";
-            btn_Orders.PressedState.Image = Properties.Resources.shop;
+            btn_Orders.PressedState.Image = Resources.shop;
             btn_Orders.PressedState.ImageSize = new Size(64, 64);
             btn_Orders.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btn_Orders.Size = new Size(83, 94);
@@ -193,7 +195,7 @@
             // 
             btn_Chat.BackColor = Color.Transparent;
             btn_Chat.CheckedState.ImageSize = new Size(64, 64);
-            btn_Chat.HoverState.Image = Properties.Resources.Wwalczyszyn_Android_Style_Honeycomb_Messages_48;
+            btn_Chat.HoverState.Image = Resources.Wwalczyszyn_Android_Style_Honeycomb_Messages_48;
             btn_Chat.HoverState.ImageSize = new Size(64, 64);
             btn_Chat.Image = (Image)resources.GetObject("btn_Chat.Image");
             btn_Chat.ImageOffset = new Point(0, 0);

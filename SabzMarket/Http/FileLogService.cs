@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SabzMarket.Share.Mappers;
+using SabzMarket.Share.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace SabzMarket.Http
         private static readonly string _filePath =
             Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs", "failed_logs.txt");
 
-        public static async Task SaveFailedLogAsync( Exception? ex ,string Layer)
+        public static async Task SaveFailedLogAsync(Exception? ex, string Layer)
         {
             try
             {

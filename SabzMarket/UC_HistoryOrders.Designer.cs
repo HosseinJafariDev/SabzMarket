@@ -1,4 +1,6 @@
-﻿namespace SabzMarket
+﻿using SabzMarket.UI.Properties;
+
+namespace SabzMarket
 {
     partial class UC_HistoryOrders
     {
@@ -104,7 +106,7 @@
             // 
             // pb_Image
             // 
-            pb_Image.Image = Properties.Resources.profile;
+            pb_Image.Image = Resources.profile;
             pb_Image.Location = new Point(31, 78);
             pb_Image.Margin = new Padding(3, 4, 3, 4);
             pb_Image.Name = "pb_Image";

@@ -30,7 +30,7 @@ namespace SabzMarketBuyer.UI
                 pbProfile.Image = Properties.Resources.profile;
             }
         }
-        private void RenderProduct(List<ProductDTO> products)
+        private void RenderProduct(List<GetProductOutputViewModel> products)
         {
             pnlShowProduct.Controls.Clear();
             foreach (var product in products)
@@ -49,7 +49,7 @@ namespace SabzMarketBuyer.UI
             btnAddToCart.Text = Messages.pleaseWaitText;
             var cliet = HttpClientHelper.Instance;
             var result = await cliet
-                .PostAsync<OperationResult, CartItemDTO>(ApiRoutes.AddToCart, e.CartItemDTO);
+                .PostAsync<OperationResult, AddToCartInputViewModel>(ApiRoutes.AddToCart, e.CartItemDTO);
             if (result == null)
             {
                 btnAddToCart.Enabled = true;
@@ -75,7 +75,7 @@ namespace SabzMarketBuyer.UI
         {
             var cliet = HttpClientHelper.Instance;
             var sellerRout = string.Format(ApiRoutes.GetSellerById, SellerId);
-            var seller = await cliet.GetAsync<OperationResult<SellerFullViewModel>>(sellerRout);
+            var seller = await cliet.GetAsync<OperationResult<GetSellerOutputViewModel>>(sellerRout);
             if (seller == null)
             {
                 ShowInfoError(Messages.InternetErrorMessage);
@@ -92,7 +92,7 @@ namespace SabzMarketBuyer.UI
             lblUsername.Text = seller.Data.Username;
             pbProfile.LoadAsync(seller.Data.ProfileImage);
             var productRout = string.Format(ApiRoutes.GetProductBySellerId, SellerId);
-            var product = await cliet.GetAsync<OperationResult<List<ProductDTO>>>(productRout);
+            var product = await cliet.GetAsync<OperationResult<List<GetProductOutputViewModel>>>(productRout);
             if (product == null)
             {
                 ShowInfoError(Messages.InternetErrorMessage);

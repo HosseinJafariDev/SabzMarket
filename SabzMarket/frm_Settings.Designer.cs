@@ -1,4 +1,6 @@
-﻿namespace SabzMarket
+﻿using SabzMarket.UI.Properties;
+
+namespace SabzMarket
 {
     partial class frm_Settings
     {
@@ -337,7 +339,7 @@
             // 
             // pb_Profile
             // 
-            pb_Profile.Image = Properties.Resources.profile;
+            pb_Profile.Image = Resources.profile;
             pb_Profile.Location = new Point(183, 30);
             pb_Profile.Margin = new Padding(3, 4, 3, 4);
             pb_Profile.Name = "pb_Profile";

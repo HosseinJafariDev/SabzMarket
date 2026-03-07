@@ -43,7 +43,7 @@ namespace SabzMarketBuyer.UI
         private async void btnSave_Click(object sender, EventArgs e)
         {
             var client = HttpClientHelper.Instance;
-            var farmer = new FarmerSummaryViewModel()
+            var farmer = new UpdateFarmerInputViewModel()
             {
                 Address = txtAddress.Text,
                 CodePosti = txtCodePosti.Text,
@@ -51,10 +51,10 @@ namespace SabzMarketBuyer.UI
                 Email = txtEmail.Text,
                 LastName = txtLastname.Text,
                 Password = txtPassword.Text,
-                UserName = txtUsername.Text,
+                NewUsername = txtUsername.Text,
                 Phone = txtPhone.Text,
                 ProfileImage = pathImage,
-                Id = CurrentUser.FarmerId,
+                FarmerId = CurrentUser.FarmerId,
                 UserId = CurrentUser.UserId
             };
             if (!farmer.IsValid)
@@ -63,9 +63,9 @@ namespace SabzMarketBuyer.UI
                 return;
             }
             btnSave.Enabled = false;
-            btnSave.Text=Messages.pleaseWaitText;
+            btnSave.Text = Messages.pleaseWaitText;
             var rout = string.Format(ApiRoutes.UpdateFarmer, CurrentUser.UserName);
-            var result = await client.PostAsync<OperationResult, FarmerSummaryViewModel>(rout, farmer);
+            var result = await client.PostAsync<OperationResult, UpdateFarmerInputViewModel>(rout, farmer);
             if (result == null)
             {
                 btnSave.Enabled = true;
@@ -96,7 +96,7 @@ namespace SabzMarketBuyer.UI
         {
             var client = HttpClientHelper.Instance;
             var rout = string.Format(ApiRoutes.GetFarmerFullByUsername, CurrentUser.UserName);
-            var result = await client.GetAsync<OperationResult<FarmerDTO>>(rout);
+            var result = await client.GetAsync<OperationResult<GetFarmerByUsernameOutputViewModel>>(rout);
             if (result == null)
             {
                 ShowInfoError(Messages.InternetErrorMessage);

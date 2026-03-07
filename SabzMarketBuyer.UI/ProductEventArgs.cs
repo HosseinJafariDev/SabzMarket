@@ -1,4 +1,5 @@
 ﻿using SabzMarket.Share.Models;
+using SabzMarket.Share.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace SabzMarketBuyer.UI
 {
     public class ProductEventArgs<t>:EventArgs
     {
-        public CartItemDTO CartItemDTO {  get; set; }
-        public FullCartItemDTO fullCartItemDTO { get; set; }
+        public AddToCartInputViewModel CartItemDTO {  get; set; }
+        public GetCartItemByFarmerIdOutputViewModel fullCartItemDTO { get; set; }
         public t uCProduct { get; set; }   
     }
 }

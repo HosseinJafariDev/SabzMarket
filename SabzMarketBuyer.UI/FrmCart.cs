@@ -1,5 +1,6 @@
 ﻿using SabzMarket.Share;
 using SabzMarket.Share.Models;
+using SabzMarket.Share.ViewModels;
 using SabzMarketBuyer.UI.Auth;
 using SabzMarketBuyer.UI.Http;
 using System;
@@ -20,7 +21,7 @@ namespace SabzMarketBuyer.UI
         {
             InitializeComponent();
         }
-        private void RenderProduct(List<FullCartItemDTO> cart)
+        private void RenderProduct(List<GetCartItemByFarmerIdOutputViewModel> cart)
         {
             pnlCart.Controls.Clear();
             foreach (var item in cart)
@@ -96,7 +97,7 @@ namespace SabzMarketBuyer.UI
         {
             var client = HttpClientHelper.Instance;
             var rout = string.Format(ApiRoutes.SelectCartByFarmerId, CurrentUser.FarmerId);
-            var result = await client.GetAsync<OperationResult<List<FullCartItemDTO>>>(rout);
+            var result = await client.GetAsync<OperationResult<List<GetCartItemByFarmerIdOutputViewModel>>>(rout);
             if (result == null)
             {
                 ShowInfoError(Messages.InternetErrorMessage);

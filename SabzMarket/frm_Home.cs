@@ -3,6 +3,7 @@ using SabzMarket.Http;
 using SabzMarket.Share;
 using SabzMarket.Share.Models;
 using SabzMarket.Share.ViewModels;
+using SabzMarket.UI.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -39,7 +40,7 @@ namespace SabzMarket
             if (e.Error != null)
             {
                 ShowInfo("عکس بارگذاری نشد");
-                pb_Profile.Image = Properties.Resources.profile;
+                pb_Profile.Image = Resources.profile;
             }
         }
 
@@ -47,7 +48,7 @@ namespace SabzMarket
         {
             var client = HttpClientHelper.Instance;
             string route = string.Format(ApiRoutes.GetSellerByUsername, CurrentUser.UserName);
-            var seller = await client.GetAsync<OperationResult<SellerFullViewModel>>(route);
+            var seller = await client.GetAsync<OperationResult<GetSellerOutputViewModel>>(route);
             if (seller == null)
             {
                 ShowInfoError(Messages.InternetErrorMessage);
@@ -131,7 +132,7 @@ namespace SabzMarket
         {
             Application.Exit();
         }
-        private void RenderOrders(List<ProductDTO> products)
+        private void RenderOrders(List<GetProductOutputViewModel> products)
         {
             flp_ShowProduct.Controls.Clear();
             foreach (var product in products)
@@ -185,14 +186,14 @@ namespace SabzMarket
             RefreshProduct(this, EventArgs.Empty);
         }
 
-        List<ProductDTO> ProductDTOs;
+        List<GetProductOutputViewModel> ProductDTOs;
         public async Task GetProduct(long sellerId)
         {
             var client = HttpClientHelper.Instance;
             string rout = string
                 .Format(ApiRoutes
                 .GetProductBySellerId, sellerId);
-            var result = await client.GetAsync<OperationResult<List<ProductDTO>>>(rout);
+            var result = await client.GetAsync<OperationResult<List<GetProductOutputViewModel>>>(rout);
             if (result == null)
             {
                 ShowInfoError(Messages.InternetErrorMessage);

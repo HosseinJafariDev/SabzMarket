@@ -47,7 +47,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
                 ProductId = cartItem.ProductId,
                 Quantity = cartItem.Quantity
             };
-            _Context.Add(cartItemTable);
+            _Context.CartItems.Add(cartItemTable);
             await _Context.SaveChangesAsync();
         }
         public async Task ChangeQuantityAsync(long productId, long farmerId, int number)

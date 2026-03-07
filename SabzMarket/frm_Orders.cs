@@ -2,6 +2,7 @@
 using SabzMarket.Share;
 using SabzMarket.Share.Enums;
 using SabzMarket.Share.Models;
+using SabzMarket.Share.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,14 +32,14 @@ namespace SabzMarket
             frm_History frm_History = new frm_History();
             frm_History.ShowDialog();
         }
-        List<OrderDTO> FullOrsers;
+        List<GetOrdersForSellerOutputViewModel> FullOrsers;
         public async Task GetOrder( string search = "")
         {
             var client = HttpClientHelper.Instance;
             string rout = string
                 .Format(ApiRoutes
                 .GetPendingOrdersForSeller, CurrentUser.SellerId, Uri.EscapeDataString(search));
-            var result = await client.GetAsync<OperationResult<List<OrderDTO>>>(rout);
+            var result = await client.GetAsync<OperationResult<List<GetOrdersForSellerOutputViewModel>>>(rout);
             if (result == null)
             {
                 ShowInfoError(Messages.InternetErrorMessage);
@@ -73,7 +74,7 @@ namespace SabzMarket
         }
 
 
-        private void RenderOrders(List<OrderDTO> orders)
+        private void RenderOrders(List<GetOrdersForSellerOutputViewModel> orders)
         {
             flowLayoutPanel1.Controls.Clear();
             foreach (var order in orders)
@@ -97,8 +98,8 @@ namespace SabzMarket
                 .Format(
                 ApiRoutes.OrderDetailRejected,
                 e.orderDTO.OrderDetailId,
-                e.orderDTO.product!.Number,
-                e.orderDTO.product.Id
+                e.orderDTO.Number,
+                e.orderDTO.OrderId
                 );
             var result = await client.GetAsync<OperationResult>(rout);
             if (!result.Success)
@@ -164,13 +165,10 @@ namespace SabzMarket
                 {
                     RenderOrders(FullOrsers
                         .Where(o => o
-                        .product!
-                        .Name!
+                        .ProductName!
                         .Contains(txt_Search.Text) || o
-                        .farmer!
                         .FirstName!
                         .Contains(txt_Search.Text) || o
-                        .farmer
                         .LastName!
                         .Contains(txt_Search.Text))
                         .ToList());

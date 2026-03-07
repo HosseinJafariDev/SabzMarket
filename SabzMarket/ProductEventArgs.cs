@@ -1,5 +1,6 @@
 ﻿using SabzMarket.Share;
 using SabzMarket.Share.Models;
+using SabzMarket.Share.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,10 @@ namespace SabzMarket
 {
     public class ProductEventArgs:EventArgs
     {
-        public ProductEventArgs(ProductDTO product)
+        public ProductEventArgs(GetProductOutputViewModel product)
         {
             Product = product;
         }
-       public ProductDTO Product { get; set; }
+       public GetProductOutputViewModel Product { get; set; }
     }
 }

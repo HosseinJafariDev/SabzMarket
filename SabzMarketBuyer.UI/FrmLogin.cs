@@ -26,13 +26,13 @@ namespace SabzMarketBuyer.UI
         {
             btnLogin.Enabled = false;
             btnLogin.Text = Messages.pleaseWaitText;
-            UserViewModel user = new UserViewModel
+            LoginInputViewModel user = new LoginInputViewModel
             {
                 UserName = txtUsername.Text,
-                Password1 = txtPassword.Text
+                Password = txtPassword.Text
             };
             var client = HttpClientHelper.Instance;
-            var result = await client.PostAsync<OperationResult, UserViewModel>(ApiRoutes.Login, user);
+            var result = await client.PostAsync<OperationResult, LoginInputViewModel>(ApiRoutes.Login, user);
 
             if (result == null)
             {

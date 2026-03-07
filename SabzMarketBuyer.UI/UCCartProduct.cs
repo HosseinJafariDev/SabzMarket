@@ -1,4 +1,5 @@
 ﻿using SabzMarket.Share.Models;
+using SabzMarket.Share.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +14,7 @@ namespace SabzMarketBuyer.UI
 {
     public partial class UCCartProduct : UserControl
     {
-        public FullCartItemDTO CartItemDTo { get; set; }
+        public GetCartItemByFarmerIdOutputViewModel CartItemDTo { get; set; }
         public UCCartProduct()
         {
             InitializeComponent();

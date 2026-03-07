@@ -19,7 +19,7 @@ namespace SabzMarketBuyer.UI
         {
             InitializeComponent();
         }
-        public SellerFullViewModel Sellers { get; set; }
+        public GetSellerOutputViewModel Sellers { get; set; }
 
         private void UCSeller_Load(object sender, EventArgs e)
         {

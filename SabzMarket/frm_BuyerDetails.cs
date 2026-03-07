@@ -1,4 +1,6 @@
 ﻿using SabzMarket.Share.Models;
+using SabzMarket.Share.ViewModels;
+using SabzMarket.UI.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,13 +19,13 @@ namespace SabzMarket
         {
             InitializeComponent();
         }
-        public FarmerDTOForSeller farmer { get; set; }
+        public GetOrdersForSellerOutputViewModel farmer { get; set; }
         private void pictureBox1_LoadCompleted(object sender, AsyncCompletedEventArgs e)
         {
             if (e.Error != null)
             {
                 ShowInfo("عکس بارگذاری نشد");
-                pb_ProfileBuyer.Image = Properties.Resources.profile;
+                pb_ProfileBuyer.Image = Resources.profile;
             }
         }
 
@@ -32,7 +34,7 @@ namespace SabzMarket
             txt_address.Text = farmer.Address;
             txt_CodePosti.Text=farmer.CodePosti;
             txt_Phone.Text = farmer.Phone;
-            pb_ProfileBuyer.LoadAsync(farmer.ProfileImage);
+            pb_ProfileBuyer.LoadAsync(farmer.FarmerProfileImage);
         }
     }
 }

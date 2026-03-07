@@ -2,6 +2,7 @@
 using SabzMarket.Share;
 using SabzMarket.Share.Models;
 using SabzMarket.Share.ViewModels;
+using SabzMarket.UI.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,9 +35,9 @@ namespace SabzMarket
             int price, number;
             bool convertPrice = int.TryParse(txt_Price.Text.Replace(",", ""), out price);
             bool convertNumber = int.TryParse(txt_Number.Text.Replace(",", ""), out number);
-            ProductViewModel productViewModel = new ProductViewModel
+            UpdateProductInputViewModel productViewModel = new UpdateProductInputViewModel
             {
-                CategoryId = (long)cmb_Categorie.SelectedValue!,
+                CategorieId = (long)cmb_Categorie.SelectedValue!,
                 Description = txt_Description.Text,
                 Name = txt_Name.Text,
                 Price = price,
@@ -55,7 +56,7 @@ namespace SabzMarket
                     btn_Add.Text = Messages.pleaseWaitText;
                     var client = HttpClientHelper.Instance;
                     var result = await client
-                        .PostAsync<OperationResult, ProductViewModel>(ApiRoutes.UpdateProduct, productViewModel);
+                        .PostAsync<OperationResult, UpdateProductInputViewModel>(ApiRoutes.UpdateProduct, productViewModel);
                     if (!result.Success)
                     {
                         btn_Add.Enabled = true;
@@ -77,10 +78,22 @@ namespace SabzMarket
 
             if (productViewModel.IsValid)
             {
+                CreateProductInputViewModel createproductViewModel = new CreateProductInputViewModel
+                {
+                    CategoryId = (long)cmb_Categorie.SelectedValue!,
+                    Description = txt_Description.Text,
+                    Name = txt_Name.Text,
+                    Price = price,
+                    ImageProduct = path
+                ,
+                    Number = number
+                ,
+                    SellerId = CurrentUser.SellerId
+                };
                 btn_Add.Text = Messages.pleaseWaitText;
                 var client = HttpClientHelper.Instance;
                 var result = await client
-                    .PostAsync<OperationResult, ProductViewModel>(ApiRoutes.CreateProduct, productViewModel);
+                    .PostAsync<OperationResult, CreateProductInputViewModel>(ApiRoutes.CreateProduct, createproductViewModel);
                 if (!result.Success)
                 {
                     if (!result.Result)
@@ -113,7 +126,7 @@ namespace SabzMarket
             txt_Name.Clear();
             txt_Price.Clear();
             txt_Number.Clear();
-            pb_Products.Image = Properties.Resources.product;
+            pb_Products.Image = Resources.product;
         }
         private void myTextBox3_TextChanged(object sender, EventArgs e)
         {
@@ -165,11 +178,11 @@ namespace SabzMarket
             }
         }
         public bool IsEdit { get; set; } = false;
-        public ProductDTO Product { get; set; }
+        public GetProductOutputViewModel Product { get; set; }
         private async void frm_AddProducts_Load(object sender, EventArgs e)
         {
             var client = HttpClientHelper.Instance;
-            var result = await client.GetAsync<OperationResult<List<CategorieDTO>>>(ApiRoutes.GetCategori);
+            var result = await client.GetAsync<OperationResult<List<GetAllCategoriesOutputViewModel>>>(ApiRoutes.GetCategori);
             cmb_Categorie.DataSource = result.Data;
             cmb_Categorie.DisplayMember = "Name";
             cmb_Categorie.ValueMember = "Id";
@@ -179,7 +192,7 @@ namespace SabzMarket
                 txt_Name.Text = Product.Name;
                 txt_Description.Text = Product.Description;
                 txt_Number.Text = Product.Number.ToString();
-                cmb_Categorie.SelectedValue = Product.CategoryId;
+                cmb_Categorie.SelectedValue = Product.CategorieId;
                 txt_Price.Text = Product.Price.ToString("N0");
                 pb_Products.LoadAsync(Product.ImageProduct);
                 btn_Add.Text = "ویرایش";

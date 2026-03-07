@@ -13,6 +13,9 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SabzMarket.UI.Properties;
+using static Guna.UI2.WinForms.Suite.Descriptions;
+using System.Resources;
 
 namespace SabzMarket
 {
@@ -46,7 +49,7 @@ namespace SabzMarket
             if (e.Error != null)
             {
                 ShowInfo("عکس بارگذاری نشد");
-                pb_Profile.Image = Properties.Resources.profile;
+                pb_Profile.Image = Resources.profile;
             }
         }
 
@@ -56,7 +59,7 @@ namespace SabzMarket
             string username = Uri.UnescapeDataString(CurrentUser.UserName!);
             string route = string.Format(ApiRoutes.GetSellerByUsername, username);
             var seller = await client
-                .GetAsync<OperationResult<SellerFullViewModel>>(route);
+                .GetAsync<OperationResult<GetSellerOutputViewModel>>(route);
 
             if (seller == null)
             {
@@ -92,42 +95,30 @@ namespace SabzMarket
         {
             var client = HttpClientHelper.Instance;
             string route = string.Format(ApiRoutes.UpdateSeller, CurrentUser.UserName);
-            UserViewModel userViewModel = new UserViewModel
+            SellerUpdateInputViewModel sellerUpdate = new SellerUpdateInputViewModel
             {
-                Id = CurrentUser.UserId,
+                UserId = CurrentUser.UserId,
                 FirstName = txt_FirstName.Text,
                 LastName = txt_LastName.Text,
                 Phone = txt_Phone.Text,
                 Email = txt_Email.Text,
-                UserName = txt_UserName.Text,
-                Password1 = txt_Password.Text,
-                Password2 = txt_Password.Text,
-            };
-            SellerPartialViewModel sellerPartial = new SellerPartialViewModel
-            {
-                Id= CurrentUser.SellerId,
+                NewUsername = txt_UserName.Text,
+                CurrentUsername = CurrentUser.UserName,
+                Password = txt_Password.Text,
+                Id = CurrentUser.SellerId,
                 Address = txt_Address.Text,
-                Username = txt_UserName.Text,
                 ProfileImage = pathImage,
                 WorkHistory = cmb_WorkHistory.Text
             };
-            if (!userViewModel.IsValid)
+            if (!sellerUpdate.IsValid)
             {
-                ShowInfo(userViewModel.ErrorMessage);
+                ShowInfo(sellerUpdate.ErrorMessage);
                 return;
             }
-            if (!sellerPartial.IsValid)
-            {
-                ShowInfo(sellerPartial.ErrorMessage);
-            }
-            RequestPayload payload = new RequestPayload
-            {
-                SellerPartial = sellerPartial,
-                UserViewModel = userViewModel
-            };
+
             btn_Update.Enabled = false;
             btn_Update.Text = Messages.pleaseWaitText;
-            var result = await client.PostAsync<OperationResult, RequestPayload>(route, payload);
+            var result = await client.PostAsync<OperationResult, SellerUpdateInputViewModel>(route, sellerUpdate);
             if (result == null)
             {
                 btn_Update.Enabled = true;
@@ -137,7 +128,7 @@ namespace SabzMarket
             }
             if (!result.Success)
             {
-                if(!result.Result)
+                if (!result.Result)
                 {
                     btn_Update.Enabled = true;
                     btn_Update.Text = Messages.TextUpdate;
@@ -161,7 +152,7 @@ namespace SabzMarket
             if (e.Error != null)
             {
                 ShowInfo("عکس بارگذاری نشد");
-                pb_Profile.Image = Properties.Resources.profile;
+                pb_Profile.Image = Resources.profile;
             }
         }
     }

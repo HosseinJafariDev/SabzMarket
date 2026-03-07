@@ -1,6 +1,7 @@
 ﻿using SabzMarket.Http;
 using SabzMarket.Share;
 using SabzMarket.Share.Models;
+using SabzMarket.Share.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,7 +21,7 @@ namespace SabzMarket
             InitializeComponent();
         }
 
-        private void RenderOrders(List<OrderDTO> orders)
+        private void RenderOrders(List<GetOrdersForSellerOutputViewModel> orders)
         {
             flowLayoutPanel1.Controls.Clear();
             foreach (var order in orders)
@@ -39,14 +40,14 @@ namespace SabzMarket
             frm_BuyerDetails.ShowDialog();
         }
 
-        List<OrderDTO> FullOrsers;
+        List<GetOrdersForSellerOutputViewModel> FullOrsers;
         public async Task GetOrder(string search = "")
         {
             var client = HttpClientHelper.Instance;
             string rout = string
                 .Format(ApiRoutes
                 .GetNonPendingOrdersForSeller, CurrentUser.SellerId, Uri.EscapeDataString(search));
-            var result = await client.GetAsync<OperationResult<List<OrderDTO>>>(rout);
+            var result = await client.GetAsync<OperationResult<List<GetOrdersForSellerOutputViewModel>>>(rout);
             if (result == null)
             {
                 ShowInfoError(Messages.InternetErrorMessage);
@@ -85,13 +86,10 @@ namespace SabzMarket
                 {
                     RenderOrders(FullOrsers
                         .Where(o => o
-                        .product!
-                        .Name!
+                        .ProductName!
                         .Contains(txt_Search.Text) || o
-                        .farmer!
                         .FirstName!
                         .Contains(txt_Search.Text) || o
-                        .farmer
                         .LastName!
                         .Contains(txt_Search.Text))
                         .ToList());

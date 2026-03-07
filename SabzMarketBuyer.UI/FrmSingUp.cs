@@ -25,7 +25,7 @@ namespace SabzMarketBuyer.UI
         {
             btnSingUp.Enabled = false;
             btnSingUp.Text = Messages.pleaseWaitText;
-            var userviewmodel = new UserViewModel()
+            var userviewmodel = new SignUpInputViewModel()
             {
                 FirstName = txtFirstname.Text,
                 LastName = txtLastname.Text,
@@ -41,7 +41,7 @@ namespace SabzMarketBuyer.UI
                 return;
             }
             var client = HttpClientHelper.Instance;
-            var result = await client.PostAsync<OperationResult, UserViewModel>(ApiRoutes.SignUp, userviewmodel);
+            var result = await client.PostAsync<OperationResult, SignUpInputViewModel>(ApiRoutes.SignUp, userviewmodel);
             if (result == null)
             {
                 ShowInfoError(Messages.InternetErrorMessage);

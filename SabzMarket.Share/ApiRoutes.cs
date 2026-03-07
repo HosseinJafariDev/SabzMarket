@@ -8,8 +8,8 @@ namespace SabzMarket.Share
 {
     public class ApiRoutes
     {
-        public const string SignUp = "User/SignUp";
-        public const string Login = "User/Login";
+        public const string SignUp = "Auth/SignUp";
+        public const string Login = "Auth/Login";
         public const string SellerFillProfile = "Seller/CreateSelller";
         public const string GetSellerByPhoneNumber = "Seller/GetByPhoneNumber?phone={0}";
         public const string CheckUserInSeller = "Seller/CheckUserInSeller?username={0}";

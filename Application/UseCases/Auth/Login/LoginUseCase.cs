@@ -29,7 +29,7 @@ namespace SabzMarket.Application.UseCases.Auth.Login
             {
                 var user = await _userRepository.SelectByUserNameForLoginAsync(input.UserName!);
 
-                if (user == null || user.VerifyPassword(input.Password!))
+                if (user == null || !user.VerifyPassword(input.Password!))
                 {
                     return OperationResult.FailedResult(Messages.InvalidPasswordAndUsername);
                 }

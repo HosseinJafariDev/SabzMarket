@@ -35,7 +35,7 @@ namespace SabzMarket.Application.UseCases.Auth.SignUp
                     return OperationResult.FailedResult(validationResult.Errors.First().ErrorMessage);
 
                 var resultCheckUser = await _userRepository.CheckUserAsync(input.UserName!);
-                if (!resultCheckUser)
+                if (resultCheckUser)
                 {
                     return OperationResult.FailedResult(Messages.ExistingUserName);
                 }
