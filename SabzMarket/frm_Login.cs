@@ -41,7 +41,7 @@ namespace SabzMarket
                 return;
             }
 
-            if (!result!.Success)
+            if (!result.Success)
             {
                 if (result.Result)
                 {
@@ -58,7 +58,7 @@ namespace SabzMarket
             CurrentUser.UserName = txt_UserName.Text;
             string userName = Uri.EscapeDataString(txt_UserName.Text);
             var rout = string.Format(ApiRoutes.CheckUserInSeller, userName);
-            var result1 = await client.GetAsync<OperationResult>(rout);
+            var result1 = await client.GetAsync<OperationResult<bool>>(rout);
             if (result1 == null)
             {
                 ShowInfoError(Messages.InternetErrorMessage);
@@ -68,16 +68,18 @@ namespace SabzMarket
             }
             if (!result1!.Success)
             {
-                if (result1.Result)
-                {
-                    frm_SellerProfile frm_SellerProfile = new frm_SellerProfile();
-                    this.Hide();
-                    frm_SellerProfile.Show();
-                    return;
-                }
+
                 ShowInfoError(result1.Message!);
                 btn_Login.Enabled = true;
                 btn_Login.Text = Messages.LoginText;
+                return;
+            }
+
+            if (!result1.Data)
+            {
+                frm_SellerProfile frm_SellerProfile = new frm_SellerProfile();
+                this.Hide();
+                frm_SellerProfile.Show();
                 return;
             }
             frm_Home frm_Home = new frm_Home();

@@ -36,7 +36,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
              .Where(p => p.SellerId == sellerId && p.IsDeleted == false).Select(p => new Product
              {
                  SellerId = p.SellerId,
-                 CategorieId = p.CategorieId,
+                 CategoryId = p.CategorieId,
                  Description = p.Description,
                  Id = p.Id,
                  ImageProduct = p.ImageProduct,
@@ -58,7 +58,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
         {
             ProductTable product1 = new ProductTable
             {
-                CategorieId = product.CategorieId,
+                CategorieId = product.CategoryId,
                 Description = product.Description!,
                 ImageProduct = product.ImageProduct!,
                 Price = product.Price,
@@ -77,7 +77,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             .Where(x => x.ProductName!.Contains(search) && x.IsDeleted == false)
             .Select(x => new Product
             {
-                CategorieId = x.CategorieId,
+                CategoryId = x.CategorieId,
                 Description = x.Description,
                 Id = x.Id,
                 ImageProduct = x.ImageProduct,
@@ -94,7 +94,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             var produc = new ProductTable
             {
                 Id = product.Id,
-                CategorieId = product.CategorieId,
+                CategorieId = product.CategoryId,
                 SellerId = product.SellerId,
                 ProductName = product.Name,
                 Description = product.Description,

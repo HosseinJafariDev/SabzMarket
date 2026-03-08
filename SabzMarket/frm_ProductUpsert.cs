@@ -192,7 +192,7 @@ namespace SabzMarket
                 txt_Name.Text = Product.Name;
                 txt_Description.Text = Product.Description;
                 txt_Number.Text = Product.Number.ToString();
-                cmb_Categorie.SelectedValue = Product.CategorieId;
+                cmb_Categorie.SelectedValue = Product.CategoryId;
                 txt_Price.Text = Product.Price.ToString("N0");
                 pb_Products.LoadAsync(Product.ImageProduct);
                 btn_Add.Text = "ویرایش";

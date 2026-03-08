@@ -35,7 +35,7 @@ namespace SabzMarket.API.Controllers
         }
         [HttpGet]
         public async Task<OperationResult<List<GetProductOutputDTO>>> GetProductsBySellerAsync(long sellerId)
-        {
+            {
             var result = await _getProductBySellerIdUseCase.ExecuteAsync(sellerId);
             return result;
         }

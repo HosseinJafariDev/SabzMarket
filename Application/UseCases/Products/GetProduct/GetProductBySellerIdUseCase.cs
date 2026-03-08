@@ -26,7 +26,7 @@ namespace SabzMarket.Application.UseCases.Products.GetProduct
             {
                 var products = await _productRepository.SelectAllBySellerIdAsync(sellerId);
 
-                if (products.Any())
+                if (!products.Any())
                 {
                     return OperationResult<List<GetProductOutputDTO>>.FailedResult(Messages.ProductNotFoundBySellerId);
                 }

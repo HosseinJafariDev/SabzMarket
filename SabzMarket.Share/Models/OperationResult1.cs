@@ -10,7 +10,7 @@ namespace SabzMarket.Share.Models
     {
         public bool Success { get; set; }
         public string? Message { get; set; }
-        public bool? Result { get; set; }
+        public bool Result { get; set; }
 
         public static OperationResult SuccessedResult(
             string message = "")
@@ -29,6 +29,7 @@ namespace SabzMarket.Share.Models
             {
                 Success = false,
                 Message = message,
+                Result = false
             };
         }
         public static OperationResult FailedResult(

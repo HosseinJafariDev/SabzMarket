@@ -1,7 +1,6 @@
 ﻿using SabzMarket.Http;
 using SabzMarket.Share;
 using SabzMarket.Share.Models;
-using SabzMarket.Share.Requests;
 using SabzMarket.Share.ViewModels;
 using System;
 using System.Collections.Generic;
