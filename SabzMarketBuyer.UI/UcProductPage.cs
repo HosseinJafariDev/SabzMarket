@@ -40,7 +40,8 @@ namespace SabzMarketBuyer.UI
             {
                 FarmerId = CurrentUser.FarmerId,
                 ProductId = Product.Id,
-                AddedDate = DateTime.Now
+                AddedDate = DateTime.Now,
+                Quantity=1
             };
             ProductEventArgs<UcProductPage> productEventArgs = new ProductEventArgs<UcProductPage>()
             {

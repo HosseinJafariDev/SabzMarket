@@ -35,7 +35,7 @@ namespace SabzMarket
             lbl_Name.Text = $"{Order.FirstName} {Order.LastName}";
             lbl_Number.Text = Order.Number.ToString();
             lbl_ProductName.Text = Order.ProductName;
-            pb_Image.Load(Order.ImageProduct);
+            pb_Image.LoadAsync(Order.ImageProduct);
         }
 
         private void btn_Details_Click(object sender, EventArgs e)
@@ -49,7 +49,7 @@ namespace SabzMarket
         private void btn_Reject_Click(object sender, EventArgs e)
         {
             OrderDetailEventArgs orderDetail = new OrderDetailEventArgs(Order,this);
-            RejectOrder?.Invoke(this, orderDetail);
+            RejectOrder?.Invoke(sender, orderDetail);
         }
         public void UpdateStatusUI(string status)
         {

@@ -9,7 +9,7 @@ namespace SabzMarket.Application.UseCases.Products.UpdateProduct
     public class UpdateProductInputDTO
     {
         public long Id { get; set; }
-        public long CategorieId { get; set; }
+        public long CategoryId { get; set; }
         public long SellerId { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }

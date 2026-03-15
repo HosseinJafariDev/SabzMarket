@@ -60,7 +60,7 @@ namespace SabzMarket.Application.UseCases.Orders.Checkout
                     return OperationResult.FailedResult(Messages.CartEmpty);
                 }
 
-                await _unitOfWork.BeginAsync();
+                //await _unitOfWork.BeginAsync();
 
                 foreach (var item in cartItems)
                 {
@@ -69,7 +69,7 @@ namespace SabzMarket.Application.UseCases.Orders.Checkout
                     {
                         var order = _mapper.Map<Order>(item);
                         var resultOrder = await _orderRepository.InsertAsync(order);
-
+                        item.OrderId = resultOrder;
                         var orderDetail = _mapper.Map<OrderDetail>(item);
                         await _orderDetailRepository.InsertAsync(orderDetail);
 
@@ -79,18 +79,18 @@ namespace SabzMarket.Application.UseCases.Orders.Checkout
                     else
                     {
                         var orderId = await _orderRepository.FindOrderByFarmerAndSellerAsync(farmerId, item.SellerId);
-
+                        item.OrderId = orderId;
                         var order = _mapper.Map<OrderDetail>(item);
                         await _orderDetailRepository.InsertAsync(order);
                         await _cartItemRepository.DeleteAsync(item.Id);
                     }
                 }
-                await _unitOfWork.CommitAsync();
+                //await _unitOfWork.CommitAsync();
                 return OperationResult.SuccessedResult();
             }
             catch (Exception ex)
             {
-                await _unitOfWork.RollbackAsync();
+               // await _unitOfWork.RollbackAsync();
                 var erroeResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
                 return OperationResult.Failed(erroeResult.ErrorMessage());
             }

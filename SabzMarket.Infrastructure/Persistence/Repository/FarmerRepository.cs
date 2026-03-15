@@ -45,11 +45,11 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
         public async Task UpdateAsync(Farmer farmer)
         {
             var farmerTable = new FarmerTable { Id = farmer.Id };
-            _dbContext.Attach(farmer);
-            farmer.Address = farmer.Address;
-            farmer.CodePosti = farmer.CodePosti;
-            farmer.ProfileImage = farmer.ProfileImage;
-            var entryFarmer = _dbContext.Entry(farmer);
+            _dbContext.Attach(farmerTable);
+            farmerTable.Address = farmer.Address;
+            farmerTable.CodePosti = farmer.CodePosti;
+            farmerTable.ProfileImage = farmer.ProfileImage;
+            var entryFarmer = _dbContext.Entry(farmerTable);
             entryFarmer.Property(x => x.Address).IsModified = true;
             entryFarmer.Property(x => x.CodePosti).IsModified = true;
             entryFarmer.Property(x => x.ProfileImage).IsModified = true;

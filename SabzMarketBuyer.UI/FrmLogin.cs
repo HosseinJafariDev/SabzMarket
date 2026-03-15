@@ -59,7 +59,7 @@ namespace SabzMarketBuyer.UI
             CurrentUser.UserName = txtUsername.Text;
             string userName = Uri.EscapeDataString(txtUsername.Text);
             var rout = string.Format(ApiRoutes.CheckUserInFarmer, userName);
-            var result2 = await client.GetAsync<OperationResult>(rout);
+            var result2 = await client.GetAsync<OperationResult<bool>>(rout);
             if (result2 == null)
             {
                 ShowInfoError(Messages.InternetErrorMessage);
@@ -69,16 +69,16 @@ namespace SabzMarketBuyer.UI
             }
             if (!result2!.Success)
             {
-                if (result2.Result)
-                {
-                    FrmFarmerProfile frmFarmerProfile = new FrmFarmerProfile();
-                    this.Hide();
-                    frmFarmerProfile.Show();
-                    return;
-                }
                 ShowInfoError(result2.Message!);
                 btnLogin.Enabled = true;
                 btnLogin.Text = Messages.LoginText;
+                return;
+            }
+            if (!result2.Data)
+            {
+                FrmFarmerProfile frmFarmerProfile = new FrmFarmerProfile();
+                this.Hide();
+                frmFarmerProfile.Show();
                 return;
             }
             FrmMain frmMain = new FrmMain();

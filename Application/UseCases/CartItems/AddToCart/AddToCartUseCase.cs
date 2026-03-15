@@ -32,7 +32,10 @@ namespace SabzMarket.Application.UseCases.CartItems.AddToCart
                 if (existProduct)
                 {
                     await _cartItemRepository
-                        .ChangeQuantityAsync(addToCartInputDTO.ProductId, addToCartInputDTO.FarmerId, 1);
+                        .ChangeQuantityAsync(
+                        addToCartInputDTO.ProductId, 
+                        addToCartInputDTO.FarmerId, 
+                        addToCartInputDTO.Quantity);
 
                     return OperationResult.SuccessedResult(Messages.SuccessAddToCart);
                 }

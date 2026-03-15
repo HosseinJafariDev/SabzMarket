@@ -37,7 +37,7 @@ namespace SabzMarket
             bool convertNumber = int.TryParse(txt_Number.Text.Replace(",", ""), out number);
             UpdateProductInputViewModel productViewModel = new UpdateProductInputViewModel
             {
-                CategorieId = (long)cmb_Categorie.SelectedValue!,
+                CategoryId = (long)cmb_Categorie.SelectedValue!,
                 Description = txt_Description.Text,
                 Name = txt_Name.Text,
                 Price = price,

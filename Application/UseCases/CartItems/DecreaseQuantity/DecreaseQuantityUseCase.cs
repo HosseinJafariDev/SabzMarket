@@ -33,7 +33,7 @@ namespace SabzMarket.Application.UseCases.CartItems.DecreaseQuantity
             {
                 await _unitOfWork.BeginAsync();
                 await _cartItemRepository.ChangeQuantityAsync(productId, farmerId, -1);
-                await _productRepository.IncreaseNumberAsync(farmerId, 1);
+                await _productRepository.IncreaseNumberAsync(productId, 1);
                 await _unitOfWork.CommitAsync();
                 return OperationResult.SuccessedResult(Messages.RemoveAddToCart);
             }

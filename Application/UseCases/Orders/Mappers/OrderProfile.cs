@@ -17,9 +17,8 @@ namespace SabzMarket.Application.UseCases.Orders.Mappers
                 .ForMember(dest => dest.OrderDate, opt => opt.MapFrom(x => x.AddedDate));
 
             CreateMap<GetCartItemByFarmerIdOutputDTO, OrderDetail>()
-                .ForMember(dest => dest.OrderId, opt => opt.MapFrom(x => x.Id))
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(x => x.ProductPrice))
-                .ForMember(dest => dest.Number, opt => opt.MapFrom(x => x.ProducNumber));
+                .ForMember(dest => dest.Number, opt => opt.MapFrom(x => x.Quantity));
         }
     }
 }

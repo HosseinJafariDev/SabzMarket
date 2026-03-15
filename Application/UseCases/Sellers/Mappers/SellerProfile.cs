@@ -37,7 +37,8 @@ namespace SabzMarket.Application.UseCases.Sellers.Mappers
                 .ForMember(dest => dest.Users, opt => opt.Ignore());
 
             CreateMap<SellerUpdateInputDTO, User>()
-                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.NewUsername));
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.NewUsername))
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.UserId));
         }
     }
 }

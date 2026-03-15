@@ -72,8 +72,8 @@ namespace SabzMarket.Application.UseCases.Farmers.UpdateFarmer
                 var user = _mapper.Map<User>(updateFarmerInputDTO);
                 await _userRepository.UpdateAsync(user);
 
-                var seller = _mapper.Map<Farmer>(updateFarmerInputDTO);
-                await _farmerRepository.UpdateAsync(seller);
+                var farmer = _mapper.Map<Farmer>(updateFarmerInputDTO);
+                await _farmerRepository.UpdateAsync(farmer);
 
                 await _unitOfWork.CommitAsync();
                 return OperationResult.SuccessedResult(Messages.UpdateSuccessful);

@@ -21,7 +21,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
 
         public async Task DeleteAsync(long id)
         {
-            var product = new Product { Id = id };
+            var product = new ProductTable { Id = id };
             _Context.Attach(product);
             product.IsDeleted = true;
             var entry = _Context.Entry(product);

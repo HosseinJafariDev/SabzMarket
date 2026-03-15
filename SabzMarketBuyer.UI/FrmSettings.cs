@@ -55,7 +55,8 @@ namespace SabzMarketBuyer.UI
                 Phone = txtPhone.Text,
                 ProfileImage = pathImage,
                 FarmerId = CurrentUser.FarmerId,
-                UserId = CurrentUser.UserId
+                UserId = CurrentUser.UserId,
+                CurrentUsername = CurrentUser.UserName
             };
             if (!farmer.IsValid)
             {
@@ -79,12 +80,12 @@ namespace SabzMarketBuyer.UI
                 {
                     btnSave.Enabled = true;
                     btnSave.Text = Messages.Save;
-                    ShowInfoError(farmer.ErrorMessage);
+                    ShowInfoError(result.Message!);
                     return;
                 }
                 btnSave.Enabled = true;
                 btnSave.Text = Messages.Save;
-                ShowInfo(farmer.ErrorMessage);
+                ShowInfo(result.Message!);
                 return;
             }
             btnSave.Enabled = true;

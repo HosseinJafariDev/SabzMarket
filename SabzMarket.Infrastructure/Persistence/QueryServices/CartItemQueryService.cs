@@ -21,6 +21,7 @@ namespace SabzMarket.Infrastructure.Persistence.QueryServices
             var result = await _context
                .CartItems
                .AsNoTracking()
+               .Include(x=>x.Product)
                .Where(x =>
                x.FarmerId == farmerId &&
                x.Product.IsDeleted == false)

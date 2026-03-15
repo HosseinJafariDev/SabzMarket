@@ -9,6 +9,7 @@ namespace SabzMarket.Application.UseCases.CartItems.GetCartItem
     public class GetCartItemByFarmerIdOutputDTO
     {
         public int Id { get; set; }
+        public long OrderId { get; set; }
         public long FarmerId { get; set; }
         public long SellerId { get; set; }
         public long ProductId { get; set; }

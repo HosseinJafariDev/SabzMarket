@@ -13,7 +13,7 @@ namespace SabzMarket.Share.ViewModels
     {
         public long Id { get; set; }
         [Required(ErrorMessage = Messages.ProductCategory)]
-        public long CategorieId { get; set; }
+        public long CategoryId { get; set; }
         public long SellerId { get; set; }
         [Required(ErrorMessage = Messages.ProductName)]
         public string? Name { get; set; }

@@ -107,6 +107,7 @@ namespace SabzMarket.API.DependencyInjection
             services.AddScoped<IUpdateFarmerUseCase, UpdateFarmerUseCase>();
             services.AddScoped<IGetAllSellerUseCase, GetAllSellerUseCase>();
             services.AddScoped<IMarkOrderDetailAsRejectedUseCase, MarkOrderDetailAsRejectedUseCase>();
+            services.AddScoped<IMarkOrderDetailAsSentUseCase, MarkOrderDetailAsSentUseCase>();
             services.AddScoped<ICheckoutOrderUseCase, CheckoutOrderUseCase>();
             services.AddScoped<IGetNonPendingOrdersForSellerUseCase, GetNonPendingOrdersForSellerUseCase>();
             services.AddScoped<IGetPendingOrdersForSellerUseCase, GetPendingOrdersForSellerUseCase>();
