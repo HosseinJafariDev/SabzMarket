@@ -13,10 +13,13 @@ namespace SabzMarket.Application.UseCases.Auth.Login
     {
         private readonly IUserRepository _userRepository;
         private readonly IErrorRepository _errorRepository;
-        public LoginUseCase(IErrorRepository errorRepository, IUserRepository userRepository)
+        private readonly ISmsOtpRepository _smsOtpRepository;
+
+        public LoginUseCase(IErrorRepository errorRepository, IUserRepository userRepository, ISmsOtpRepository smsOtpRepository)
         {
             _userRepository = userRepository;
             _errorRepository = errorRepository;
+            _smsOtpRepository = smsOtpRepository;
         }
         public async Task<OperationResult> ExecuteAsync(LoginInputDTO input)
         {
@@ -25,8 +28,18 @@ namespace SabzMarket.Application.UseCases.Auth.Login
                 return OperationResult.FailedResult(Messages.EnterUsernameAndPassword);
             }
 
+            if (input.Otp == 0)
+            {
+                return OperationResult.FailedResult(Messages.EnterOtp);
+            }
+
             try
             {
+                var reuslt = await _smsOtpRepository.VerifyOtp(input.OtpId, input.Otp);
+                if (!reuslt)
+                {
+                    return OperationResult.FailedResult(Messages.InvalidOtp);
+                }
                 var user = await _userRepository.SelectByUserNameForLoginAsync(input.UserName!);
 
                 if (user == null || !user.VerifyPassword(input.Password!))

@@ -30,11 +30,13 @@ using SabzMarket.Application.UseCases.Products.UpdateProduct;
 using SabzMarket.Application.UseCases.Sellers.CreateSeller;
 using SabzMarket.Application.UseCases.Sellers.GetSeller;
 using SabzMarket.Application.UseCases.Sellers.UpdateSeller;
+using SabzMarket.Application.UseCases.Sms.SendSmsOtp;
 using SabzMarket.Application.UseCases.Users.GetUser;
 using SabzMarket.Infrastructure.Configuration;
 using SabzMarket.Infrastructure.Logging;
 using SabzMarket.Infrastructure.Persistence.QueryServices;
 using SabzMarket.Infrastructure.Persistence.Repository;
+using SabzMarket.Infrastructure.Sms;
 using SabzMarket.Infrastructure.Storage;
 
 namespace SabzMarket.API.DependencyInjection
@@ -52,6 +54,7 @@ namespace SabzMarket.API.DependencyInjection
             services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
             services.AddScoped<IFarmerRepository, FarmerRepository>();
             services.AddScoped<ICartItemRepository, CartItemRepository>();
+            services.AddScoped<ISmsOtpRepository, SmsOtpRepository>();
 
             return services;
         }
@@ -82,6 +85,7 @@ namespace SabzMarket.API.DependencyInjection
 
             services.AddScoped<IFileStorageService, S3FileStorageService>();
             services.AddScoped<IFileLogService, FileLogService>();
+            services.AddScoped<ISendSmsService, SendSmsService>();
 
             return services;
         }
@@ -93,6 +97,7 @@ namespace SabzMarket.API.DependencyInjection
         public static IServiceCollection AddUseCase(this IServiceCollection services)
         {
             services.AddScoped<ILoginUseCase, LoginUseCase>();
+            services.AddScoped<ISendSmsOtpUseCase, SendSmsOtpUseCase>();
             services.AddScoped<ISignUpUseCase, SignUpUseCase>();
             services.AddScoped<IUserIsFarmerUseCase, UserIsFarmerUseCase>();
             services.AddScoped<IUserIsSellerUseCase, UserIsSellerUseCase>();

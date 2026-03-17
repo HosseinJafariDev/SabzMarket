@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SabzMarket.Application.Interfaces.Services;
 using SabzMarket.Infrastructure.Configuration.Sms;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SabzMarket.Infrastructure.Sms
 {
-    public class SendSmsService : IDisposable
+    public class SendSmsService : ISendSmsService, IDisposable
     {
         HttpClient httpClient;
         public SendSmsService()
@@ -21,19 +22,19 @@ namespace SabzMarket.Infrastructure.Sms
             httpClient.Dispose();
         }
 
-        public async Task<bool> SendSms(string Phone)
+        public async Task<bool> SendSmsOtp(string Phone, string otp)
         {
             httpClient.DefaultRequestHeaders.Add("x-api-key", "GD3UGtSs42BGAAGY128fKCHpN4foc5y4j0loED2oHuac28lL");
 
             VerifySendModel model = new VerifySendModel()
             {
-                Mobile = "09131334437",
+                Mobile = Phone,
                 TemplateId = 251460,
                 Parameters = new VerifySendParameterModel[]
                 {
                     new VerifySendParameterModel()
                     {
-                        Name = "OTP", Value = "5553"
+                        Name = "OTP", Value = otp
                     }
                 }
             };

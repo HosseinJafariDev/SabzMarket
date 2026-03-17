@@ -26,7 +26,7 @@ namespace SabzMarket.Infrastructure.Persistence
         public DbSet<ErrorTable> ErrorLogs { get; set; }
         public DbSet<FeaturedSellerTable> FeaturedSellers { get; set; }
         public DbSet<CartItemTable> CartItems { get; set; }
-
+        public DbSet<SmsOtpTable> smsOtps { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

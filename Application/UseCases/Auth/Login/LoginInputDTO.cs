@@ -8,6 +8,8 @@ namespace SabzMarket.Application.UseCases.Auth.Login
 {
     public class LoginInputDTO
     {
+        public long OtpId { get; set; }
+        public long Otp { get; set; }
         public string? UserName { get; set; }
         public string? Password { get; set; }
     }

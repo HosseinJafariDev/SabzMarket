@@ -33,6 +33,8 @@ namespace SabzMarket.Application.Common
         public const string Error = "مشکلی پیش امده لطفا با پشتیبانی تماس بگیرید";
         public const string CodeError = "کد خطا:  ";
         public const string EnterUsernameAndPassword = "نام کاربری و رمز عبور را وارد کنید";
+        public const string EnterOtp = "کد ورود را وارد کنید";
+        public const string InvalidOtp = "کد ورود صحیح نمی باشد";
         public const string InvalidPasswordAndUsername = "رمز عبور یا نام کاربری صحیح نمیباشد";
         public const string UserNotFound = "کاربر پیدا نشد";
         public const string AddressRequired = "وارد کردن آدرس الزامی است";
