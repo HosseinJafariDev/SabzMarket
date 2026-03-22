@@ -58,7 +58,7 @@
             btn_Login.Font = new Font("Segoe UI", 11F);
             btn_Login.ForeColor = Color.White;
             btn_Login.HoverState.FillColor = Color.MediumSeaGreen;
-            btn_Login.Location = new Point(120, 358);
+            btn_Login.Location = new Point(117, 350);
             btn_Login.Margin = new Padding(3, 4, 3, 4);
             btn_Login.Name = "btn_Login";
             btn_Login.PressedColor = Color.DarkGreen;
@@ -82,7 +82,7 @@
             txt_UserName.Font = new Font("Segoe UI", 11F);
             txt_UserName.ForeColor = Color.DarkGreen;
             txt_UserName.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txt_UserName.Location = new Point(65, 141);
+            txt_UserName.Location = new Point(89, 143);
             txt_UserName.Margin = new Padding(4, 6, 4, 6);
             txt_UserName.Name = "txt_UserName";
             txt_UserName.PlaceholderText = "";
@@ -105,7 +105,7 @@
             txt_Password.Font = new Font("Segoe UI", 11F);
             txt_Password.ForeColor = Color.DarkGreen;
             txt_Password.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txt_Password.Location = new Point(65, 220);
+            txt_Password.Location = new Point(89, 222);
             txt_Password.Margin = new Padding(4, 6, 4, 6);
             txt_Password.Name = "txt_Password";
             txt_Password.PlaceholderText = "";
@@ -119,7 +119,7 @@
             // 
             lbl_UserName.AutoSize = true;
             lbl_UserName.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_UserName.Location = new Point(250, 141);
+            lbl_UserName.Location = new Point(274, 143);
             lbl_UserName.Name = "lbl_UserName";
             lbl_UserName.Size = new Size(75, 25);
             lbl_UserName.TabIndex = 3;
@@ -129,7 +129,7 @@
             // 
             lbl_password.AutoSize = true;
             lbl_password.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_password.Location = new Point(250, 220);
+            lbl_password.Location = new Point(274, 222);
             lbl_password.Name = "lbl_password";
             lbl_password.Size = new Size(79, 25);
             lbl_password.TabIndex = 3;

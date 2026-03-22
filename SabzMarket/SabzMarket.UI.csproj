@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SabzMarket.Share\SabzMarket.Share.csproj" />
+    <ProjectReference Include="..\SabzMarketBuyer.UI\SabzMarketBuyer.UI.csproj" />
   </ItemGroup>
 
   <ItemGroup>

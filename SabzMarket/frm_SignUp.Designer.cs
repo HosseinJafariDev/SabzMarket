@@ -44,6 +44,10 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_SignUp));
             txt_FirstName = new Guna.UI2.WinForms.Guna2TextBox();
             txt_LastName = new Guna.UI2.WinForms.Guna2TextBox();
@@ -60,6 +64,9 @@
             lbl_LastName = new Label();
             lbl_FirstName = new Label();
             btn_SignUp = new MyButton();
+            txt_Otp = new Guna.UI2.WinForms.Guna2TextBox();
+            lbl_Otp = new Label();
+            btn_SendOtp = new MyButton();
             SuspendLayout();
             // 
             // txt_FirstName
@@ -314,7 +321,7 @@
             btn_SignUp.Font = new Font("Segoe UI", 11F);
             btn_SignUp.ForeColor = Color.White;
             btn_SignUp.HoverState.FillColor = Color.MediumSeaGreen;
-            btn_SignUp.Location = new Point(154, 390);
+            btn_SignUp.Location = new Point(166, 429);
             btn_SignUp.Name = "btn_SignUp";
             btn_SignUp.PressedColor = Color.DarkGreen;
             btn_SignUp.ShadowDecoration.CustomizableEdges = customizableEdges16;
@@ -323,12 +330,70 @@
             btn_SignUp.Text = "ثبت نام ";
             btn_SignUp.Click += btn_SignUp_Click;
             // 
+            // txt_Otp
+            // 
+            txt_Otp.BackColor = Color.Black;
+            txt_Otp.Cursor = Cursors.IBeam;
+            txt_Otp.CustomizableEdges = customizableEdges17;
+            txt_Otp.DefaultText = "0";
+            txt_Otp.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            txt_Otp.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            txt_Otp.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            txt_Otp.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            txt_Otp.FillColor = Color.PaleGreen;
+            txt_Otp.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            txt_Otp.Font = new Font("Segoe UI", 11F);
+            txt_Otp.ForeColor = Color.DarkGreen;
+            txt_Otp.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            txt_Otp.Location = new Point(143, 350);
+            txt_Otp.Margin = new Padding(3, 4, 3, 4);
+            txt_Otp.Name = "txt_Otp";
+            txt_Otp.PlaceholderForeColor = Color.Gray;
+            txt_Otp.PlaceholderText = "اجباری";
+            txt_Otp.SelectedText = "";
+            txt_Otp.ShadowDecoration.CustomizableEdges = customizableEdges18;
+            txt_Otp.Size = new Size(187, 33);
+            txt_Otp.TabIndex = 24;
+            // 
+            // lbl_Otp
+            // 
+            lbl_Otp.AutoSize = true;
+            lbl_Otp.Location = new Point(336, 355);
+            lbl_Otp.Name = "lbl_Otp";
+            lbl_Otp.Size = new Size(78, 28);
+            lbl_Otp.TabIndex = 25;
+            lbl_Otp.Text = "کد ورود ";
+            // 
+            // btn_SendOtp
+            // 
+            btn_SendOtp.BorderRadius = 8;
+            btn_SendOtp.CustomizableEdges = customizableEdges19;
+            btn_SendOtp.DisabledState.BorderColor = Color.DarkGray;
+            btn_SendOtp.DisabledState.CustomBorderColor = Color.DarkGray;
+            btn_SendOtp.DisabledState.FillColor = Color.LightGray;
+            btn_SendOtp.DisabledState.ForeColor = Color.DarkGray;
+            btn_SendOtp.FillColor = Color.SeaGreen;
+            btn_SendOtp.Font = new Font("Segoe UI", 9F);
+            btn_SendOtp.ForeColor = Color.White;
+            btn_SendOtp.HoverState.FillColor = Color.MediumSeaGreen;
+            btn_SendOtp.Location = new Point(19, 350);
+            btn_SendOtp.Name = "btn_SendOtp";
+            btn_SendOtp.PressedColor = Color.DarkGreen;
+            btn_SendOtp.ShadowDecoration.CustomizableEdges = customizableEdges20;
+            btn_SendOtp.Size = new Size(109, 31);
+            btn_SendOtp.TabIndex = 26;
+            btn_SendOtp.Text = "دریافت کد";
+            btn_SendOtp.Click += btn_SendOtp_Click;
+            // 
             // frm_SignUp
             // 
             AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Honeydew;
             ClientSize = new Size(513, 517);
+            Controls.Add(btn_SendOtp);
+            Controls.Add(lbl_Otp);
+            Controls.Add(txt_Otp);
             Controls.Add(btn_SignUp);
             Controls.Add(lbl_FirstName);
             Controls.Add(lbl_LastName);
@@ -375,6 +440,9 @@
         private System.Windows.Forms.Label lbl_LastName;
         private System.Windows.Forms.Label lbl_FirstName;
         private MyButton btn_SignUp;
+        private Guna.UI2.WinForms.Guna2TextBox txt_Otp;
+        private Label lbl_Otp;
+        private MyButton btn_SendOtp;
 
         #endregion
 

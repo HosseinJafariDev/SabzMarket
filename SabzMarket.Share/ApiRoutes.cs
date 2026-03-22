@@ -10,6 +10,7 @@ namespace SabzMarket.Share
     {
         public const string SignUp = "Auth/SignUp";
         public const string Login = "Auth/Login";
+        public const string SendOtp = "SendSmsOtp/Send?Phone={0}";
         public const string SellerFillProfile = "Seller/CreateSelller";
         public const string GetSellerByPhoneNumber = "Seller/GetByPhoneNumber?phone={0}";
         public const string CheckUserInSeller = "Seller/CheckUserInSeller?username={0}";

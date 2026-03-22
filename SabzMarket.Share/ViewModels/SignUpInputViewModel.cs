@@ -11,7 +11,8 @@ namespace SabzMarket.Share.ViewModels
 {
     public class SignUpInputViewModel : BaseValidatoin
     {
-        public long Id { get; set; }
+        public long OtpId { get; set; }
+        public long Otp { get; set; }
         [MaxLength(50, ErrorMessage = Messages.firstNameInvalid2)]
         [MinLength(3, ErrorMessage = Messages.firstNameInvalid1)]
         public string? FirstName { get; set; }

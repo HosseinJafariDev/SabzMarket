@@ -19,12 +19,19 @@ namespace SabzMarket.Application.UseCases.Auth.SignUp
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly IErrorRepository _errorRepository;
-        public SignUpUseCase(IValidator<SignUpInputDTO> validator, IUserRepository userRepository, IMapper mapper, IErrorRepository errorRepository)
+        private readonly ISmsOtpRepository _smsOtpRepository;
+        public SignUpUseCase(
+            IValidator<SignUpInputDTO> validator,
+            IUserRepository userRepository,
+            IMapper mapper,
+            IErrorRepository errorRepository,
+            ISmsOtpRepository smsOtpRepository)
         {
             _validator = validator;
             _userRepository = userRepository;
             _mapper = mapper;
             _errorRepository = errorRepository;
+            _smsOtpRepository = smsOtpRepository;
         }
         public async Task<OperationResult> ExecuteAsync(SignUpInputDTO input)
         {
@@ -34,11 +41,23 @@ namespace SabzMarket.Application.UseCases.Auth.SignUp
                 if (!validationResult.IsValid)
                     return OperationResult.FailedResult(validationResult.Errors.First().ErrorMessage);
 
+                if (input.Otp == 0)
+                {
+                    return OperationResult.FailedResult(Messages.EnterOtp);
+                }
+
                 var resultCheckUser = await _userRepository.CheckUserAsync(input.UserName!);
                 if (resultCheckUser)
                 {
                     return OperationResult.FailedResult(Messages.ExistingUserName);
                 }
+
+                var reuslt = await _smsOtpRepository.VerifyOtp(input.OtpId, input.Otp);
+                if (!reuslt)
+                {
+                    return OperationResult.FailedResult(Messages.InvalidOtp);
+                }
+
                 var user = _mapper.Map<User>(input);
                 await _userRepository.InsertAsync(user);
                 return OperationResult.SuccessedResult(Messages.SignUpSuccessful);

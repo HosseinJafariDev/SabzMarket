@@ -55,7 +55,7 @@ namespace SabzMarket.Application.Common
         public const string ProductImageRequired = "تصویری برای محصول انتخاب کنید";
         public const string CreateProductSuccessful = "محصول اضافه شد";
         public const string ProductNotFoundByName = "محصولی با این نام پیدا نشد";
-        public const string ProductNotFoundBySellerId = "محصولی با این فروشنده پیدا نشد";
+        public const string ProductNotFoundBySellerId = "محصولی برای این فروشنده پیدا نشد";
         public const string ProductIsOnOrder = "این مجصول داره سفارش است . ابتدا تکلیف محصول را مشخص کنید سپس اقدام به حذف کنید";
         public const string ProductDelete = "محصول حذف شد";
         public const string OrderAlreadyRejectedMessage = "این سفارش قبلا رد شده است";

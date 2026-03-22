@@ -33,7 +33,9 @@ namespace SabzMarketBuyer.UI
                 UserName = txtUsername.Text,
                 Password1 = txtPassword.Text,
                 Password2 = txtPasswordRepeat.Text,
-                Phone = txtPhone.Text
+                Phone = txtPhone.Text,
+                Otp = long.Parse(txtOtp.Text),
+                OtpId = OtpId
             };
             if (!userviewmodel.IsValid)
             {
@@ -65,6 +67,25 @@ namespace SabzMarketBuyer.UI
             }
             ShowInfo(result.Message!);
             this.Close();
+        }
+        long OtpId = 0;
+        private async void btnSendOtp_Click(object sender, EventArgs e)
+        {
+            var client = HttpClientHelper.Instance;
+            var rout = string.Format(ApiRoutes.SendOtp, txtPhone);
+            var result = await client.GetAsync<OperationResult<long>>(rout);
+            if (!result.Success)
+            {
+                if (!result.Result)
+                {
+                    ShowInfoError(result.Message!);
+                    return;
+                }
+                ShowInfo(result.Message!);
+                return;
+            }
+            ShowInfo(result.Message!);
+            OtpId = result.Data;
         }
     }
 }

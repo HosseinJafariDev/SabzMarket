@@ -42,14 +42,17 @@
             lblEmail = new Label();
             lblUsername = new Label();
             lblPassword = new Label();
-            lblPasswordRepeat = new Label();
             btnSingUp = new Button();
+            txtOtp = new TextBox();
+            lblPasswordRepeat = new Label();
+            lblOtp = new Label();
+            btnSendOtp = new Button();
             SuspendLayout();
             // 
             // txtFirstname
             // 
             txtFirstname.Font = new Font("Segoe UI", 11F);
-            txtFirstname.Location = new Point(12, 62);
+            txtFirstname.Location = new Point(12, 37);
             txtFirstname.Name = "txtFirstname";
             txtFirstname.Size = new Size(208, 32);
             txtFirstname.TabIndex = 0;
@@ -57,7 +60,7 @@
             // txtLastname
             // 
             txtLastname.Font = new Font("Segoe UI", 11F);
-            txtLastname.Location = new Point(12, 100);
+            txtLastname.Location = new Point(12, 75);
             txtLastname.Name = "txtLastname";
             txtLastname.Size = new Size(208, 32);
             txtLastname.TabIndex = 1;
@@ -65,7 +68,7 @@
             // txtPhone
             // 
             txtPhone.Font = new Font("Segoe UI", 11F);
-            txtPhone.Location = new Point(12, 138);
+            txtPhone.Location = new Point(12, 113);
             txtPhone.Name = "txtPhone";
             txtPhone.Size = new Size(208, 32);
             txtPhone.TabIndex = 2;
@@ -73,7 +76,7 @@
             // txtEmail
             // 
             txtEmail.Font = new Font("Segoe UI", 11F);
-            txtEmail.Location = new Point(12, 176);
+            txtEmail.Location = new Point(12, 151);
             txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(208, 32);
             txtEmail.TabIndex = 3;
@@ -81,7 +84,7 @@
             // txtUsername
             // 
             txtUsername.Font = new Font("Segoe UI", 11F);
-            txtUsername.Location = new Point(12, 214);
+            txtUsername.Location = new Point(12, 189);
             txtUsername.Name = "txtUsername";
             txtUsername.Size = new Size(208, 32);
             txtUsername.TabIndex = 4;
@@ -89,7 +92,7 @@
             // txtPassword
             // 
             txtPassword.Font = new Font("Segoe UI", 11F);
-            txtPassword.Location = new Point(12, 252);
+            txtPassword.Location = new Point(12, 227);
             txtPassword.Name = "txtPassword";
             txtPassword.Size = new Size(208, 32);
             txtPassword.TabIndex = 5;
@@ -97,7 +100,7 @@
             // txtPasswordRepeat
             // 
             txtPasswordRepeat.Font = new Font("Segoe UI", 11F);
-            txtPasswordRepeat.Location = new Point(12, 290);
+            txtPasswordRepeat.Location = new Point(12, 265);
             txtPasswordRepeat.Name = "txtPasswordRepeat";
             txtPasswordRepeat.Size = new Size(208, 32);
             txtPasswordRepeat.TabIndex = 6;
@@ -106,7 +109,7 @@
             // 
             lblFirstname.AutoSize = true;
             lblFirstname.Font = new Font("Segoe UI", 11F);
-            lblFirstname.Location = new Point(226, 65);
+            lblFirstname.Location = new Point(226, 40);
             lblFirstname.Name = "lblFirstname";
             lblFirstname.Size = new Size(34, 25);
             lblFirstname.TabIndex = 7;
@@ -116,7 +119,7 @@
             // 
             lblLastname.AutoSize = true;
             lblLastname.Font = new Font("Segoe UI", 11F);
-            lblLastname.Location = new Point(226, 103);
+            lblLastname.Location = new Point(226, 78);
             lblLastname.Name = "lblLastname";
             lblLastname.Size = new Size(112, 25);
             lblLastname.TabIndex = 8;
@@ -126,7 +129,7 @@
             // 
             lblPhone.AutoSize = true;
             lblPhone.Font = new Font("Segoe UI", 11F);
-            lblPhone.Location = new Point(226, 141);
+            lblPhone.Location = new Point(226, 116);
             lblPhone.Name = "lblPhone";
             lblPhone.Size = new Size(100, 25);
             lblPhone.TabIndex = 9;
@@ -136,7 +139,7 @@
             // 
             lblEmail.AutoSize = true;
             lblEmail.Font = new Font("Segoe UI", 11F);
-            lblEmail.Location = new Point(226, 179);
+            lblEmail.Location = new Point(226, 154);
             lblEmail.Name = "lblEmail";
             lblEmail.Size = new Size(53, 25);
             lblEmail.TabIndex = 10;
@@ -146,7 +149,7 @@
             // 
             lblUsername.AutoSize = true;
             lblUsername.Font = new Font("Segoe UI", 11F);
-            lblUsername.Location = new Point(226, 217);
+            lblUsername.Location = new Point(226, 192);
             lblUsername.Name = "lblUsername";
             lblUsername.Size = new Size(88, 25);
             lblUsername.TabIndex = 11;
@@ -156,27 +159,17 @@
             // 
             lblPassword.AutoSize = true;
             lblPassword.Font = new Font("Segoe UI", 11F);
-            lblPassword.Location = new Point(226, 255);
+            lblPassword.Location = new Point(226, 230);
             lblPassword.Name = "lblPassword";
             lblPassword.Size = new Size(77, 25);
             lblPassword.TabIndex = 12;
             lblPassword.Text = "رمز عبور";
             // 
-            // lblPasswordRepeat
-            // 
-            lblPasswordRepeat.AutoSize = true;
-            lblPasswordRepeat.Font = new Font("Segoe UI", 11F);
-            lblPasswordRepeat.Location = new Point(226, 293);
-            lblPasswordRepeat.Name = "lblPasswordRepeat";
-            lblPasswordRepeat.Size = new Size(117, 25);
-            lblPasswordRepeat.TabIndex = 13;
-            lblPasswordRepeat.Text = "تکرار رمز عبور";
-            // 
             // btnSingUp
             // 
             btnSingUp.Font = new Font("Segoe UI", 11F);
             btnSingUp.ForeColor = SystemColors.ControlText;
-            btnSingUp.Location = new Point(120, 369);
+            btnSingUp.Location = new Point(119, 372);
             btnSingUp.Name = "btnSingUp";
             btnSingUp.Size = new Size(131, 61);
             btnSingUp.TabIndex = 7;
@@ -184,11 +177,55 @@
             btnSingUp.UseVisualStyleBackColor = true;
             btnSingUp.Click += btnSingUp_Click;
             // 
+            // txtOtp
+            // 
+            txtOtp.Font = new Font("Segoe UI", 11F);
+            txtOtp.Location = new Point(12, 303);
+            txtOtp.Name = "txtOtp";
+            txtOtp.Size = new Size(208, 32);
+            txtOtp.TabIndex = 14;
+            txtOtp.Text = "0";
+            // 
+            // lblPasswordRepeat
+            // 
+            lblPasswordRepeat.AutoSize = true;
+            lblPasswordRepeat.Font = new Font("Segoe UI", 11F);
+            lblPasswordRepeat.Location = new Point(226, 268);
+            lblPasswordRepeat.Name = "lblPasswordRepeat";
+            lblPasswordRepeat.Size = new Size(117, 25);
+            lblPasswordRepeat.TabIndex = 13;
+            lblPasswordRepeat.Text = "تکرار رمز عبور";
+            // 
+            // lblOtp
+            // 
+            lblOtp.AutoSize = true;
+            lblOtp.Font = new Font("Segoe UI", 11F);
+            lblOtp.Location = new Point(232, 306);
+            lblOtp.Name = "lblOtp";
+            lblOtp.Size = new Size(73, 25);
+            lblOtp.TabIndex = 15;
+            lblOtp.Text = "کد ورود";
+            // 
+            // btnSendOtp
+            // 
+            btnSendOtp.Font = new Font("Segoe UI", 8F);
+            btnSendOtp.ForeColor = SystemColors.ControlText;
+            btnSendOtp.Location = new Point(12, 341);
+            btnSendOtp.Name = "btnSendOtp";
+            btnSendOtp.Size = new Size(75, 29);
+            btnSendOtp.TabIndex = 16;
+            btnSendOtp.Text = "ارسال کد";
+            btnSendOtp.UseVisualStyleBackColor = true;
+            btnSendOtp.Click += btnSendOtp_Click;
+            // 
             // FrmSingUp
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(361, 445);
+            Controls.Add(btnSendOtp);
+            Controls.Add(lblOtp);
+            Controls.Add(txtOtp);
             Controls.Add(btnSingUp);
             Controls.Add(lblPasswordRepeat);
             Controls.Add(lblPassword);
@@ -229,7 +266,10 @@
         private Label lblEmail;
         private Label lblUsername;
         private Label lblPassword;
-        private Label lblPasswordRepeat;
         private Button btnSingUp;
+        private TextBox txtOtp;
+        private Label lblPasswordRepeat;
+        private Label lblOtp;
+        private Button btnSendOtp;
     }
 }

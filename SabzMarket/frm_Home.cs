@@ -124,7 +124,7 @@ namespace SabzMarket
         private async void RefreshProduct(object? sender, EventArgs e)
         {
             await GetProduct(CurrentUser.SellerId);
-            if (ProductDTOs != null || ProductDTOs!.Count != 0)
+            if (ProductDTOs != null && ProductDTOs!.Count != 0)
                 RenderOrders(ProductDTOs);
         }
 
@@ -206,8 +206,6 @@ namespace SabzMarket
                     ShowInfoError(result.Message!);
                     return;
                 }
-                ShowInfo(result.Message!);
-                return;
             }
             ProductDTOs = result.Data;
         }
