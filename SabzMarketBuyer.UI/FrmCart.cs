@@ -139,7 +139,6 @@ namespace SabzMarketBuyer.UI
             }
             btnPay.Enabled = true;
             btnPay.Text = Messages.TextBtnPay;
-            ShowInfo(result.Message!);
             pnlCart.Controls.Clear();
             lblTotalAmount.Text = "0";
             FrmCart_Load(sender, EventArgs.Empty);
