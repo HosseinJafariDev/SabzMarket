@@ -60,7 +60,7 @@ namespace SabzMarket.Application.UseCases.Orders.Checkout
                     return OperationResult.FailedResult(Messages.CartEmpty);
                 }
 
-                //await _unitOfWork.BeginAsync();
+                await _unitOfWork.BeginAsync();
 
                 foreach (var item in cartItems)
                 {
@@ -85,12 +85,12 @@ namespace SabzMarket.Application.UseCases.Orders.Checkout
                         await _cartItemRepository.DeleteAsync(item.Id);
                     }
                 }
-                //await _unitOfWork.CommitAsync();
-                return OperationResult.SuccessedResult();
+                await _unitOfWork.CommitAsync();
+                return OperationResult.SuccessedResult(Messages.ShoppingSuccessful);
             }
             catch (Exception ex)
             {
-               // await _unitOfWork.RollbackAsync();
+                await _unitOfWork.RollbackAsync();
                 var erroeResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
                 return OperationResult.Failed(erroeResult.ErrorMessage());
             }

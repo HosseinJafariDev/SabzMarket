@@ -71,5 +71,6 @@ namespace SabzMarket.Application.Common
         public const string NationalCodeRequired = "کد ملی الزامی است";
         public const string EnterCodParvaneBHB = "شماره پروانه بهره برداری را درست وارد کنید";
         public const string EnterCodePosti = "کد پستی را درست وارد کنید";
+        public const string ShoppingSuccessful = "خرید با موفقیت انجام شد";
     }
 }
