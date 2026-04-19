@@ -7,6 +7,7 @@ using SabzMarket.Share.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -96,6 +97,71 @@ namespace SabzMarketBuyer.UI.Http
             }
 
 
+        }
+
+        public async Task<Tout> PostWithFileAsync<Tout, Tin>(string route, string filePath, Tin data)
+        {
+            var form = new MultipartFormDataContent();
+            string curl = "";
+            try
+            {
+                PropertyInfo[] properties = typeof(Tin).GetProperties();
+
+                foreach (var property in properties)
+                {
+                    var value = property.GetValue(data);
+
+                    if (value == null)
+                    {
+                        continue;
+                    }
+
+                    var propertyName = property.Name;
+
+                    form.Add(new StringContent(value.ToString()!), propertyName);
+                }
+
+                if (!string.IsNullOrEmpty(filePath) && File.Exists(filePath))
+                {
+                    var bytes = await File.ReadAllBytesAsync(filePath);
+                    var fileContent = new ByteArrayContent(bytes);
+
+                    form.Add(fileContent, "file", Path.GetFileName(filePath));
+                }
+
+                var req = new HttpRequestMessage(HttpMethod.Post, new Uri(RouteConstants.BaseUrl + route))
+                {
+                    Content = form,
+                };
+                curl = client.GenerateCurlInString(req);
+                var response = await _retryPolicy.ExecuteAsync(() => client.SendAsync(req));
+                if (!response.IsSuccessStatusCode)
+                {
+                    var result1 = await LogError<Tout, ErrorLogDTO>(new ErrorLogDTO
+                    {
+                        Curl = curl,
+                        Layer = GetType().Name,
+                        Message = string.Format("StatusCode= {0}", response.StatusCode)
+                    });
+                    return result1;
+                }
+                string content = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<Tout>(content);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var result = await LogError<Tout, ErrorLogDTO>(new ErrorLogDTO
+                {
+                    Curl = curl,
+                    Layer = GetType().Name,
+                    Message = ex.Message,
+                    Route = route,
+                    Source = ex.Source,
+                    StackTrace = ex.StackTrace
+                });
+                return result;
+            }
         }
         public async Task<Tout> PostAsync<Tout, Tin>(string route, Tin data)
         {

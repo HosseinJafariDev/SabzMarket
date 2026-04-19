@@ -9,6 +9,6 @@ namespace SabzMarket.Application.UseCases.Sellers.CreateSeller
 {
     public interface ICreateSellerUseCase
     {
-        Task<OperationResult> ExecuteAsync(CreateSellerInputDTO sellerInputDTO);
+        Task<OperationResult> ExecuteAsync(CreateSellerInputDTO sellerInputDTO, Stream stream);
     }
 }

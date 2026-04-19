@@ -117,7 +117,7 @@ namespace SabzMarket
 
             btn_Update.Enabled = false;
             btn_Update.Text = Messages.pleaseWaitText;
-            var result = await client.PostAsync<OperationResult, SellerUpdateInputViewModel>(route, sellerUpdate);
+            var result = await client.PostWithFileAsync<OperationResult, SellerUpdateInputViewModel>(route, pathImage, sellerUpdate);
             if (result == null)
             {
                 btn_Update.Enabled = true;

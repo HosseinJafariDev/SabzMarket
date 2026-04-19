@@ -39,7 +39,7 @@ namespace SabzMarket.Application.UseCases.Farmers.UpdateFarmer
             _fileStorageService = fileStorageService;
             _unitOfWork = unitOfWork;
         }
-        public async Task<OperationResult> ExecuteAsync(UpdateFarmerInputDTO updateFarmerInputDTO)
+        public async Task<OperationResult> ExecuteAsync(UpdateFarmerInputDTO updateFarmerInputDTO, Stream stream)
         {
             var validationResult = _validator.Validate(updateFarmerInputDTO);
             if (!validationResult.IsValid)
@@ -59,7 +59,8 @@ namespace SabzMarket.Application.UseCases.Farmers.UpdateFarmer
             try
             {
                 if (!updateFarmerInputDTO.ProfileImage!.StartsWith(Messages.Url))
-                    updateFarmerInputDTO.ProfileImage = await _fileStorageService.SaveAsync(updateFarmerInputDTO.ProfileImage);
+                    updateFarmerInputDTO.ProfileImage = await _fileStorageService
+                        .SaveAsync(stream!, updateFarmerInputDTO.ProfileImage);
             }
             catch (Exception ex)
             {

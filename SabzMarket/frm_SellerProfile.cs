@@ -65,7 +65,7 @@ namespace SabzMarket
             btn_Save.Text = Messages.pleaseWaitText;
             var httpClientHelper = HttpClientHelper.Instance;
             var result = await httpClientHelper
-                .PostAsync<OperationResult, CreateSellerInputViewModel>(ApiRoutes.SellerFillProfile, seller);
+                .PostWithFileAsync<OperationResult, CreateSellerInputViewModel>(ApiRoutes.SellerFillProfile, pathImage, seller);
             if (result == null)
             {
                 btn_Save.Enabled = true;

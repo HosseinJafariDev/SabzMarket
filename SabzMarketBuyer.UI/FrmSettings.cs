@@ -66,7 +66,7 @@ namespace SabzMarketBuyer.UI
             btnSave.Enabled = false;
             btnSave.Text = Messages.pleaseWaitText;
             var rout = string.Format(ApiRoutes.UpdateFarmer, CurrentUser.UserName);
-            var result = await client.PostAsync<OperationResult, UpdateFarmerInputViewModel>(rout, farmer);
+            var result = await client.PostWithFileAsync<OperationResult, UpdateFarmerInputViewModel>(rout, pathImage, farmer);
             if (result == null)
             {
                 btnSave.Enabled = true;

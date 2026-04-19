@@ -9,6 +9,6 @@ namespace SabzMarket.Application.UseCases.Farmers.UpdateFarmer
 {
     public interface IUpdateFarmerUseCase
     {
-        Task<OperationResult> ExecuteAsync(UpdateFarmerInputDTO updateFarmerInputDTO);
+        Task<OperationResult> ExecuteAsync(UpdateFarmerInputDTO updateFarmerInputDTO, Stream stream);
     }
 }

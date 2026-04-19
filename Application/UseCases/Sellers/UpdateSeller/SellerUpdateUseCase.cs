@@ -40,7 +40,7 @@ namespace SabzMarket.Application.UseCases.Sellers.UpdateSeller
             _unitOfWork = unitOfWork;
             _errorRepository = errorRepository;
         }
-        public async Task<OperationResult> ExecuteAsync(SellerUpdateInputDTO updateSellerInputDTO)
+        public async Task<OperationResult> ExecuteAsync(SellerUpdateInputDTO updateSellerInputDTO, Stream stream)
         {
             var validationResult = _validator.Validate(updateSellerInputDTO);
             if (!validationResult.IsValid)
@@ -60,7 +60,8 @@ namespace SabzMarket.Application.UseCases.Sellers.UpdateSeller
             try
             {
                 if (!updateSellerInputDTO.ProfileImage!.StartsWith(Messages.Url))
-                    updateSellerInputDTO.ProfileImage = await _fileStorageService.SaveAsync(updateSellerInputDTO.ProfileImage);
+                    updateSellerInputDTO.ProfileImage = await _fileStorageService
+                        .SaveAsync(stream!, updateSellerInputDTO.ProfileImage);
             }
             catch (Exception ex)
             {

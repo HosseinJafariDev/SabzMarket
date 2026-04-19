@@ -56,7 +56,7 @@ namespace SabzMarket
                     btn_Add.Text = Messages.pleaseWaitText;
                     var client = HttpClientHelper.Instance;
                     var result = await client
-                        .PostAsync<OperationResult, UpdateProductInputViewModel>(ApiRoutes.UpdateProduct, productViewModel);
+                        .PostWithFileAsync<OperationResult, UpdateProductInputViewModel>(ApiRoutes.UpdateProduct, path, productViewModel);
                     if (!result.Success)
                     {
                         btn_Add.Enabled = true;
@@ -93,7 +93,7 @@ namespace SabzMarket
                 btn_Add.Text = Messages.pleaseWaitText;
                 var client = HttpClientHelper.Instance;
                 var result = await client
-                    .PostAsync<OperationResult, CreateProductInputViewModel>(ApiRoutes.CreateProduct, createproductViewModel);
+                    .PostWithFileAsync<OperationResult, CreateProductInputViewModel>(ApiRoutes.CreateProduct, path, createproductViewModel);
                 if (!result.Success)
                 {
                     if (!result.Result)

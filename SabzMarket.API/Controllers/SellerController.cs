@@ -4,6 +4,7 @@ using SabzMarket.Application.UseCases.Auth.UserIsSeller;
 using SabzMarket.Application.UseCases.Sellers.CreateSeller;
 using SabzMarket.Application.UseCases.Sellers.GetSeller;
 using SabzMarket.Application.UseCases.Sellers.UpdateSeller;
+using System.IO;
 
 namespace SabzMarket.API.Controllers
 {
@@ -31,9 +32,14 @@ namespace SabzMarket.API.Controllers
             _sellerUpdateUseCase = sellerUpdateUseCase;
         }
         [HttpPost]
-        public async Task<OperationResult> CreateSelllerAsync([FromBody] CreateSellerInputDTO createSellerInputDTO)
+        public async Task<OperationResult> CreateSelllerAsync([FromForm] CreateSellerInputDTO createSellerInputDTO, IFormFile file)
         {
-            var result = await _createSellerUseCase.ExecuteAsync(createSellerInputDTO);
+            Stream stream = null;
+            if (file != null)
+            {
+                stream = file.OpenReadStream();
+            }
+            var result = await _createSellerUseCase.ExecuteAsync(createSellerInputDTO, stream);
             return result;
         }
         [HttpGet]
@@ -50,9 +56,14 @@ namespace SabzMarket.API.Controllers
 
         }
         [HttpPost]
-        public async Task<OperationResult> UpdateAsync(SellerUpdateInputDTO sellerUpdateInputDTO)
+        public async Task<OperationResult> UpdateAsync([FromForm] SellerUpdateInputDTO sellerUpdateInputDTO, IFormFile file)
         {
-            var result = await _sellerUpdateUseCase.ExecuteAsync(sellerUpdateInputDTO);
+            Stream stream = null;
+            if (file != null)
+            {
+                stream = file.OpenReadStream();
+            }
+            var result = await _sellerUpdateUseCase.ExecuteAsync(sellerUpdateInputDTO, stream);
             return result;
         }
         [HttpGet]

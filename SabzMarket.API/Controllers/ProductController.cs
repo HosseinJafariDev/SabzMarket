@@ -28,14 +28,19 @@ namespace SabzMarket.API.Controllers
             _deleteProductUseCase = deleteProductUseCase;
         }
         [HttpPost]
-        public async Task<OperationResult> CreateProductAsync([FromBody] CreateProductInputDTO product)
+        public async Task<OperationResult> CreateProductAsync([FromForm] CreateProductInputDTO product, IFormFile file)
         {
-            var result = await _createProductUseCase.ExecuteAsync(product);
+            Stream stream = null;
+            if (file != null)
+            {
+                stream = file.OpenReadStream();
+            }
+            var result = await _createProductUseCase.ExecuteAsync(product, stream);
             return result;
         }
         [HttpGet]
         public async Task<OperationResult<List<GetProductOutputDTO>>> GetProductsBySellerAsync(long sellerId)
-            {
+        {
             var result = await _getProductBySellerIdUseCase.ExecuteAsync(sellerId);
             return result;
         }
@@ -46,9 +51,14 @@ namespace SabzMarket.API.Controllers
             return result;
         }
         [HttpPost]
-        public async Task<OperationResult> UpdateAsync([FromBody] UpdateProductInputDTO product)
+        public async Task<OperationResult> UpdateAsync([FromForm] UpdateProductInputDTO product, IFormFile file)
         {
-            var result = await _updateProductUseCase.ExecuteAsync(product);
+            Stream stream = null;
+            if (file != null)
+            {
+                stream = file.OpenReadStream();
+            }
+            var result = await _updateProductUseCase.ExecuteAsync(product, stream);
             return result;
         }
         [HttpGet]

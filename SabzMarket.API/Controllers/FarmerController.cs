@@ -4,6 +4,8 @@ using SabzMarket.Application.UseCases.Auth.UserIsFarmer;
 using SabzMarket.Application.UseCases.Farmers.CreateFarmer;
 using SabzMarket.Application.UseCases.Farmers.GetFarmer;
 using SabzMarket.Application.UseCases.Farmers.UpdateFarmer;
+using System.IO;
+using System.IO.Pipes;
 
 namespace SabzMarket.API.Controllers
 {
@@ -31,9 +33,14 @@ namespace SabzMarket.API.Controllers
             return result;
         }
         [HttpPost]
-        public async Task<OperationResult> CreateFarmerAsync(string username, [FromBody] CreateFarmerInputDTO farmer)
+        public async Task<OperationResult> CreateFarmerAsync(string username, [FromForm] CreateFarmerInputDTO farmer, IFormFile file)
         {
-            var result = await _createFarmerUseCase.ExecuteAsync(username, farmer);
+            Stream stream = null;
+            if (file != null)
+            {
+                stream = file.OpenReadStream();
+            }
+            var result = await _createFarmerUseCase.ExecuteAsync(username, farmer, stream);
             return result;
         }
         [HttpGet]
@@ -43,9 +50,14 @@ namespace SabzMarket.API.Controllers
             return result;
         }
         [HttpPost]
-        public async Task<OperationResult> UpdateAsync([FromBody] UpdateFarmerInputDTO updateFarmerInputDTO)
+        public async Task<OperationResult> UpdateAsync([FromForm] UpdateFarmerInputDTO updateFarmerInputDTO, IFormFile file)
         {
-            var result = await _updateFarmerUseCase.ExecuteAsync(updateFarmerInputDTO);
+            Stream stream = null;
+            if (file != null)
+            {
+                stream = file.OpenReadStream();
+            }
+            var result = await _updateFarmerUseCase.ExecuteAsync(updateFarmerInputDTO, stream);
             return result;
         }
     }

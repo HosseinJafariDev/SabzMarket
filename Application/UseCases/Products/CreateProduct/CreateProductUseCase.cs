@@ -33,7 +33,7 @@ namespace SabzMarket.Application.UseCases.Products.CreateProduct
             _mapper = mapper;
             _validator = validator;
         }
-        public async Task<OperationResult> ExecuteAsync(CreateProductInputDTO createProductInputDTO)
+        public async Task<OperationResult> ExecuteAsync(CreateProductInputDTO createProductInputDTO, Stream stream)
         {
             var validationResult = _validator.Validate(createProductInputDTO);
             if (!validationResult.IsValid)
@@ -43,8 +43,7 @@ namespace SabzMarket.Application.UseCases.Products.CreateProduct
 
             try
             {
-
-                var imageUrl = await _fileStorageService.SaveAsync(createProductInputDTO.ImageProduct!);
+                var imageUrl = await _fileStorageService.SaveAsync(stream!, createProductInputDTO.ImageProduct!);
                 createProductInputDTO.ImageProduct = imageUrl;
             }
             catch (Exception ex)

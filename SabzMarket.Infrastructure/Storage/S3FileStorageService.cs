@@ -16,25 +16,30 @@ namespace SabzMarket.Infrastructure.Storage
         private readonly string _bucketName;
         private readonly string _serviceURL;
         private readonly IAmazonS3 _s3Client;
-        public S3FileStorageService(IAmazonS3 s3Client,S3Settings settings)
+        public S3FileStorageService(IAmazonS3 s3Client, S3Settings settings)
         {
             _s3Client = s3Client;
-            _serviceURL=settings.ServiceURL;
-            _bucketName=settings.BucketName;
+            _serviceURL = settings.ServiceURL;
+            _bucketName = settings.BucketName;
         }
-        public async Task<string> SaveAsync(string filePath)
+        public async Task<string> SaveAsync(Stream fileStream, string fileName)
         {
-            string objectKey = Path.GetFileName(filePath).Replace(" ", "_");
+
+            fileStream.Position = 0;
+            string objectKey = Path.GetFileName(fileName).Replace(" ", "_");
 
             var putRequest = new PutObjectRequest
             {
                 BucketName = _bucketName,
                 Key = objectKey,
-                FilePath = filePath,
-                CannedACL = S3CannedACL.PublicRead // فایل Public بشه
+                InputStream = fileStream,
+                CannedACL = S3CannedACL.PublicRead,
             };
 
             await _s3Client.PutObjectAsync(putRequest);
+
+
+
 
             string fileUrl = $"{_serviceURL}/{_bucketName}/{objectKey}";
             return fileUrl;
