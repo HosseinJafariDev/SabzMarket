@@ -35,5 +35,6 @@ namespace SabzMarket.Infrastructure.Entities
         public string? Password { get; set; }
         public virtual SellerTable? Seller { get; set; }
         public virtual FarmerTable? Farmer { get; set; }
+        public virtual ChatTable? Chat { get; set; }
     }
 }
