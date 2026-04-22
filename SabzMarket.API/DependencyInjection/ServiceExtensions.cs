@@ -36,6 +36,7 @@ using SabzMarket.Infrastructure.Configuration;
 using SabzMarket.Infrastructure.Logging;
 using SabzMarket.Infrastructure.Persistence.QueryServices;
 using SabzMarket.Infrastructure.Persistence.Repository;
+using SabzMarket.Infrastructure.SignalR;
 using SabzMarket.Infrastructure.Sms;
 using SabzMarket.Infrastructure.Storage;
 
@@ -86,6 +87,7 @@ namespace SabzMarket.API.DependencyInjection
             services.AddScoped<IFileStorageService, S3FileStorageService>();
             services.AddScoped<IFileLogService, FileLogService>();
             services.AddScoped<ISendSmsService, SendSmsService>();
+            services.AddScoped<IConnectionManager, ConnectionManager>();
 
             return services;
         }
