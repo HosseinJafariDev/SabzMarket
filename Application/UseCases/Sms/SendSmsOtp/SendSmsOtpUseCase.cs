@@ -4,6 +4,7 @@ using SabzMarket.Application.Interfaces.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,12 +25,11 @@ namespace SabzMarket.Application.UseCases.Sms.SendSmsOtp
         {
             try
             {
-                Random random = new Random();
-                var number1 = random.Next(1, 9);
-                var number2 = random.Next(10, 99);
-                var number3 = random.Next(10, 99);
-                var number4 = random.Next(10, 99);
-                var otp = $"{number1}{number2}{number3}{number4}";
+                var bytes = new byte[7];
+                RandomNumberGenerator.Fill(bytes);
+
+                var digits = bytes.Select(b => (b % 10).ToString());
+                var otp = string.Concat(digits);
 
                 var otpId = await _smsOtpRepository.Insert(long.Parse(otp));
                 if (otpId == 0)
