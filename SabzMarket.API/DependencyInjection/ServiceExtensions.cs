@@ -15,6 +15,9 @@ using SabzMarket.Application.UseCases.CartItems.DecreaseQuantity;
 using SabzMarket.Application.UseCases.CartItems.DeleteCartItem;
 using SabzMarket.Application.UseCases.CartItems.GetCartItem;
 using SabzMarket.Application.UseCases.Categories.GetCategory;
+using SabzMarket.Application.UseCases.Chats.findUsersChatted;
+using SabzMarket.Application.UseCases.Chats.GetMessage;
+using SabzMarket.Application.UseCases.Chats.SendMessage;
 using SabzMarket.Application.UseCases.Erorr;
 using SabzMarket.Application.UseCases.Farmers.CreateFarmer;
 using SabzMarket.Application.UseCases.Farmers.GetFarmer;
@@ -56,6 +59,7 @@ namespace SabzMarket.API.DependencyInjection
             services.AddScoped<IFarmerRepository, FarmerRepository>();
             services.AddScoped<ICartItemRepository, CartItemRepository>();
             services.AddScoped<ISmsOtpRepository, SmsOtpRepository>();
+            services.AddScoped<IChatRepository, ChatRepository>();
 
             return services;
         }
@@ -65,6 +69,7 @@ namespace SabzMarket.API.DependencyInjection
             services.AddScoped<IFeaturedSellerQueryService, FeaturedSellerQueryService>();
             services.AddScoped<IFarmerQueryService, FarmerQueryService>();
             services.AddScoped<ICartItemQueryService, CartItemQueryService>();
+            services.AddScoped<IChatQueryService, ChatQueryService>();
             return services;
         }
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, S3Settings s3Settings)
@@ -129,6 +134,9 @@ namespace SabzMarket.API.DependencyInjection
             services.AddScoped<IGetAllSellerByPhoneNumberUseCase, GetAllSellerByPhoneNumberUseCase>();
             services.AddScoped<ISellerUpdateUseCase, SellerUpdateUseCase>();
             services.AddScoped<IGetUserByUserNameUseCase, GetUserByUserNameUseCase>();
+            services.AddScoped<ISendMessageUseCase, SendMessageUseCase>();
+            services.AddScoped<IfindUsersChattedWithIdUseCase, findUsersChattedWithIdUseCase>();
+            services.AddScoped<IGetMessageUseCase, GetMessageUseCase>();
             return services;
         }
         public static IServiceCollection AddAutoMapper(this IServiceCollection services)
