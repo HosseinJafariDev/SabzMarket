@@ -16,6 +16,7 @@ if (string.IsNullOrEmpty(connectionString))
     throw new Exception("? Connection string not found. Please set environment variable: SABZMARKET_DB");
 }
 
+builder.Services.AddSignalR();
 var s3Settings = builder.Configuration.GetSection("S3").Get<S3Settings>();
 
 builder.Services
@@ -41,15 +42,16 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAllOrigins",
-        builder => builder.AllowAnyOrigin()
-                        .AllowAnyHeader()
-                        .AllowAnyMethod());
-});
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowAllOrigins",
+//        builder => builder.AllowAnyOrigin()
+//                        .AllowAnyHeader()
+//                        .AllowAnyMethod());
+//});
 
 var app = builder.Build();
+//app.UseCors("AllowAllOrigins");
 
 //CreateDatabase
 using (var scope = app.Services.CreateScope())
