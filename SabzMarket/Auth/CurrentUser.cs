@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SabzMarket.Share
+namespace SabzMarket.UI
 {
     public static class CurrentUser
     {

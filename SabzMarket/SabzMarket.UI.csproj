@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="Guna.UI2.WinForms" Version="2.0.4.7" />
     <PackageReference Include="HttpClientToCurl" Version="2.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.7" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Polly" Version="8.6.5" />
   </ItemGroup>
@@ -25,9 +26,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="frm_ProductUpsert.cs" />
-    <Compile Update="frm_Chat.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="frm_Chat.cs" />
     <Compile Update="frm_History.cs" />
     <Compile Update="frm_Home.cs">
       <SubType>Form</SubType>
