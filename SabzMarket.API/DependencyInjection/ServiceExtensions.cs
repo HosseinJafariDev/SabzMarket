@@ -92,7 +92,7 @@ namespace SabzMarket.API.DependencyInjection
             services.AddScoped<IFileStorageService, S3FileStorageService>();
             services.AddScoped<IFileLogService, FileLogService>();
             services.AddScoped<ISendSmsService, SendSmsService>();
-            services.AddScoped<IConnectionManager, ConnectionManager>();
+            services.AddSingleton<IConnectionManager, ConnectionManager>();
 
             return services;
         }
