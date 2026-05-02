@@ -17,18 +17,55 @@ namespace SabzMarket.Infrastructure.Persistence.QueryServices
         }
         public async Task<List<findUsersChattedOutputDTO>> findUsersChattedWith(long id)
         {
-            var result = await _dbContext
+            var isFarmer = await _dbContext.Farmers
+                .AnyAsync(x => x.UserId == id);
+
+            var chats = await _dbContext
                 .Chats
                 .AsNoTracking()
-                .Where(x => x.FromUserId == id || x.ToUserId == id)
-                .Select(x => new findUsersChattedOutputDTO()
-                {
-                    Id = x.FromUserId == id ? x.ToUser!.Id : x.FromUser!.Id,
-                    Firstname = x.FromUserId == id ? x.ToUser!.FirstName : x.FromUser!.FirstName,
-                    Lastname = x.FromUserId == id ? x.ToUser!.LastName : x.FromUser!.LastName,
-                    Username = x.FromUserId == id ? x.ToUser!.UserName : x.FromUser!.UserName,
-                })
+                .Include(c => c.FromUser)
+                .Include(c => c.ToUser)
+                .Where(c => c.FromUserId == id || c.ToUserId == id)
                 .ToListAsync();
+
+            var otherUsers = chats
+                .Select(c => c.FromUserId == id ? c.ToUser : c.FromUser)
+                .Where(u => u != null)
+                .GroupBy(u => u!.Id)
+                .Select(g => g.First())
+                .ToList();
+
+            var result = otherUsers.Select(u => new findUsersChattedOutputDTO
+            {
+                Id = u!.Id,
+                Firstname = u.FirstName ?? "",
+                Lastname = u.LastName ?? "",
+                Username = u.UserName ?? "",
+
+                ProfileImage = isFarmer
+                    ? u.Seller?.ProfileImage ?? ""
+                    : u.Farmer?.ProfileImage ?? ""
+            }).ToList();
+
+            //var result = await _dbContext
+            //    .Chats
+            //    .AsNoTracking()
+            //    .Where(c => c.FromUserId == id || c.ToUserId == id)
+            //    .Select(c => c.FromUserId == id ? c.ToUser! : c.FromUser!)
+            //    .GroupBy(u => u.Id)
+            //    .Select(g => g.First())
+            //    .Select(u => new findUsersChattedOutputDTO
+            //    {
+            //        Id = u.Id,
+            //        Firstname = u.FirstName,
+            //        Lastname = u.LastName,
+            //        Username = u.UserName,
+
+            //        ProfileImage = isFarmer
+            //            ? u.Seller!.ProfileImage
+            //            : u.Farmer!.ProfileImage
+            //    })
+            //    .ToListAsync();
             return result;
         }
     }

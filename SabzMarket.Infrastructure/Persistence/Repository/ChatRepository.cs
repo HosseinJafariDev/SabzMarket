@@ -51,7 +51,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
                 SentAt = chat.SentAt
             };
             await _dbContext.Chats.AddAsync(table);
-            await _dbContext.SaveChangesAsync();
+            _dbContext.SaveChanges();
         }
     }
 }
