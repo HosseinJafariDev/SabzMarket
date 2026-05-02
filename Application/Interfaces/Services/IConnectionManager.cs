@@ -12,5 +12,6 @@ namespace SabzMarket.Application.Interfaces.Services
         public void RemoveByConnectionId(string connectionId);
         public string? GetConnectionId(string userId);
         public string? GetUserId(string connection);
+        public bool ExistUser(string username);
     }
 }

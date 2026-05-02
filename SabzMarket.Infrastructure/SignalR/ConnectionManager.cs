@@ -39,6 +39,10 @@ namespace SabzMarket.Infrastructure.SignalR
         {
             return _userToConnection.TryGetValue(userId, out var conn) ? conn : null;
         }
+        public bool ExistUser(string username)
+        {
+            return _userToConnection.ContainsKey(username);
+        }
         public string? GetUserId(string connection)
         {
             return _connectionToUser.TryGetValue(connection, out var conn) ? conn : null;
