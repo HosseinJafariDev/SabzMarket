@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SabzMarket.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using SabzMarket.Infrastructure.Persistence;
 namespace SabzMarket.Infrastructure.Migrations
 {
     [DbContext(typeof(SabzMarketDbContext))]
-    partial class SabzMarketDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260501114115_AddChatIndexes")]
+    partial class AddChatIndexes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

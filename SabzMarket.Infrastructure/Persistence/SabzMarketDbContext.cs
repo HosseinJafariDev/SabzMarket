@@ -67,6 +67,14 @@ namespace SabzMarket.Infrastructure.Persistence
                 .HasForeignKey(c => c.ToUserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<ChatTable>()
+                .HasIndex(c => c.FromUserId)
+                .HasDatabaseName("IX_Chats_FromUserId");
+
+            modelBuilder.Entity<ChatTable>()
+                .HasIndex(c => c.ToUserId)
+                .HasDatabaseName("IX_Chats_ToUserId");
+
             modelBuilder.Entity<FeaturedSellerTable>().ToTable("FeaturedSeller")
                 .HasIndex(x => x.SellerId)
                 .IsUnique();
