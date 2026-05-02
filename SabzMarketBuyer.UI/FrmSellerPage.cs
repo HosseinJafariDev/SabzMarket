@@ -21,7 +21,7 @@ namespace SabzMarketBuyer.UI
             InitializeComponent();
         }
         public long SellerId { get; set; }
-
+        GetSellerOutputViewModel getSellerOutputViewModel { get; set; }
         private void pictureBox1_LoadCompleted(object sender, AsyncCompletedEventArgs e)
         {
             if (e.Error != null)
@@ -86,6 +86,7 @@ namespace SabzMarketBuyer.UI
                 ShowInfoError(seller.Message!);
                 return;
             }
+            getSellerOutputViewModel = seller.Data;
             lblAddress.Text = seller.Data.Address;
             lblName.Text = $"{seller.Data.FirstName} {seller.Data.LastName}";
             lblWorkHistory.Text = seller.Data.WorkHistory;
@@ -109,6 +110,22 @@ namespace SabzMarketBuyer.UI
         private void FrmSellerPage_FormClosing(object sender, FormClosingEventArgs e)
         {
             LoodFormMain?.Invoke(this, e);
+        }
+
+        private void btnMessage_Click(object sender, EventArgs e)
+        {
+            FrmChat frmChat = new FrmChat();
+            findUsersChattedOutputViewModel findUsers = new findUsersChattedOutputViewModel()
+            {
+                Firstname = getSellerOutputViewModel.FirstName,
+                Lastname = getSellerOutputViewModel.LastName,
+                Id = getSellerOutputViewModel.UserId,
+                ProfileImage = getSellerOutputViewModel.ProfileImage,
+                Username = getSellerOutputViewModel.Username
+            };
+            frmChat.user = findUsers;
+            frmChat.openFromSellerPage = true;
+            frmChat.ShowDialog();
         }
     }
 }

@@ -36,6 +36,7 @@
             lblAddress = new Label();
             lblTitleWorkHistory = new Label();
             lblWorkHistory = new Label();
+            btnMessage = new Button();
             ((System.ComponentModel.ISupportInitialize)pbProfile).BeginInit();
             SuspendLayout();
             // 
@@ -73,7 +74,7 @@
             // lblUsername
             // 
             lblUsername.AutoSize = true;
-            lblUsername.Location = new Point(161, 101);
+            lblUsername.Location = new Point(161, 52);
             lblUsername.Name = "lblUsername";
             lblUsername.Size = new Size(92, 28);
             lblUsername.TabIndex = 3;
@@ -105,11 +106,24 @@
             lblWorkHistory.TabIndex = 6;
             lblWorkHistory.Text = "0";
             // 
+            // btnMessage
+            // 
+            btnMessage.BackColor = Color.LightGreen;
+            btnMessage.Font = new Font("Segoe UI", 9F);
+            btnMessage.Location = new Point(161, 100);
+            btnMessage.Name = "btnMessage";
+            btnMessage.Size = new Size(94, 48);
+            btnMessage.TabIndex = 7;
+            btnMessage.Text = "ارتباط با فروشنده ";
+            btnMessage.UseVisualStyleBackColor = false;
+            btnMessage.Click += btnMessage_Click;
+            // 
             // FrmSellerPage
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(733, 689);
+            Controls.Add(btnMessage);
             Controls.Add(lblWorkHistory);
             Controls.Add(lblTitleWorkHistory);
             Controls.Add(lblAddress);
@@ -136,5 +150,6 @@
         private Label lblAddress;
         private Label lblTitleWorkHistory;
         private Label lblWorkHistory;
+        private Button btnMessage;
     }
 }

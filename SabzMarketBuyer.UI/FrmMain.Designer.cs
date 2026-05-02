@@ -40,7 +40,7 @@
             pnlShowProduct = new FlowLayoutPanel();
             pnlMenu = new Panel();
             btnShoppingCart = new MyButon();
-            myButon1 = new MyButon();
+            btnChat = new MyButon();
             btnSearch = new MyButon();
             txtSearch = new TextBox();
             panel1 = new Panel();
@@ -159,7 +159,7 @@
             // pnlMenu
             // 
             pnlMenu.Controls.Add(btnShoppingCart);
-            pnlMenu.Controls.Add(myButon1);
+            pnlMenu.Controls.Add(btnChat);
             pnlMenu.Dock = DockStyle.Right;
             pnlMenu.Location = new Point(1202, 74);
             pnlMenu.Name = "pnlMenu";
@@ -178,16 +178,17 @@
             btnShoppingCart.UseVisualStyleBackColor = false;
             btnShoppingCart.Click += btnShoppingCart_Click;
             // 
-            // myButon1
+            // btnChat
             // 
-            myButon1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            myButon1.BackColor = Color.Honeydew;
-            myButon1.Image = Properties.Resources.message_dots_1_;
-            myButon1.Location = new Point(5, 5);
-            myButon1.Name = "myButon1";
-            myButon1.Size = new Size(59, 53);
-            myButon1.TabIndex = 0;
-            myButon1.UseVisualStyleBackColor = false;
+            btnChat.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnChat.BackColor = Color.Honeydew;
+            btnChat.Image = Properties.Resources.message_dots_1_;
+            btnChat.Location = new Point(5, 5);
+            btnChat.Name = "btnChat";
+            btnChat.Size = new Size(59, 53);
+            btnChat.TabIndex = 0;
+            btnChat.UseVisualStyleBackColor = false;
+            btnChat.Click += btnChat_Click;
             // 
             // btnSearch
             // 
@@ -295,7 +296,7 @@
         private MyButon btnSeting;
         private FlowLayoutPanel pnlShowProduct;
         private Panel pnlMenu;
-        private MyButon myButon1;
+        private MyButon btnChat;
         private MyButon btnShoppingCart;
         private MyButon btnSearch;
         private TextBox txtSearch;

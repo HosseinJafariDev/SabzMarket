@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <PackageReference Include="HttpClientToCurl" Version="2.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.7" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Polly" Version="8.6.5" />
   </ItemGroup>
@@ -28,10 +29,25 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="FrmChat.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="UC_Empty.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UC_Member.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UC_Messege.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UC_ReceivedMessege.cs">
+      <SubType>UserControl</SubType>
     </Compile>
   </ItemGroup>
 

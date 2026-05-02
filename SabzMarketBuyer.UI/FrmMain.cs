@@ -244,7 +244,7 @@ namespace SabzMarketBuyer.UI
                 UserId = x.UserId,
                 ProfileImage = x.ProfileImage
             }).ToList();
-            
+
             sellers = seller;
         }
         private void FrmMain_FormClosed(object sender, FormClosedEventArgs e)
@@ -345,6 +345,12 @@ namespace SabzMarketBuyer.UI
             {
                 myButon2_Click(sender, EventArgs.Empty);
             }
+        }
+
+        private void btnChat_Click(object sender, EventArgs e)
+        {
+            FrmChat frmChat = new FrmChat();
+            frmChat.ShowDialog();
         }
     }
 }

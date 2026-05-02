@@ -12,7 +12,6 @@
         protected void ApplyStyle()
         {
             this.BackColor = Color.Honeydew;
-            this.Font = new Font(this.Font.FontFamily, 12, this.Font.Style);
         }
         public DialogResult ShowInfo(string massage)
         {
