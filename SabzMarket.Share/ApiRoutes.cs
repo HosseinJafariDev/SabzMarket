@@ -29,19 +29,23 @@ namespace SabzMarket.Share
         public const string DeleteProduct = "Product/Delete?id={0}";
         public const string UpdateProduct = "Product/Update";
         public const string GetProductByName = "Product/GetByName?search={0}";
-        //================================================================
+        //===============================================================================================================================
         public const string CheckUserInFarmer = "Farmer/CheckUserExistsInFarmer?username={0}";
         public const string CreateFarmer = "Farmer/CreateFarmer?username={0}";
         public const string GetFarmerFullByUsername = "Farmer/GetByUsername?username={0}";
         public const string UpdateFarmer = "Farmer/Update?username={0}";
-        //================================================================================================
+        //===============================================================================================================================
         public const string GetFeaturedSeller = "FeaturedSeller/GetAllSeller";
-        //================================================================================================
+        //===============================================================================================================================
         public const string RemoveCartItem = "CartItem/Delete?cartId={0}&productId={1}&productNumber={2}";
         public const string AddToCart = "CartItem/AddToCart";
         public const string DecreaseQuantity = "CartItem/DecreaseQuantity?productId={0}&farmerId={1}";
         public const string SelectCartByFarmerId = "CartItem/GetByFarmerId?farmerId={0}";
-        //=======================================================================================
+        //===============================================================================================================================
         public const string Checkout = "Order/Checkout?farmerId={0}";
+        //===============================================================================================================================
+        public const string FindUsersChattedWithId = "Chat/FindUsersChattedWithId?id={0}";
+        public const string GetMessage = "Chat/GetMessage?fromId={0}&toId={1}";
+        public const string SendMessage = "Chat/SendMessage";
     }
 }
