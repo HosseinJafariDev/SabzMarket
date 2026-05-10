@@ -35,7 +35,7 @@ using SabzMarket.Application.UseCases.Sellers.GetSeller;
 using SabzMarket.Application.UseCases.Sellers.UpdateSeller;
 using SabzMarket.Application.UseCases.Sms.SendSmsOtp;
 using SabzMarket.Application.UseCases.Users.GetUser;
-using SabzMarket.Infrastructure.Configuration;
+using SabzMarket.Infrastructure.Configuration.S3;
 using SabzMarket.Infrastructure.Logging;
 using SabzMarket.Infrastructure.Persistence.QueryServices;
 using SabzMarket.Infrastructure.Persistence.Repository;

@@ -2,7 +2,7 @@
 using Amazon.S3;
 using Amazon.S3.Model;
 using SabzMarket.Application.Interfaces.Services;
-using SabzMarket.Infrastructure.Configuration;
+using SabzMarket.Infrastructure.Configuration.S3;
 using System;
 using System.Collections.Generic;
 using System.Linq;

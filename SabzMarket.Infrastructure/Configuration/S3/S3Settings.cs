@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SabzMarket.Infrastructure.Configuration
+namespace SabzMarket.Infrastructure.Configuration.S3
 {
     public class S3Settings
     {

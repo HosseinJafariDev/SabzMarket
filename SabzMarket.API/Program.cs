@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SabzMarket.API.DependencyInjection;
 using SabzMarket.API.Hubs;
 using SabzMarket.Application.UseCases.Auth.Mappers;
-using SabzMarket.Infrastructure.Configuration;
+using SabzMarket.Infrastructure.Configuration.S3;
 using SabzMarket.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
