@@ -9,8 +9,8 @@ namespace SabzMarket.Application.Interfaces.Repository
 {
     public interface IOrderRepository
     {
-        public Task<long> InsertAsync(Order order);
+        public Task<long> InsertAsync(Order order, CancellationToken token);
         public Task<bool> CheckOrderAsync(long farmerId, long SellerId);
-        Task<long> FindOrderByFarmerAndSellerAsync(long farmerId, long SellerId);
+        Task<long> FindOrderByFarmerAndSellerAsync(long farmerId, long SellerId, CancellationToken token);
     }
 }

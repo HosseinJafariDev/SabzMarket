@@ -8,11 +8,11 @@ namespace SabzMarket.Application.Interfaces.Repository
 {
     public interface IProductRepository
     {
-        public Task InsertAsync(Product product);
-        public Task IncreaseNumberAsync(long id, int number);
+        public Task InsertAsync(Product product, CancellationToken token);
+        public Task IncreaseNumberAsync(long id, int number, CancellationToken token);
         public Task<List<Product>> SelectAllBySellerIdAsync(long sellerId);
-        public Task DeleteAsync(long id);
-        public Task UpdateAsync(Product product);
-        public Task<List<Product>> SelectByNameAsync(string search);
+        public Task DeleteAsync(long id, CancellationToken token);
+        public Task UpdateAsync(Product product, CancellationToken token);
+        public Task<List<Product>> SelectByNameAsync(string search, CancellationToken token);
     }
 }

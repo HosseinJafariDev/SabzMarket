@@ -8,6 +8,6 @@ namespace SabzMarket.Application.Interfaces.Repository
 {
     public interface ICategorieRepository
     {
-        public Task<List<Categorie>> SelectAsync();
+        public Task<List<Categorie>> SelectAsync(CancellationToken token);
     }
 }

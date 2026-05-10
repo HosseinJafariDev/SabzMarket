@@ -9,7 +9,7 @@ namespace SabzMarket.Application.Interfaces.Repository
 {
     public interface IChatRepository
     {
-        Task<List<Chat>> GetChatAsync(long fromId, long toId);
-        Task InsertAsync(Chat chat);
+        Task<List<Chat>> GetChatAsync(long fromId, long toId, CancellationToken token);
+        Task InsertAsync(Chat chat, CancellationToken token);
     }
 }

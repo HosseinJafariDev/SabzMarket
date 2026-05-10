@@ -10,7 +10,7 @@ namespace SabzMarket.Application.Interfaces.Repository
     public interface IFarmerRepository
     {
         public Task<bool> UserExistsInFarmerAsync(string username);
-        public Task InsertAsync(string username,Farmer farmer);
-        public Task UpdateAsync(Farmer farmer);
+        public Task InsertAsync(string username, Farmer farmer, CancellationToken token);
+        public Task UpdateAsync(Farmer farmer, CancellationToken token);
     }
 }
