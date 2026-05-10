@@ -1,4 +1,6 @@
-﻿using SabzMarket.Domain.Enums;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using SabzMarket.Domain.Enums;
+using SabzMarket.Infrastructure.Entities.Base;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,9 +11,8 @@ using System.Threading.Tasks;
 
 namespace SabzMarket.Infrastructure.Entities
 {
-    public class OrderDetailTable
+    public class OrderDetailTable : BaseEntity
     {
-        public long Id { get; set; }
         public long OrderId { get; set; }
         public virtual OrderTable? Order { get; set; }
         public long ProductId { get; set; }
@@ -23,6 +24,6 @@ namespace SabzMarket.Infrastructure.Entities
         [Column(TypeName = "nvarchar")]
         [StringLength(50)]
         [Required]
-        public string Status { get; set; }=OrderStatus.Pending.ToString();
+        public string Status { get; set; } = OrderStatus.Pending.ToString();
     }
 }

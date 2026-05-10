@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SabzMarket.Infrastructure.Entities.Base;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,9 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 namespace SabzMarket.Infrastructure.Entities
 {
-    public class UserTable
+    public class UserTable : BaseEntity
     {
-        public long Id { get; set; }
         [Column(TypeName = "nvarchar")]
         [StringLength(50)]
         [Required]
@@ -33,6 +33,7 @@ namespace SabzMarket.Infrastructure.Entities
         [StringLength(50)]
         [Required]
         public string? Password { get; set; }
+
         public virtual SellerTable? Seller { get; set; }
         public virtual FarmerTable? Farmer { get; set; }
         public virtual ChatTable? Chat { get; set; }

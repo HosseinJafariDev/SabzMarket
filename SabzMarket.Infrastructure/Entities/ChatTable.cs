@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SabzMarket.Infrastructure.Entities.Base;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -7,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace SabzMarket.Infrastructure.Entities
 {
-    public class ChatTable
+    public class ChatTable : BaseEntity
     {
-        public long Id { get; set; }
         [Column(TypeName = "nvarchar(max)")]
         public string? Message { get; set; }
         public long FromUserId { get; set; }
@@ -19,6 +19,6 @@ namespace SabzMarket.Infrastructure.Entities
         public bool IsDeleted { get; set; }
         public bool IsRead { get; set; }
         public DateTime SentAt { get; set; }
-        public bool IsFile {  get; set; }
+        public bool IsFile { get; set; }
     }
 }

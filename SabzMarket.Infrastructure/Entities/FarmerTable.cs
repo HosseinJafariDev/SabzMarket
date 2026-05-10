@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SabzMarket.Infrastructure.Entities.Base;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace SabzMarket.Infrastructure.Entities
 {
-    public class FarmerTable
+    public class FarmerTable : BaseEntity
     {
-        public long Id { get; set; }
         public long UserId { get; set; }
         public virtual UserTable? User { get; set; }
         [Column(TypeName = "nvarchar")]
@@ -36,8 +36,8 @@ namespace SabzMarket.Infrastructure.Entities
         [Required]
         public string? ProfileImage { get; set; }
         [Required]
-        [Column(TypeName ="char(10)")]
-        public string? CodePosti {  get; set; }
+        [Column(TypeName = "char(10)")]
+        public string? CodePosti { get; set; }
         public virtual ICollection<OrderTable>? Orders { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SabzMarket.Infrastructure.Entities.Base;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace SabzMarket.Infrastructure.Entities
 {
-    public class SellerTable
+    public class SellerTable : BaseEntity
     {
-        public long Id { get; set; }
         public long UserId { get; set; }
+        [ForeignKey(nameof(UserId))]
         public virtual UserTable? User { get; set; }
         [Column(TypeName = "nvarchar")]
         [StringLength(500)]
