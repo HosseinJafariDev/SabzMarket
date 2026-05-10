@@ -28,7 +28,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             return result;
         }
 
-        public async Task InsertAsync(string username, Seller seller)
+        public async Task InsertAsync(string username, Seller seller, CancellationToken token)
         {
             var user = await _context
                 .Users
@@ -46,7 +46,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Seller> SelectByUsernameAsync(string username)
+        public async Task<Seller> SelectByUsernameAsync(string username, CancellationToken token)
         {
             var seller = await _context
                 .Sellers
@@ -74,7 +74,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             return seller!;
         }
 
-        public async Task UpdateAsync(Seller seller)
+        public async Task UpdateAsync(Seller seller, CancellationToken token)
         {
             var sellerTable = new SellerTable { Id = seller.Id };
             _context.Attach(sellerTable);
@@ -90,7 +90,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Seller>> SelectByPhoneNumberAsync(string phone)
+        public async Task<List<Seller>> SelectByPhoneNumberAsync(string phone, CancellationToken token)
         {
             var result = await _context
                 .Sellers
@@ -114,7 +114,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             return result;
         }
 
-        public async Task<Seller> SelectByIdAsync(long id)
+        public async Task<Seller> SelectByIdAsync(long id, CancellationToken token)
         {
             var result = await _context.Sellers.AsNoTracking().Where(x => x.Id == id).Select(x => new Seller()
             {

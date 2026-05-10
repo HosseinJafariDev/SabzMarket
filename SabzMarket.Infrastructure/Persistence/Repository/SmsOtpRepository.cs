@@ -16,7 +16,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
         {
             _Context = context;
         }
-        public async Task<long> Insert(long Otp)
+        public async Task<long> Insert(long Otp, CancellationToken token)
         {
             SmsOtpTable table = new SmsOtpTable()
             {

@@ -17,7 +17,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
         {
             _dbContext = dbContext;
         }
-        public async Task<List<Chat>> GetChatAsync(long fromId, long toId)
+        public async Task<List<Chat>> GetChatAsync(long fromId, long toId, CancellationToken token)
         {
             var result = await _dbContext
                 .Chats
@@ -37,7 +37,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             return result;
         }
 
-        public async Task InsertAsync(Chat chat)
+        public async Task InsertAsync(Chat chat, CancellationToken token)
         {
             var table = new ChatTable()
             {

@@ -19,7 +19,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             _Context = context;
         }
 
-        public async Task DeleteAsync(long id)
+        public async Task DeleteAsync(long id, CancellationToken token)
         {
             var product = new ProductTable { Id = id };
             _Context.Attach(product);
@@ -29,7 +29,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             await _Context.SaveChangesAsync();
         }
 
-        public async Task<List<Product>> SelectAllBySellerIdAsync(long sellerId)
+        public async Task<List<Product>> SelectAllBySellerIdAsync(long sellerId, CancellationToken token)
         {
             var result = await _Context.Products
              .AsNoTracking()
@@ -47,14 +47,14 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             return result;
         }
 
-        public async Task IncreaseNumberAsync(long id, int number)
+        public async Task IncreaseNumberAsync(long id, int number, CancellationToken token)
         {
             var result = await _Context.Products.Where(p => p.Id == id).SingleAsync();
             result.Number += number;
             await _Context.SaveChangesAsync();
         }
 
-        public async Task InsertAsync(Product product)
+        public async Task InsertAsync(Product product, CancellationToken token)
         {
             ProductTable product1 = new ProductTable
             {
@@ -70,7 +70,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             await _Context.SaveChangesAsync();
         }
 
-        public async Task<List<Product>> SelectByNameAsync(string search)
+        public async Task<List<Product>> SelectByNameAsync(string search, CancellationToken token)
         {
             var result = await _Context
             .Products
@@ -89,7 +89,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             return result;
         }
 
-        public async Task UpdateAsync(Product product)
+        public async Task UpdateAsync(Product product, CancellationToken token)
         {
             var produc = new ProductTable
             {

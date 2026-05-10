@@ -32,7 +32,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             return result;
         }
 
-        public async Task InsertAsync(OrderDetail orderDetail)
+        public async Task InsertAsync(OrderDetail orderDetail, CancellationToken token)
         {
             var orderDetails = new OrderDetailTable
             {
@@ -46,7 +46,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task SetOrderDetailStatusToRejectedAsync(long orderDetaileId)
+        public async Task SetOrderDetailStatusToRejectedAsync(long orderDetaileId, CancellationToken token)
         {
             var orderDetail = new OrderDetailTable { Id = orderDetaileId };
             _context.Attach(orderDetail);
@@ -56,7 +56,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task SetOrderDetailStatusToSentAsync(long orderDetaileId)
+        public async Task SetOrderDetailStatusToSentAsync(long orderDetaileId, CancellationToken token)
         {
             var orderDetail = new OrderDetailTable { Id = orderDetaileId };
             _context.Attach(orderDetail);

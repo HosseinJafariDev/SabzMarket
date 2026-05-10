@@ -22,7 +22,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             _dbContext = sabzMarketDbContext;
         }
 
-        public async Task InsertAsync(string username, Farmer farmer)
+        public async Task InsertAsync(string username, Farmer farmer, CancellationToken token)
         {
             var user = await _dbContext.Users.SingleAsync(x => x.UserName == username);
             FarmerTable farmerTable = new FarmerTable()
@@ -42,7 +42,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Farmer farmer)
+        public async Task UpdateAsync(Farmer farmer, CancellationToken token)
         {
             var farmerTable = new FarmerTable { Id = farmer.Id };
             _dbContext.Attach(farmerTable);

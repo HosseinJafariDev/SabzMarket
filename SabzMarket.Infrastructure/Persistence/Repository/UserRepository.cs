@@ -29,7 +29,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             return result;
         }
 
-        public Task<User?> SelectByUserNameForLoginAsync(string userName)
+        public Task<User?> SelectByUserNameForLoginAsync(string userName, CancellationToken token)
         {
             var result = _context
                 .Users
@@ -43,7 +43,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             return result;
         }
 
-        public async Task InsertAsync(User user)
+        public async Task InsertAsync(User user, CancellationToken token)
         {
             UserTable userTable = new UserTable
             {
@@ -60,7 +60,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
                 .SaveChangesAsync();
         }
 
-        public async Task<User> SelectByUserNameAsync(string username)
+        public async Task<User> SelectByUserNameAsync(string username, CancellationToken token)
         {
             var result = await _context.Users
              .AsNoTracking()
@@ -80,7 +80,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             return result!;
         }
 
-        public async Task UpdateAsync(User user)
+        public async Task UpdateAsync(User user, CancellationToken token)
         {
             var userTable = new UserTable { Id = user.Id };
             _context.Attach(userTable);

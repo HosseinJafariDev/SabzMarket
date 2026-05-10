@@ -19,7 +19,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
         {
             _Context = Context;
         }
-        public async Task DeleteAsync(int cartId)
+        public async Task DeleteAsync(int cartId, CancellationToken token)
         {
             CartItemTable item = new CartItemTable()
             {
@@ -38,7 +38,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
 
             return result;
         }
-        public async Task InsertAsync(CartItem cartItem)
+        public async Task InsertAsync(CartItem cartItem, CancellationToken token)
         {
             CartItemTable cartItemTable = new CartItemTable()
             {
@@ -50,7 +50,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             _Context.CartItems.Add(cartItemTable);
             await _Context.SaveChangesAsync();
         }
-        public async Task ChangeQuantityAsync(long productId, long farmerId, int number)
+        public async Task ChangeQuantityAsync(long productId, long farmerId, int number, CancellationToken token)
         {
             var item = await _Context
             .CartItems
@@ -61,7 +61,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
 
             await _Context.SaveChangesAsync();
         }
-        public async Task<bool> IsCartItemQuantityOneAsync(int id)
+        public async Task<bool> IsCartItemQuantityOneAsync(int id, CancellationToken token)
         {
             var item = await _Context
                 .CartItems

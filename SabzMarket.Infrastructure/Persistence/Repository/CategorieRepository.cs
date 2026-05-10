@@ -18,7 +18,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             _context = context;
         }
 
-        public async Task<List<Categorie>> SelectAsync()
+        public async Task<List<Categorie>> SelectAsync(CancellationToken token)
         {
             var result = await _context
                 .Categories

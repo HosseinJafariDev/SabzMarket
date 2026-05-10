@@ -19,7 +19,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
         {
             _context = context;
         }
-        public async Task<long> InsertAsync(Order order)
+        public async Task<long> InsertAsync(Order order, CancellationToken token)
         {
             var orderTable = new OrderTable
             {
@@ -42,7 +42,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
            .AnyAsync();
             return result;
         }
-        public async Task<long> FindOrderByFarmerAndSellerAsync(long farmerId, long SellerId)
+        public async Task<long> FindOrderByFarmerAndSellerAsync(long farmerId, long SellerId, CancellationToken token)
         {
             var order = await _context
           .Orders
