@@ -15,23 +15,14 @@ namespace SabzMarket.Infrastructure.Entities
         public virtual SellerTable? Seller { get; set; }
         public long CategorieId { get; set; }
         public virtual CategorieTable? Categorie { get; set; }
-
-        [Column(TypeName = "nvarchar")]
-        [StringLength(50)]
-        [Required]
         public string? ProductName { get; set; }
-        [Column(TypeName = "nvarchar")]
-        [StringLength(500)]
-        [Required]
         public string? Description { get; set; }
-        [Required]
         public int Price { get; set; }
-        [Required]
         public int Number { get; set; }
-        [Column(TypeName = "nvarchar(max)")]
-        [Required]
         public string? ImageProduct { get; set; }
         public bool IsDeleted { get; set; } = false;
+
+        public virtual ICollection<CartItemTable> CartItems { get; set; } = new List<CartItemTable>();
         public virtual ICollection<OrderDetailTable>? OrderDetails { get; set; }
     }
 }

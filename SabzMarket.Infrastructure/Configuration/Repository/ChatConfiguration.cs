@@ -34,6 +34,10 @@ namespace SabzMarket.Infrastructure.Configuration.Repository
             builder
                 .HasIndex(c => c.ToUserId)
                 .HasDatabaseName("IX_Chats_ToUserId");
+
+            builder
+                .Property(x => x.Message)
+                .HasColumnType("nvarchar(max)");
         }
     }
 }

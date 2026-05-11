@@ -15,7 +15,48 @@ namespace SabzMarket.Infrastructure.Configuration.Repository
     {
         public void Configure(EntityTypeBuilder<ProductTable> builder)
         {
-            builder.ToTable("Product");
+            builder
+                .ToTable("Product");
+
+            builder
+                .HasOne(x => x.Seller)
+                .WithMany(x => x.Products)
+                .HasForeignKey(x => x.SellerId);
+
+            builder
+                .HasOne(x => x.Categorie)
+                .WithMany(x => x.Products)
+                .HasForeignKey(x => x.CategorieId);
+
+
+            builder
+                .Property(x => x.ProductName)
+                .IsRequired()
+                .HasColumnType("nvarchar")
+                .HasMaxLength(50);
+
+            builder
+                .Property(x => x.Description)
+                .IsRequired()
+                .HasColumnType("nvarchar")
+                .HasMaxLength(500);
+
+            builder
+                .Property(x => x.Price)
+                .IsRequired();
+
+            builder
+                .Property(x => x.Number)
+                .IsRequired();
+
+            builder
+                .Property(x => x.ImageProduct)
+                .IsRequired()
+                .HasColumnType("nvarchar(max)");
+
+            builder
+                .Property(x => x.IsDeleted)
+                .HasDefaultValue(false);
         }
     }
 }

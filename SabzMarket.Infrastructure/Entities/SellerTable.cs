@@ -12,19 +12,13 @@ namespace SabzMarket.Infrastructure.Entities
     public class SellerTable : BaseEntity
     {
         public long UserId { get; set; }
-        [ForeignKey(nameof(UserId))]
         public virtual UserTable? User { get; set; }
-        [Column(TypeName = "nvarchar")]
-        [StringLength(500)]
-        [Required]
         public string? Address { get; set; }
-        [Column(TypeName = "nvarchar(max)")]
         public string? ProfileImage { get; set; }
-        [Column(TypeName = "varchar")]
-        [StringLength(3)]
-        [Required]
         public string? WorkHistory { get; set; }
+
         public virtual ICollection<OrderTable>? Orders { get; set; }
         public virtual ICollection<ProductTable>? Products { get; set; }
+        public virtual ICollection<FeaturedSellerTable>? FeaturedSellerTables { get; set; }
     }
 }

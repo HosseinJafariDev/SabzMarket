@@ -15,6 +15,18 @@ namespace SabzMarket.Infrastructure.Configuration.Repository
         public void Configure(EntityTypeBuilder<OrderTable> builder)
         {
             builder.ToTable("Order");
+
+            builder
+                .HasOne(x => x.Seller)
+                .WithMany(x => x.Orders);
+
+            builder
+                .HasOne(x => x.Farmer)
+                .WithMany(x => x.Orders);
+
+            builder
+                .Property(x => x.OrderDate)
+                .IsRequired();
         }
     }
 }

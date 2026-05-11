@@ -11,9 +11,7 @@ namespace SabzMarket.Infrastructure.Entities
 {
     public class CategorieTable : BaseEntity
     {
-        [Column(TypeName = "nvarchar")]
-        [StringLength(50)]
-        [Required]
         public string? Name { get; set; }
+        public virtual ICollection<ProductTable>? Products { get; set; }
     }
 }

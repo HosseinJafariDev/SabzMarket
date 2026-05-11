@@ -14,10 +14,29 @@ namespace SabzMarket.Infrastructure.Configuration.Repository
     {
         public void Configure(EntityTypeBuilder<SellerTable> builder)
         {
-            builder.ToTable("Seller")
-                .HasOne(s => s.User)
-                .WithOne(u => u.Seller)
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.ToTable("Seller");
+
+            builder
+                   .HasOne(s => s.User)
+                   .WithOne(u => u.Seller)
+                   .HasForeignKey<SellerTable>(o => o.UserId)
+                   .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Property(X => X.Address)
+                .IsRequired()
+                .HasColumnType("nvarchar")
+                .HasMaxLength(500);
+
+            builder
+                .Property(x => x.ProfileImage)
+                .HasColumnType("nvarchar(max)");
+
+            builder
+                .Property(x => x.WorkHistory)
+                .IsRequired()
+                .HasColumnType("varchar")
+                .HasMaxLength(3);
         }
     }
 }

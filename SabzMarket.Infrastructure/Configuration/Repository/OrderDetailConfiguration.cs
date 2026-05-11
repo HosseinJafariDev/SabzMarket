@@ -19,6 +19,24 @@ namespace SabzMarket.Infrastructure.Configuration.Repository
                 .WithMany(p => p.OrderDetails)
                 .HasForeignKey(od => od.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .HasOne(x => x.Order)
+                .WithMany(x => x.OrderDetails);
+
+            builder
+                .Property(x => x.Price)
+                .IsRequired();
+
+            builder
+                .Property(x => x.Number)
+                .IsRequired();
+
+            builder
+                .Property(x => x.Status)
+                .IsRequired()
+                .HasColumnType("nvarchar")
+                .HasMaxLength(50);
         }
     }
 }

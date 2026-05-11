@@ -25,6 +25,12 @@ namespace SabzMarket.Infrastructure.Configuration.Repository
                 new CategorieTable { Id = 6, Name = "سموم معدنی " },
                 new CategorieTable { Id = 7, Name = "سموم آلی " }
                 );
+
+            builder
+                .Property(x => x.Name)
+                .IsRequired()
+                .HasColumnType("nvarchar")
+                .HasMaxLength(50);
         }
     }
 }

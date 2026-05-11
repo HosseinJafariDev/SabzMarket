@@ -15,6 +15,16 @@ namespace SabzMarket.Infrastructure.Configuration.Repository
         public void Configure(EntityTypeBuilder<CartItemTable> builder)
         {
             builder.ToTable("CartItem");
+
+            builder
+                .HasOne(x => x.Farmer)
+                .WithMany(x => x.CartItemTables)
+                .HasForeignKey(x => x.FarmerId);
+
+            builder.
+                HasOne(x => x.Product)
+                .WithMany(x => x.CartItems)
+                .HasForeignKey(x => x.ProductId);
         }
     }
 }

@@ -14,7 +14,42 @@ namespace SabzMarket.Infrastructure.Configuration.Repository
     {
         public void Configure(EntityTypeBuilder<UserTable> builder)
         {
-            builder.ToTable("User");
+            builder
+                .ToTable("User");
+
+            builder
+                .Property(x => x.FirstName)
+                .IsRequired()
+                .HasColumnType("nvarchar")
+                .HasMaxLength(50);
+
+            builder
+                .Property(x => x.LastName)
+                .IsRequired()
+                .HasColumnType("nvarchar")
+                .HasMaxLength(50);
+
+            builder
+                .Property(x => x.Phone)
+                .IsRequired()
+                .HasColumnType("char")
+                .HasMaxLength(11);
+
+            builder
+                .Property(x => x.Email)
+                .HasColumnType("varchar")
+                .HasMaxLength(30);
+
+            builder
+                .Property(x => x.UserName)
+                .IsRequired()
+                .HasColumnType("varchar")
+                .HasMaxLength(50);
+
+            builder
+                .Property(x => x.Password)
+                .IsRequired()
+                .HasColumnType("nvarchar");
         }
     }
 }

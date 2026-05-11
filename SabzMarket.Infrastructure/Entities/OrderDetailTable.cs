@@ -17,13 +17,8 @@ namespace SabzMarket.Infrastructure.Entities
         public virtual OrderTable? Order { get; set; }
         public long ProductId { get; set; }
         public virtual ProductTable? Product { get; set; }
-        [Required]
         public int Price { get; set; }
-        [Required]
         public int Number { get; set; }
-        [Column(TypeName = "nvarchar")]
-        [StringLength(50)]
-        [Required]
         public string Status { get; set; } = OrderStatus.Pending.ToString();
     }
 }

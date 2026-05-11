@@ -13,7 +13,6 @@ namespace SabzMarket.Infrastructure.Entities
         public FarmerTable Farmer { get; set; }
         public long ProductId { get; set; }
         public ProductTable Product { get; set; }
-
         public int Quantity { get; set; }
         public DateTime AddedDate { get; set; }
     }

@@ -17,7 +17,45 @@ namespace SabzMarket.Infrastructure.Configuration.Repository
             builder.ToTable("Farmer")
                 .HasOne(f => f.User)
                 .WithOne(u => u.Farmer)
+                .HasForeignKey<FarmerTable>(x => x.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Property(x => x.Address)
+                .IsRequired()
+                .HasColumnType("nvarchar")
+                .HasMaxLength(500);
+
+            builder
+                .Property(x => x.DataBuilt)
+                .IsRequired()
+                .HasMaxLength(10);
+
+            builder
+                .Property(x => x.LandArea)
+                .IsRequired();
+
+            builder
+                .Property(x => x.NationalCode)
+                .IsRequired()
+                .HasColumnType("char")
+                .HasMaxLength(10);
+
+            builder
+                .Property(x => x.CodParvaneBHB)
+                .IsRequired()
+                .HasColumnType("varchar")
+                .HasMaxLength(50);
+
+            builder
+                .Property(x => x.ProfileImage)
+                .IsRequired()
+                .HasColumnType("nvarchar(max)");
+
+            builder
+                .Property(x => x.CodePosti)
+                .IsRequired()
+                .HasColumnType("char(10");
         }
     }
 }

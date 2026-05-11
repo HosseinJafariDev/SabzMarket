@@ -15,8 +15,8 @@ namespace SabzMarket.Infrastructure.Entities
         public virtual SellerTable? Seller { get; set; }
         public long FarmerId { get; set; }
         public virtual FarmerTable? Farmer { get; set; }
-        [Required]
         public DateTime OrderDate { get; set; }
+
         public virtual ICollection<OrderDetailTable> OrderDetails { get; set; }
     }
 }

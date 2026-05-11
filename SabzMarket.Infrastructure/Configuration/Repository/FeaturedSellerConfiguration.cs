@@ -18,6 +18,14 @@ namespace SabzMarket.Infrastructure.Configuration.Repository
             builder.ToTable("FeaturedSeller")
                 .HasIndex(x => x.SellerId)
                 .IsUnique();
+
+            builder
+                .HasOne(x => x.Seller)
+                .WithMany(x => x.FeaturedSellerTables);
+
+            builder
+                .Property(x => x.IsActive)
+                .HasDefaultValue(true);
         }
     }
 }

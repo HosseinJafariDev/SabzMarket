@@ -10,7 +10,6 @@ namespace SabzMarket.Infrastructure.Entities
 {
     public class ChatTable : BaseEntity
     {
-        [Column(TypeName = "nvarchar(max)")]
         public string? Message { get; set; }
         public long FromUserId { get; set; }
         public UserTable? FromUser { get; set; }
