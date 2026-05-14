@@ -9,6 +9,6 @@ namespace SabzMarket.Application.UseCases.CartItems.DeleteCartItem
 {
     public interface IDeleteCartItemUseCase
     {
-        Task<OperationResult> ExecuteAsync(int cartId, long productId, int productNumber);
+        Task<OperationResult> ExecuteAsync(int cartId, long productId, int productNumber, CancellationToken token);
     }
 }

@@ -9,6 +9,6 @@ namespace SabzMarket.Application.UseCases.CartItems.AddToCart
 {
     public interface IAddToCartUseCase
     {
-        Task<OperationResult> ExecuteAsync(AddToCartInputDTO addToCartInputDTO);
+        Task<OperationResult> ExecuteAsync(AddToCartInputDTO addToCartInputDTO, CancellationToken token);
     }
 }

@@ -11,9 +11,9 @@ namespace SabzMarket.API.Controllers
             _getUserByUserNameUseCase = getUserByUserNameUseCase;
         }
         [HttpGet]
-        public async Task<OperationResult<GetUserByUserNameOutputDTO>> GetUserAsync(string username)
+        public async Task<OperationResult<GetUserByUserNameOutputDTO>> GetUserAsync(string username, CancellationToken token)
         {
-            var result = await _getUserByUserNameUseCase.ExecuteAsync(username);
+            var result = await _getUserByUserNameUseCase.ExecuteAsync(username, token);
             return result;
         }
     }

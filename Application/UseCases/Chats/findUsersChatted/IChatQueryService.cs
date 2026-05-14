@@ -8,6 +8,6 @@ namespace SabzMarket.Application.UseCases.Chats.findUsersChatted
 {
     public interface IChatQueryService
     {
-        Task<List<findUsersChattedOutputDTO>> findUsersChattedWith(long id);
+        Task<List<findUsersChattedOutputDTO>> findUsersChattedWith(long id, CancellationToken token);
     }
 }

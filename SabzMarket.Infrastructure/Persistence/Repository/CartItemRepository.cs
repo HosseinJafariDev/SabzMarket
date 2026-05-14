@@ -26,15 +26,15 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
                 Id = cartId
             };
             _Context.Remove(item);
-            await _Context.SaveChangesAsync();
+            await _Context.SaveChangesAsync(token);
         }
-        public async Task<bool> ExistProductAsync(long farmerId, long productId)
+        public async Task<bool> ExistProductAsync(long farmerId, long productId, CancellationToken token)
         {
             var result = await _Context
            .CartItems
            .AsNoTracking()
            .Where(x => x.ProductId == productId && x.FarmerId == farmerId)
-           .AnyAsync();
+           .AnyAsync(token);
 
             return result;
         }
@@ -48,7 +48,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
                 Quantity = cartItem.Quantity
             };
             _Context.CartItems.Add(cartItemTable);
-            await _Context.SaveChangesAsync();
+            await _Context.SaveChangesAsync(token);
         }
         public async Task ChangeQuantityAsync(long productId, long farmerId, int number, CancellationToken token)
         {
@@ -59,7 +59,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
 
             item.Quantity += number;
 
-            await _Context.SaveChangesAsync();
+            await _Context.SaveChangesAsync(token);
         }
         public async Task<bool> IsCartItemQuantityOneAsync(int id, CancellationToken token)
         {
@@ -67,7 +67,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
                 .CartItems
                 .AsNoTracking()
                 .Where(x => x.Id == id)
-                .SingleAsync();
+                .SingleAsync(token);
             if (item.Quantity == 1)
             {
                 return true;

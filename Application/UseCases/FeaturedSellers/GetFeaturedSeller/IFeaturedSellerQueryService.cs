@@ -8,6 +8,6 @@ namespace SabzMarket.Application.UseCases.FeaturedSellers.GetFeaturedSeller
 {
     public interface IFeaturedSellerQueryService
     {
-        Task<List<GetAllFeaturedSellerOutputDTO>> SelectAllSellerAsync();
+        Task<List<GetAllFeaturedSellerOutputDTO>> SelectAllSellerAsync(CancellationToken token);
     }
 }

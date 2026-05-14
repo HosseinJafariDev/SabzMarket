@@ -17,11 +17,11 @@ namespace SabzMarket.Application.UseCases.Auth.UserIsFarmer
             _errorRepository = errorRepository;
             _farmerRepository = farmerRepository;
         }
-        public async Task<OperationResult<bool>> ExecuteAsync(string username)
+        public async Task<OperationResult<bool>> ExecuteAsync(string username, CancellationToken token)
         {
             try
             {
-                var result = await _farmerRepository.UserExistsInFarmerAsync(username);
+                var result = await _farmerRepository.UserExistsInFarmerAsync(username, token);
 
                 return OperationResult<bool>.SuccessedResult(result);
             }

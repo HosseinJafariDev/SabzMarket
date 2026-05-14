@@ -20,7 +20,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             _context = context;
         }
 
-        public async Task<bool> HasPendingOrdersForProductAsync(long productId)
+        public async Task<bool> HasPendingOrdersForProductAsync(long productId, CancellationToken token)
         {
             var result = await _context
                 .OrderDetails
@@ -28,7 +28,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
                 .Where(p =>
                 p.ProductId == productId &&
                 p.Status == OrderStatus.Pending.ToString())
-                .AnyAsync();
+                .AnyAsync(token);
             return result;
         }
 
@@ -43,7 +43,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
                 Status = OrderStatus.Pending.ToString()
             };
             _context.OrderDetails.Add(orderDetails);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(token);
         }
 
         public async Task SetOrderDetailStatusToRejectedAsync(long orderDetaileId, CancellationToken token)
@@ -53,7 +53,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             orderDetail.Status = OrderStatus.Rejected.ToString();
             var entry = _context.Entry(orderDetail);
             entry.Property(x => x.Status).IsModified = true;
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(token);
         }
 
         public async Task SetOrderDetailStatusToSentAsync(long orderDetaileId, CancellationToken token)
@@ -63,22 +63,22 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             orderDetail.Status = OrderStatus.Sent.ToString();
             var entry = _context.Entry(orderDetail);
             entry.Property(x => x.Status).IsModified = true;
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(token);
         }
 
-        public async Task<bool> StatusIsReject(long id)
+        public async Task<bool> StatusIsReject(long id, CancellationToken token)
         {
             var result = await _context.OrderDetails
                 .AsNoTracking()
-                .AnyAsync(x => x.Id == id && x.Status == OrderStatus.Rejected.ToString());
+                .AnyAsync(x => x.Id == id && x.Status == OrderStatus.Rejected.ToString(), token);
             return result;
         }
 
-        public async Task<bool> StatusIsSent(long id)
+        public async Task<bool> StatusIsSent(long id, CancellationToken token)
         {
             var result = await _context.OrderDetails
                 .AsNoTracking()
-                .AnyAsync(x => x.Id == id && x.Status == OrderStatus.Sent.ToString());
+                .AnyAsync(x => x.Id == id && x.Status == OrderStatus.Sent.ToString(), token);
             return result;
         }
     }

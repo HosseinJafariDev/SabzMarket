@@ -9,7 +9,7 @@ namespace SabzMarket.Application.UseCases.Orders.GetOrders
 {
     public interface IOrderQueryService
     {
-        Task<List<GetOrdersForSellerOutputDTO>> SelectPendingOrdersForSellerAsync(long sellerId, string search);
-        Task<List<GetOrdersForSellerOutputDTO>> SelectNonPendingOrdersForSellerAsync(long sellerId, string search);
+        Task<List<GetOrdersForSellerOutputDTO>> SelectPendingOrdersForSellerAsync(long sellerId, string search, CancellationToken token);
+        Task<List<GetOrdersForSellerOutputDTO>> SelectNonPendingOrdersForSellerAsync(long sellerId, string search, CancellationToken token);
     }
 }

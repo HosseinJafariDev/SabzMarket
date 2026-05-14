@@ -24,13 +24,13 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             };
 
             _Context.smsOtps.Add(table);
-            await _Context.SaveChangesAsync();
+            await _Context.SaveChangesAsync(token);
 
             return table.Id;
         }
-        public async Task<bool> VerifyOtp(long id, long otp)
+        public async Task<bool> VerifyOtp(long id, long otp, CancellationToken token)
         {
-            var result = await _Context.smsOtps.AnyAsync(X => X.Id == id && X.Otp == otp);
+            var result = await _Context.smsOtps.AnyAsync(X => X.Id == id && X.Otp == otp, token);
 
             return result;
         }

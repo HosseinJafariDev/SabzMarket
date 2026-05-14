@@ -10,7 +10,7 @@ namespace SabzMarket.Application.Interfaces.Repository
     {
         public Task InsertAsync(Product product, CancellationToken token);
         public Task IncreaseNumberAsync(long id, int number, CancellationToken token);
-        public Task<List<Product>> SelectAllBySellerIdAsync(long sellerId);
+        public Task<List<Product>> SelectAllBySellerIdAsync(long sellerId, CancellationToken token);
         public Task DeleteAsync(long id, CancellationToken token);
         public Task UpdateAsync(Product product, CancellationToken token);
         public Task<List<Product>> SelectByNameAsync(string search, CancellationToken token);

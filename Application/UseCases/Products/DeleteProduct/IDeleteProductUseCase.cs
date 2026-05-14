@@ -9,6 +9,6 @@ namespace SabzMarket.Application.UseCases.Products.DeleteProduct
 {
     public interface IDeleteProductUseCase
     {
-        Task<OperationResult> ExecuteAsync(long id);
+        Task<OperationResult> ExecuteAsync(long id, CancellationToken token);
     }
 }

@@ -9,6 +9,6 @@ namespace SabzMarket.Application.UseCases.OrderDetails.MarkOrderDetail
 {
     public interface IMarkOrderDetailAsRejectedUseCase
     {
-        Task<OperationResult> ExecuteAsync(long orderDetaileId, int number, int productId);
+        Task<OperationResult> ExecuteAsync(long orderDetaileId, int number, int productId, CancellationToken token);
     }
 }

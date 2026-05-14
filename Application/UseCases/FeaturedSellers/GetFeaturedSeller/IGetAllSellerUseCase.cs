@@ -9,6 +9,6 @@ namespace SabzMarket.Application.UseCases.FeaturedSellers.GetFeaturedSeller
 {
     public interface IGetAllSellerUseCase
     {
-        Task<OperationResult<List<GetAllFeaturedSellerOutputDTO>>> ExecuteAsync();
+        Task<OperationResult<List<GetAllFeaturedSellerOutputDTO>>> ExecuteAsync(CancellationToken token);
     }
 }

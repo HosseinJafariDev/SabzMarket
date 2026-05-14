@@ -21,21 +21,21 @@ namespace SabzMarket.API.Controllers
             _sendMessage = sendMessage;
         }
         [HttpGet]
-        public async Task<OperationResult<List<findUsersChattedOutputDTO>>> FindUsersChattedWithIdAsync(long id)
+        public async Task<OperationResult<List<findUsersChattedOutputDTO>>> FindUsersChattedWithIdAsync(long id, CancellationToken token)
         {
-            var result = await _findUsersChatted.ExecuteAsync(id);
+            var result = await _findUsersChatted.ExecuteAsync(id, token);
             return result;
         }
         [HttpGet]
-        public async Task<OperationResult<List<GetMessageOutputDTO>>> GetMessageAsync(long fromId, long toId)
+        public async Task<OperationResult<List<GetMessageOutputDTO>>> GetMessageAsync(long fromId, long toId, CancellationToken token)
         {
-            var result = await _getMessage.ExecuteAsync(fromId, toId);
+            var result = await _getMessage.ExecuteAsync(fromId, toId, token);
             return result;
         }
         [HttpPost]
-        public async Task<OperationResult> SendMessageAsync(SendMessageInputDTO sendMessageInputDTO)
+        public async Task<OperationResult> SendMessageAsync(SendMessageInputDTO sendMessageInputDTO, CancellationToken token)
         {
-            var result = await _sendMessage.ExecuteAsync(sendMessageInputDTO);
+            var result = await _sendMessage.ExecuteAsync(sendMessageInputDTO, token);
             return result;
         }
     }

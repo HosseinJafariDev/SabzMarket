@@ -22,11 +22,11 @@ namespace SabzMarket.Application.UseCases.Chats.GetMessage
             _errorRepository = errorRepository;
             _mapper = mapper;
         }
-        public async Task<OperationResult<List<GetMessageOutputDTO>>> ExecuteAsync(long fromId, long toId)
+        public async Task<OperationResult<List<GetMessageOutputDTO>>> ExecuteAsync(long fromId, long toId, CancellationToken token)
         {
             try
             {
-                var result = await _chatRepository.GetChatAsync(fromId, toId);
+                var result = await _chatRepository.GetChatAsync(fromId, toId, token);
                 var chat = _mapper.Map<List<GetMessageOutputDTO>>(result);
                 return OperationResult<List<GetMessageOutputDTO>>.SuccessedResult(chat);
             }

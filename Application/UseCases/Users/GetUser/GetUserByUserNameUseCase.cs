@@ -21,14 +21,14 @@ namespace SabzMarket.Application.UseCases.Users.GetUser
             _mapper = mapper;
         }
 
-        public async Task<OperationResult<GetUserByUserNameOutputDTO>> ExecuteAsync(string username)
+        public async Task<OperationResult<GetUserByUserNameOutputDTO>> ExecuteAsync(string username, CancellationToken token)
         {
             if (string.IsNullOrWhiteSpace(username))
                 return OperationResult<GetUserByUserNameOutputDTO>.FailedResult(Messages.UserNameMinLength);
 
             try
             {
-                var result = await _userRepository.SelectByUserNameAsync(username);
+                var result = await _userRepository.SelectByUserNameAsync(username, token);
                 if (result == null)
                 {
                     return OperationResult<GetUserByUserNameOutputDTO>.FailedResult(Messages.UserNotFound);

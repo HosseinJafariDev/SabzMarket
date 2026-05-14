@@ -8,6 +8,6 @@ namespace SabzMarket.Application.UseCases.Farmers.GetFarmer
 {
     public interface IFarmerQueryService
     {
-        Task<GetFarmerByUsernameOutputDTO> SelectByUsernameAsync(string username);
+        Task<GetFarmerByUsernameOutputDTO> SelectByUsernameAsync(string username, CancellationToken token);
     }
 }

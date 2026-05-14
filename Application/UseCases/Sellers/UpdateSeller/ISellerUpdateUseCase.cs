@@ -9,6 +9,6 @@ namespace SabzMarket.Application.UseCases.Sellers.UpdateSeller
 {
     public interface ISellerUpdateUseCase
     {
-        Task<OperationResult> ExecuteAsync(SellerUpdateInputDTO updateSellerInputDTO, Stream stream);
+        Task<OperationResult> ExecuteAsync(SellerUpdateInputDTO updateSellerInputDTO, Stream stream, CancellationToken token);
     }
 }

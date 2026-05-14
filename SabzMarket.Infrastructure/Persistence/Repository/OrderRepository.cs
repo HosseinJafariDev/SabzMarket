@@ -29,17 +29,17 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             };
 
             _context.Orders.AddRange(orderTable);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(token);
             return order.Id;
         }
 
-        public async Task<bool> CheckOrderAsync(long farmerId, long SellerId)
+        public async Task<bool> CheckOrderAsync(long farmerId, long SellerId, CancellationToken token)
         {
             var result = await _context
            .Orders
            .AsNoTracking()
            .Where(x => x.FarmerId == farmerId && x.SellerId == SellerId)
-           .AnyAsync();
+           .AnyAsync(token);
             return result;
         }
         public async Task<long> FindOrderByFarmerAndSellerAsync(long farmerId, long SellerId, CancellationToken token)
@@ -47,7 +47,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             var order = await _context
           .Orders
           .AsNoTracking()
-          .Where(x => x.FarmerId == farmerId && x.SellerId == SellerId).SingleAsync();
+          .Where(x => x.FarmerId == farmerId && x.SellerId == SellerId).SingleAsync(token);
 
             return order.Id;
         }

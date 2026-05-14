@@ -26,7 +26,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             product.IsDeleted = true;
             var entry = _Context.Entry(product);
             entry.Property(x => x.IsDeleted).IsModified = true;
-            await _Context.SaveChangesAsync();
+            await _Context.SaveChangesAsync(token);
         }
 
         public async Task<List<Product>> SelectAllBySellerIdAsync(long sellerId, CancellationToken token)
@@ -43,7 +43,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
                  Name = p.ProductName,
                  Number = p.Number,
                  Price = p.Price
-             }).ToListAsync();
+             }).ToListAsync(token);
             return result;
         }
 
@@ -51,7 +51,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
         {
             var result = await _Context.Products.Where(p => p.Id == id).SingleAsync();
             result.Number += number;
-            await _Context.SaveChangesAsync();
+            await _Context.SaveChangesAsync(token);
         }
 
         public async Task InsertAsync(Product product, CancellationToken token)
@@ -67,7 +67,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
                 SellerId = product.SellerId,
             };
             _Context.Products.Add(product1);
-            await _Context.SaveChangesAsync();
+            await _Context.SaveChangesAsync(token);
         }
 
         public async Task<List<Product>> SelectByNameAsync(string search, CancellationToken token)
@@ -85,7 +85,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
                 Number = x.Number,
                 Price = x.Price,
                 SellerId = x.SellerId
-            }).ToListAsync();
+            }).ToListAsync(token);
             return result;
         }
 
@@ -111,7 +111,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             entry.Property(x => x.ImageProduct).IsModified = true;
             entry.Property(x => x.CategorieId).IsModified = true;
             entry.Property(x => x.CategorieId).IsModified = true;
-            await _Context.SaveChangesAsync();
+            await _Context.SaveChangesAsync(token);
         }
     }
 }

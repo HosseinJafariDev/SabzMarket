@@ -16,7 +16,7 @@ namespace SabzMarket.Infrastructure.Persistence.QueryServices
             _dbContext = sabzMarketDbContext;
         }
 
-        public async Task<GetFarmerByUsernameOutputDTO> SelectByUsernameAsync(string username)
+        public async Task<GetFarmerByUsernameOutputDTO> SelectByUsernameAsync(string username, CancellationToken token)
         {
             var result = await _dbContext
                     .Farmers
@@ -40,7 +40,7 @@ namespace SabzMarket.Infrastructure.Persistence.QueryServices
                         LastName = f.User.LastName,
                         Password = f.User.Password,
                         Phone = f.User.Phone
-                    }).SingleAsync();
+                    }).SingleAsync(token);
 
             return result;
         }

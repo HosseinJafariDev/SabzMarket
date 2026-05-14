@@ -33,7 +33,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
                     IsRead = x.IsRead,
                     Message = x.Message,
                     SentAt = x.SentAt
-                }).ToListAsync();
+                }).ToListAsync(token);
             return result;
         }
 
@@ -51,7 +51,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
                 SentAt = chat.SentAt
             };
             await _dbContext.Chats.AddAsync(table);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync(token);
         }
     }
 }

@@ -19,12 +19,12 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             _context = context;
         }
 
-        public async Task<bool> UserIsSellerAsync(string username)
+        public async Task<bool> UserIsSellerAsync(string username, CancellationToken token)
         {
             var result = await _context
                 .Sellers
                 .AsNoTracking()
-                .AnyAsync(s => s.User!.UserName == username);
+                .AnyAsync(s => s.User!.UserName == username, token);
             return result;
         }
 
@@ -43,7 +43,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
                 User = user
             };
             _context.Sellers.Add(sellerTable);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(token);
         }
 
         public async Task<Seller> SelectByUsernameAsync(string username, CancellationToken token)
@@ -70,7 +70,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
                     ProfileImage = s.ProfileImage,
                     WorkHistory = s.WorkHistory,
                     Id = s.Id
-                }).SingleOrDefaultAsync();
+                }).SingleOrDefaultAsync(token);
             return seller!;
         }
 
@@ -87,7 +87,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             entrySeller.Property(x => x.ProfileImage).IsModified = true;
             entrySeller.Property(x => x.WorkHistory).IsModified = true;
 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(token);
         }
 
         public async Task<List<Seller>> SelectByPhoneNumberAsync(string phone, CancellationToken token)
@@ -110,7 +110,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
                         FirstName = x.User.FirstName,
                         LastName = x.User.LastName,
                     }
-                }).ToListAsync();
+                }).ToListAsync(token);
             return result;
         }
 
@@ -131,7 +131,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
                     Phone = x.User.Phone,
                     UserName = x.User.UserName
                 }
-            }).SingleOrDefaultAsync();
+            }).SingleOrDefaultAsync(token);
             return result;
         }
     }

@@ -18,11 +18,11 @@ namespace SabzMarket.Application.UseCases.Orders.GetOrders
             _errorRepository = errorRepository;
             _orderQueryService = orderQueryService;
         }
-        public async Task<OperationResult<List<GetOrdersForSellerOutputDTO>>> ExecuteAsync(long sellerId, string search)
+        public async Task<OperationResult<List<GetOrdersForSellerOutputDTO>>> ExecuteAsync(long sellerId, string search, CancellationToken token)
         {
             try
             {
-                var orders = await _orderQueryService.SelectPendingOrdersForSellerAsync(sellerId, search);
+                var orders = await _orderQueryService.SelectPendingOrdersForSellerAsync(sellerId, search, token);
                 return OperationResult<List<GetOrdersForSellerOutputDTO>>.SuccessedResult(orders);
             }
             catch (Exception ex)

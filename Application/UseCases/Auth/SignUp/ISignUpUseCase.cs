@@ -9,6 +9,6 @@ namespace SabzMarket.Application.UseCases.Auth.SignUp
 {
     public interface ISignUpUseCase
     {
-        Task<OperationResult> ExecuteAsync(SignUpInputDTO input);
+        Task<OperationResult> ExecuteAsync(SignUpInputDTO input, CancellationToken token);
     }
 }

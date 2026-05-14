@@ -17,7 +17,7 @@ namespace SabzMarket.Infrastructure.Persistence.QueryServices
             _context = context;
         }
 
-        public async Task<List<GetOrdersForSellerOutputDTO>> SelectNonPendingOrdersForSellerAsync(long sellerId, string search)
+        public async Task<List<GetOrdersForSellerOutputDTO>> SelectNonPendingOrdersForSellerAsync(long sellerId, string search, CancellationToken token)
         {
             var query = _context.Orders
                   .AsNoTracking()
@@ -56,12 +56,12 @@ namespace SabzMarket.Infrastructure.Persistence.QueryServices
                 FirstName = o.order.Farmer.User!.FirstName,
                 CodePosti = o.order.Farmer.CodePosti,
                 LastName = o.order.Farmer.User!.LastName
-            }).ToListAsync();
+            }).ToListAsync(token);
 
             return result;
         }
 
-        public async Task<List<GetOrdersForSellerOutputDTO>> SelectPendingOrdersForSellerAsync(long sellerId, string search)
+        public async Task<List<GetOrdersForSellerOutputDTO>> SelectPendingOrdersForSellerAsync(long sellerId, string search, CancellationToken token)
         {
             var query = _context.Orders
                   .AsNoTracking()
@@ -98,7 +98,7 @@ namespace SabzMarket.Infrastructure.Persistence.QueryServices
                 FirstName = o.order.Farmer.User!.FirstName,
                 CodePosti = o.order.Farmer.CodePosti,
                 LastName = o.order.Farmer.User!.LastName
-            }).ToListAsync();
+            }).ToListAsync(token);
 
             return result;
         }

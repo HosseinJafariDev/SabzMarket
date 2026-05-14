@@ -20,11 +20,11 @@ namespace SabzMarket.Application.UseCases.Sellers.GetSeller
             _sellerRepository = sellerRepository;
             _mapper = mapper;
         }
-        public async Task<OperationResult<GetSellerOutputDTO>> ExecuteAsync(long id)
+        public async Task<OperationResult<GetSellerOutputDTO>> ExecuteAsync(long id, CancellationToken token)
         {
             try
             {
-                var result = await _sellerRepository.SelectByIdAsync(id);
+                var result = await _sellerRepository.SelectByIdAsync(id, token);
                 if (result == null)
                 {
                     return OperationResult<GetSellerOutputDTO>.Failed(Messages.NoSellerFoundWithId);

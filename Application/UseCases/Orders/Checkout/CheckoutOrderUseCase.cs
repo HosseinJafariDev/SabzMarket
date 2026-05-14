@@ -42,16 +42,16 @@ namespace SabzMarket.Application.UseCases.Orders.Checkout
             _mapper = mapper;
             _errorRepository = errorRepository;
         }
-        public async Task<OperationResult> ExecuteAsync(long farmerId)
+        public async Task<OperationResult> ExecuteAsync(long farmerId, CancellationToken token)
         {
             try
             {
-                var cartItems = await _cartItemQueryService.SelectByFarmerIdAsync(farmerId);
+                var cartItems = await _cartItemQueryService.SelectByFarmerIdAsync(farmerId, token);
 
                 var data = cartItems.Where(x => x.Quantity > x.ProducNumber).ToList();
                 foreach (var item in data)
                 {
-                    await _cartItemRepository.DeleteAsync(item.Id);
+                    await _cartItemRepository.DeleteAsync(item.Id, token);
                 }
                 cartItems.RemoveAll(x => x.Quantity > x.ProducNumber);
 
@@ -64,25 +64,25 @@ namespace SabzMarket.Application.UseCases.Orders.Checkout
 
                 foreach (var item in cartItems)
                 {
-                    var checkOrder = await _orderRepository.CheckOrderAsync(farmerId, item.SellerId);
+                    var checkOrder = await _orderRepository.CheckOrderAsync(farmerId, item.SellerId, token);
                     if (!checkOrder)
                     {
                         var order = _mapper.Map<Order>(item);
-                        var resultOrder = await _orderRepository.InsertAsync(order);
+                        var resultOrder = await _orderRepository.InsertAsync(order, token);
                         item.OrderId = resultOrder;
                         var orderDetail = _mapper.Map<OrderDetail>(item);
-                        await _orderDetailRepository.InsertAsync(orderDetail);
+                        await _orderDetailRepository.InsertAsync(orderDetail, token);
 
-                        await _productRepository.IncreaseNumberAsync(item.ProductId, -item.Quantity);
-                        await _cartItemRepository.DeleteAsync(item.Id);
+                        await _productRepository.IncreaseNumberAsync(item.ProductId, -item.Quantity, token);
+                        await _cartItemRepository.DeleteAsync(item.Id, token);
                     }
                     else
                     {
-                        var orderId = await _orderRepository.FindOrderByFarmerAndSellerAsync(farmerId, item.SellerId);
+                        var orderId = await _orderRepository.FindOrderByFarmerAndSellerAsync(farmerId, item.SellerId, token);
                         item.OrderId = orderId;
                         var order = _mapper.Map<OrderDetail>(item);
-                        await _orderDetailRepository.InsertAsync(order);
-                        await _cartItemRepository.DeleteAsync(item.Id);
+                        await _orderDetailRepository.InsertAsync(order, token);
+                        await _cartItemRepository.DeleteAsync(item.Id, token);
                     }
                 }
                 await _unitOfWork.CommitAsync();

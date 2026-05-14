@@ -9,6 +9,6 @@ namespace SabzMarket.Application.UseCases.Orders.GetOrders
 {
     public interface IGetPendingOrdersForSellerUseCase
     {
-        Task<OperationResult<List<GetOrdersForSellerOutputDTO>>> ExecuteAsync(long sellerId, string search);
+        Task<OperationResult<List<GetOrdersForSellerOutputDTO>>> ExecuteAsync(long sellerId, string search, CancellationToken token);
     }
 }

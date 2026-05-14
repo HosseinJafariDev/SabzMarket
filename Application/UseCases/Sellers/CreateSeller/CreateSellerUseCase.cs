@@ -27,7 +27,7 @@ namespace SabzMarket.Application.UseCases.Sellers.CreateSeller
             _fileStorageService = fileStorageService;
             _mapper = mapper;
         }
-        public async Task<OperationResult> ExecuteAsync(CreateSellerInputDTO sellerInputDTO, Stream stream)
+        public async Task<OperationResult> ExecuteAsync(CreateSellerInputDTO sellerInputDTO, Stream stream, CancellationToken token)
         {
             var validationResult = _validator.Validate(sellerInputDTO);
             if (!validationResult.IsValid)
@@ -37,7 +37,7 @@ namespace SabzMarket.Application.UseCases.Sellers.CreateSeller
 
             try
             {
-                var imageUrl = await _fileStorageService.SaveAsync(stream!, sellerInputDTO.ProfileImage!);
+                var imageUrl = await _fileStorageService.SaveAsync(stream!, sellerInputDTO.ProfileImage!, token);
                 sellerInputDTO.ProfileImage = imageUrl;
             }
             catch (Exception ex)
@@ -49,7 +49,7 @@ namespace SabzMarket.Application.UseCases.Sellers.CreateSeller
             try
             {
                 var seller = _mapper.Map<Seller>(sellerInputDTO);
-                await _sellerRepository.InsertAsync(sellerInputDTO.Username!, seller);
+                await _sellerRepository.InsertAsync(sellerInputDTO.Username!, seller, token);
                 return OperationResult.SuccessedResult(Messages.SaveSellerProfileSuccessful);
             }
             catch (Exception ex)

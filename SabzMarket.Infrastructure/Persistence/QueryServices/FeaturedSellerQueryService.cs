@@ -10,7 +10,7 @@ namespace SabzMarket.Infrastructure.Persistence.QueryServices
         {
             _context = context;
         }
-        public async Task<List<GetAllFeaturedSellerOutputDTO>> SelectAllSellerAsync()
+        public async Task<List<GetAllFeaturedSellerOutputDTO>> SelectAllSellerAsync(CancellationToken token)
         {
             var now = DateTime.UtcNow;
             var result = await _context
@@ -25,7 +25,7 @@ namespace SabzMarket.Infrastructure.Persistence.QueryServices
                 ProfileImage = s.Seller.ProfileImage,
                 FirstName = s.Seller.User!.FirstName,
                 LastName = s.Seller.User!.LastName,
-            }).ToListAsync();
+            }).ToListAsync(token);
 
             return result;
         }

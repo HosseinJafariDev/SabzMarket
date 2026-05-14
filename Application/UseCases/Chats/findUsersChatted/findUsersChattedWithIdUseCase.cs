@@ -17,11 +17,11 @@ namespace SabzMarket.Application.UseCases.Chats.findUsersChatted
             _queryService = queryService;
             _errorRepository = errorRepository;
         }
-        public async Task<OperationResult<List<findUsersChattedOutputDTO>>> ExecuteAsync(long id)
+        public async Task<OperationResult<List<findUsersChattedOutputDTO>>> ExecuteAsync(long id, CancellationToken token)
         {
             try
             {
-                var result = await _queryService.findUsersChattedWith(id);
+                var result = await _queryService.findUsersChattedWith(id, token);
                 if (!result.Any())
                 {
                     return OperationResult<List<findUsersChattedOutputDTO>>.FailedResult(Messages.NotFoundUsersChatted);

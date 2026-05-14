@@ -8,6 +8,6 @@ namespace SabzMarket.Application.Interfaces.Services
 {
     public interface ISendSmsService
     {
-        Task<bool> SendSmsOtp(string Phone, string otp);
+        Task<bool> SendSmsOtp(string Phone, string otp, CancellationToken token);
     }
 }

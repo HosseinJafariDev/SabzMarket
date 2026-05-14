@@ -18,11 +18,11 @@ namespace SabzMarket.Application.UseCases.FeaturedSellers.GetFeaturedSeller
             _errorRepository = errorRepository;
             _featuredSellerQueryService = featuredSellerQueryService;
         }
-        public async Task<OperationResult<List<GetAllFeaturedSellerOutputDTO>>> ExecuteAsync()
+        public async Task<OperationResult<List<GetAllFeaturedSellerOutputDTO>>> ExecuteAsync(CancellationToken token)
         {
             try
             {
-                var result = await _featuredSellerQueryService.SelectAllSellerAsync();
+                var result = await _featuredSellerQueryService.SelectAllSellerAsync(token);
                 return OperationResult<List<GetAllFeaturedSellerOutputDTO>>.SuccessedResult(result);
             }
             catch (Exception ex)

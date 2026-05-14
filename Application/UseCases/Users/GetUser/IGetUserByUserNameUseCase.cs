@@ -9,6 +9,6 @@ namespace SabzMarket.Application.UseCases.Users.GetUser
 {
     public interface IGetUserByUserNameUseCase
     {
-        Task<OperationResult<GetUserByUserNameOutputDTO>> ExecuteAsync(string username);
+        Task<OperationResult<GetUserByUserNameOutputDTO>> ExecuteAsync(string username, CancellationToken token);
     }
 }

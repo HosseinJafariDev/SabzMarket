@@ -1,6 +1,7 @@
 ﻿using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Model;
+using Newtonsoft.Json.Linq;
 using SabzMarket.Application.Interfaces.Services;
 using SabzMarket.Infrastructure.Configuration.S3;
 using System;
@@ -22,7 +23,7 @@ namespace SabzMarket.Infrastructure.Storage
             _serviceURL = settings.ServiceURL;
             _bucketName = settings.BucketName;
         }
-        public async Task<string> SaveAsync(Stream fileStream, string fileName)
+        public async Task<string> SaveAsync(Stream fileStream, string fileName, CancellationToken token)
         {
 
             fileStream.Position = 0;
@@ -36,7 +37,7 @@ namespace SabzMarket.Infrastructure.Storage
                 CannedACL = S3CannedACL.PublicRead,
             };
 
-            await _s3Client.PutObjectAsync(putRequest);
+            await _s3Client.PutObjectAsync(putRequest, token);
 
 
 

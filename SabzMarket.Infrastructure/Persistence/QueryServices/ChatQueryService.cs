@@ -15,10 +15,10 @@ namespace SabzMarket.Infrastructure.Persistence.QueryServices
         {
             _dbContext = dbContext;
         }
-        public async Task<List<findUsersChattedOutputDTO>> findUsersChattedWith(long id)
+        public async Task<List<findUsersChattedOutputDTO>> findUsersChattedWith(long id, CancellationToken token)
         {
             var isFarmer = await _dbContext.Farmers
-                .AnyAsync(x => x.UserId == id);
+                .AnyAsync(x => x.UserId == id, token);
 
             var chats = await _dbContext
                 .Chats
@@ -26,7 +26,7 @@ namespace SabzMarket.Infrastructure.Persistence.QueryServices
                 .Include(c => c.FromUser)
                 .Include(c => c.ToUser)
                 .Where(c => c.FromUserId == id || c.ToUserId == id)
-                .ToListAsync();
+                .ToListAsync(token);
 
             var otherUsers = chats
                 .Select(c => c.FromUserId == id ? c.ToUser : c.FromUser)

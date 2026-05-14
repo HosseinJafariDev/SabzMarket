@@ -9,6 +9,6 @@ namespace SabzMarket.Application.UseCases.Chats.findUsersChatted
 {
     public interface IfindUsersChattedWithIdUseCase
     {
-        Task<OperationResult<List<findUsersChattedOutputDTO>>> ExecuteAsync(long id);
+        Task<OperationResult<List<findUsersChattedOutputDTO>>> ExecuteAsync(long id, CancellationToken token);
     }
 }

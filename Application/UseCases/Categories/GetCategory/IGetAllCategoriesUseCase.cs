@@ -9,6 +9,6 @@ namespace SabzMarket.Application.UseCases.Categories.GetCategory
 {
     public interface IGetAllCategoriesUseCase
     {
-        Task<OperationResult<List<GetAllCategoriesOutputDTO>>> ExecuteAsync();
+        Task<OperationResult<List<GetAllCategoriesOutputDTO>>> ExecuteAsync(CancellationToken token);
     }
 }

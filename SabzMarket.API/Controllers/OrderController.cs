@@ -20,21 +20,21 @@ namespace SabzMarket.API.Controllers
             _checkoutOrderUseCase = checkoutOrderUseCase;
         }
         [HttpGet]
-        public async Task<OperationResult<List<GetOrdersForSellerOutputDTO>>> GetPendingOrdersForSellerAsync(long id, string search)
+        public async Task<OperationResult<List<GetOrdersForSellerOutputDTO>>> GetPendingOrdersForSellerAsync(long id, string search, CancellationToken token)
         {
-            var result = await _getPendingOrdersForSellerUseCase.ExecuteAsync(id, search);
+            var result = await _getPendingOrdersForSellerUseCase.ExecuteAsync(id, search, token);
             return result;
         }
         [HttpGet]
-        public async Task<OperationResult<List<GetOrdersForSellerOutputDTO>>> GetNonPendingOrdersForSellerAsync(long id, string search)
+        public async Task<OperationResult<List<GetOrdersForSellerOutputDTO>>> GetNonPendingOrdersForSellerAsync(long id, string search, CancellationToken token)
         {
-            var result = await _getNonPendingOrdersForSellerUseCase.ExecuteAsync(id, search);
+            var result = await _getNonPendingOrdersForSellerUseCase.ExecuteAsync(id, search, token);
             return result;
         }
         [HttpGet]
-        public async Task<OperationResult> CheckoutAsync(long farmerId)
+        public async Task<OperationResult> CheckoutAsync(long farmerId, CancellationToken token)
         {
-            var result = await _checkoutOrderUseCase.ExecuteAsync(farmerId);
+            var result = await _checkoutOrderUseCase.ExecuteAsync(farmerId, token);
             return result;
         }
     }

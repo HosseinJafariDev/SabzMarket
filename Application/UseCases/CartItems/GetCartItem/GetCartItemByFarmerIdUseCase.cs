@@ -22,15 +22,15 @@ namespace SabzMarket.Application.UseCases.CartItems.GetCartItem
             _cartItemQueryService = cartItemQueryService;
             _cartItemRepository = cartItemRepository;
         }
-        public async Task<OperationResult<List<GetCartItemByFarmerIdOutputDTO>>> ExecuteAsync(long farmerId)
+        public async Task<OperationResult<List<GetCartItemByFarmerIdOutputDTO>>> ExecuteAsync(long farmerId, CancellationToken token)
         {
             try
             {
-                var carts = await _cartItemQueryService.SelectByFarmerIdAsync(farmerId);
+                var carts = await _cartItemQueryService.SelectByFarmerIdAsync(farmerId, token);
                 var data = carts.Where(x => x.Quantity > x.ProducNumber).ToList();
                 foreach (var item in data)
                 {
-                    await _cartItemRepository.DeleteAsync(item.Id);
+                    await _cartItemRepository.DeleteAsync(item.Id, token);
                 }
                 carts.RemoveAll(x => x.Quantity > x.ProducNumber);
 

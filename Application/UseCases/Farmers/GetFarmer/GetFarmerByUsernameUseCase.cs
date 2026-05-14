@@ -17,11 +17,11 @@ namespace SabzMarket.Application.UseCases.Farmers.GetFarmer
             _errorRepository = errorRepository;
             _farmerQueryService = farmerQueryService;
         }
-        public async Task<OperationResult<GetFarmerByUsernameOutputDTO>> ExecuteAsync(string username)
+        public async Task<OperationResult<GetFarmerByUsernameOutputDTO>> ExecuteAsync(string username, CancellationToken token)
         {
             try
             {
-                var farmer = await _farmerQueryService.SelectByUsernameAsync(username);
+                var farmer = await _farmerQueryService.SelectByUsernameAsync(username, token);
                 return OperationResult<GetFarmerByUsernameOutputDTO>.SuccessedResult(farmer);
             }
             catch (Exception ex)

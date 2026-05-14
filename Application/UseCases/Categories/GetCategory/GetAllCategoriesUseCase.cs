@@ -23,11 +23,11 @@ namespace SabzMarket.Application.UseCases.Categories.GetCategory
             _errorRepository = errorRepository;
             _mapper = mapper;
         }
-        public async Task<OperationResult<List<GetAllCategoriesOutputDTO>>> ExecuteAsync()
+        public async Task<OperationResult<List<GetAllCategoriesOutputDTO>>> ExecuteAsync(CancellationToken token)
         {
             try
             {
-                var result = await _categorieRepository.SelectAsync();
+                var result = await _categorieRepository.SelectAsync(token);
                 var getAllCategoriesOutputDTO = _mapper.Map<List<GetAllCategoriesOutputDTO>>(result);
                 return OperationResult<List<GetAllCategoriesOutputDTO>>.SuccessedResult(getAllCategoriesOutputDTO);
             }

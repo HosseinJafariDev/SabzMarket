@@ -27,18 +27,18 @@ namespace SabzMarket.Application.UseCases.OrderDetails.MarkOrderDetail
             _orderDetailRepository = orderDetailRepository;
             _productRepository = productRepository;
         }
-        public async Task<OperationResult> ExecuteAsync(long orderDetaileId, int number, int productId)
+        public async Task<OperationResult> ExecuteAsync(long orderDetaileId, int number, int productId, CancellationToken token)
         {
             try
             {
                 await _unitOfWork.BeginAsync();
-                var result = await _orderDetailRepository.StatusIsReject(orderDetaileId);
+                var result = await _orderDetailRepository.StatusIsReject(orderDetaileId, token);
                 if (result)
                 {
                     return OperationResult.FailedResult(Messages.OrderAlreadyRejectedMessage);
                 }
-                await _orderDetailRepository.SetOrderDetailStatusToRejectedAsync(orderDetaileId);
-                await _productRepository.IncreaseNumberAsync(productId, number);
+                await _orderDetailRepository.SetOrderDetailStatusToRejectedAsync(orderDetaileId, token);
+                await _productRepository.IncreaseNumberAsync(productId, number, token);
                 await _unitOfWork.CommitAsync();
                 return OperationResult.SuccessedResult(Messages.OrderReject);
             }

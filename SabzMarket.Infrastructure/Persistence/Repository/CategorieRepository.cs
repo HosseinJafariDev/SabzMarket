@@ -27,7 +27,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
                 {
                     Id = x.Id,
                     Name = x.Name,
-                }).ToListAsync();
+                }).ToListAsync(token);
             return result;
         }
     }

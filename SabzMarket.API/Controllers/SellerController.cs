@@ -32,50 +32,50 @@ namespace SabzMarket.API.Controllers
             _sellerUpdateUseCase = sellerUpdateUseCase;
         }
         [HttpPost]
-        public async Task<OperationResult> CreateSelllerAsync([FromForm] CreateSellerInputDTO createSellerInputDTO, IFormFile file)
+        public async Task<OperationResult> CreateSelllerAsync([FromForm] CreateSellerInputDTO createSellerInputDTO, IFormFile file, CancellationToken token)
         {
             Stream stream = null;
             if (file != null)
             {
                 stream = file.OpenReadStream();
             }
-            var result = await _createSellerUseCase.ExecuteAsync(createSellerInputDTO, stream);
+            var result = await _createSellerUseCase.ExecuteAsync(createSellerInputDTO, stream, token);
             return result;
         }
         [HttpGet]
-        public async Task<OperationResult> CheckUserInSellerAsync(string username)
+        public async Task<OperationResult> CheckUserInSellerAsync(string username, CancellationToken token)
         {
-            var result = await _userIsSellerUseCase.ExecuteAsync(username);
+            var result = await _userIsSellerUseCase.ExecuteAsync(username, token);
             return result;
         }
         [HttpGet]
-        public async Task<OperationResult<GetSellerOutputDTO>> GetSellerByUsernameAsync(string username)
+        public async Task<OperationResult<GetSellerOutputDTO>> GetSellerByUsernameAsync(string username, CancellationToken token)
         {
-            var result = await _getSellerByUsenameUseCase.ExecuteAsync(username);
+            var result = await _getSellerByUsenameUseCase.ExecuteAsync(username, token);
             return result;
 
         }
         [HttpPost]
-        public async Task<OperationResult> UpdateAsync([FromForm] SellerUpdateInputDTO sellerUpdateInputDTO, IFormFile file)
+        public async Task<OperationResult> UpdateAsync([FromForm] SellerUpdateInputDTO sellerUpdateInputDTO, IFormFile file, CancellationToken token)
         {
             Stream stream = null;
             if (file != null)
             {
                 stream = file.OpenReadStream();
             }
-            var result = await _sellerUpdateUseCase.ExecuteAsync(sellerUpdateInputDTO, stream);
+            var result = await _sellerUpdateUseCase.ExecuteAsync(sellerUpdateInputDTO, stream!, token);
             return result;
         }
         [HttpGet]
-        public async Task<OperationResult<List<GetSellerOutputDTO>>> GetByPhoneNumberAsync(string phone)
+        public async Task<OperationResult<List<GetSellerOutputDTO>>> GetByPhoneNumberAsync(string phone, CancellationToken token)
         {
-            var result = await _getAllSellerByPhoneNumberUseCase.ExecuteAsync(phone);
+            var result = await _getAllSellerByPhoneNumberUseCase.ExecuteAsync(phone, token);
             return result;
         }
         [HttpGet]
-        public async Task<OperationResult<GetSellerOutputDTO>> GetByIdAsync(long id)
+        public async Task<OperationResult<GetSellerOutputDTO>> GetByIdAsync(long id, CancellationToken token)
         {
-            var result = await _getSellerByIdUseCase.ExecuteAsync(id);
+            var result = await _getSellerByIdUseCase.ExecuteAsync(id, token);
             return result;
         }
     }

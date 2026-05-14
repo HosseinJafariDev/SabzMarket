@@ -20,11 +20,11 @@ namespace SabzMarket.Application.UseCases.Products.GetProduct
             _mapper = mapper;
             _productRepository = productRepository;
         }
-        public async Task<OperationResult<List<GetProductOutputDTO>>> ExecuteAsync(long sellerId)
+        public async Task<OperationResult<List<GetProductOutputDTO>>> ExecuteAsync(long sellerId, CancellationToken token)
         {
             try
             {
-                var products = await _productRepository.SelectAllBySellerIdAsync(sellerId);
+                var products = await _productRepository.SelectAllBySellerIdAsync(sellerId, token);
 
                 if (!products.Any())
                 {

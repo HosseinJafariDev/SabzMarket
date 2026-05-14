@@ -12,9 +12,9 @@ namespace SabzMarket.API.Controllers
             _sendSmsOtpUseCase = sendSmsOtpUseCase;
         }
         [HttpGet]
-        public async Task<OperationResult<long>> Send(string Phone)
+        public async Task<OperationResult<long>> Send(string Phone, CancellationToken token)
         {
-            var result = await _sendSmsOtpUseCase.Execute(Phone);
+            var result = await _sendSmsOtpUseCase.Execute(Phone, token);
             return result;
         }
     }

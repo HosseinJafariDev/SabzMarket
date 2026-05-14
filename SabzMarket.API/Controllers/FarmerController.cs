@@ -27,37 +27,37 @@ namespace SabzMarket.API.Controllers
             _updateFarmerUseCase = updateFarmerUseCase;
         }
         [HttpGet]
-        public async Task<OperationResult> CheckUserExistsInFarmerAsync(string username)
+        public async Task<OperationResult> CheckUserExistsInFarmerAsync(string username, CancellationToken token)
         {
-            var result = await _userIsFarmerUseCase.ExecuteAsync(username);
+            var result = await _userIsFarmerUseCase.ExecuteAsync(username, token);
             return result;
         }
         [HttpPost]
-        public async Task<OperationResult> CreateFarmerAsync(string username, [FromForm] CreateFarmerInputDTO farmer, IFormFile file)
+        public async Task<OperationResult> CreateFarmerAsync(string username, [FromForm] CreateFarmerInputDTO farmer, IFormFile file, CancellationToken token)
         {
             Stream stream = null;
             if (file != null)
             {
                 stream = file.OpenReadStream();
             }
-            var result = await _createFarmerUseCase.ExecuteAsync(username, farmer, stream);
+            var result = await _createFarmerUseCase.ExecuteAsync(username, farmer, stream, token);
             return result;
         }
         [HttpGet]
-        public async Task<OperationResult<GetFarmerByUsernameOutputDTO>> GetByUsernameAsync(string username)
+        public async Task<OperationResult<GetFarmerByUsernameOutputDTO>> GetByUsernameAsync(string username, CancellationToken token)
         {
-            var result = await _getFarmerByUsernameUseCase.ExecuteAsync(username);
+            var result = await _getFarmerByUsernameUseCase.ExecuteAsync(username, token);
             return result;
         }
         [HttpPost]
-        public async Task<OperationResult> UpdateAsync([FromForm] UpdateFarmerInputDTO updateFarmerInputDTO, IFormFile file)
+        public async Task<OperationResult> UpdateAsync([FromForm] UpdateFarmerInputDTO updateFarmerInputDTO, IFormFile file, CancellationToken token)
         {
             Stream stream = null;
             if (file != null)
             {
                 stream = file.OpenReadStream();
             }
-            var result = await _updateFarmerUseCase.ExecuteAsync(updateFarmerInputDTO, stream);
+            var result = await _updateFarmerUseCase.ExecuteAsync(updateFarmerInputDTO, stream, token);
             return result;
         }
     }

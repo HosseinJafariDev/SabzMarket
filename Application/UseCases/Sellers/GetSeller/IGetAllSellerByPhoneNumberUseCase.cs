@@ -9,6 +9,6 @@ namespace SabzMarket.Application.UseCases.Sellers.GetSeller
 {
     public interface IGetAllSellerByPhoneNumberUseCase
     {
-        Task<OperationResult<List<GetSellerOutputDTO>>> ExecuteAsync(string phone);
+        Task<OperationResult<List<GetSellerOutputDTO>>> ExecuteAsync(string phone, CancellationToken token);
     }
 }

@@ -16,15 +16,15 @@ namespace SabzMarket.API.Controllers
             _markOrderDetailAsSent = markOrderDetailAsSent;
         }
         [HttpGet]
-        public async Task<OperationResult> MarkOrderDetailAsRejectedAsync(long orderDetaileId, int number, int productId)
+        public async Task<OperationResult> MarkOrderDetailAsRejectedAsync(long orderDetaileId, int number, int productId, CancellationToken token)
         {
-            var result = await _markOrderDetailAsRejectedUseCase.ExecuteAsync(orderDetaileId, number, productId);
+            var result = await _markOrderDetailAsRejectedUseCase.ExecuteAsync(orderDetaileId, number, productId, token);
             return result;
         }
         [HttpGet]
-        public async Task<OperationResult> MarkOrderDetailAsSentAsync(long orderDetaileId)
+        public async Task<OperationResult> MarkOrderDetailAsSentAsync(long orderDetaileId, CancellationToken token)
         {
-            var result = await _markOrderDetailAsSent.ExecuteAsync(orderDetaileId);
+            var result = await _markOrderDetailAsSent.ExecuteAsync(orderDetaileId, token);
             return result;
         }
     }

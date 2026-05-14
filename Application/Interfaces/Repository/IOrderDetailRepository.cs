@@ -11,9 +11,9 @@ namespace SabzMarket.Application.Interfaces.Repository
     {
         public Task SetOrderDetailStatusToSentAsync(long orderDetile, CancellationToken token);
         public Task SetOrderDetailStatusToRejectedAsync(long orderDetile, CancellationToken token);
-        public Task<bool> HasPendingOrdersForProductAsync(long productId);
+        public Task<bool> HasPendingOrdersForProductAsync(long productId, CancellationToken token);
         public Task InsertAsync(OrderDetail orderDetail, CancellationToken token);
-        Task<bool> StatusIsReject(long id);
-        Task<bool> StatusIsSent(long id);
+        Task<bool> StatusIsReject(long id, CancellationToken token);
+        Task<bool> StatusIsSent(long id, CancellationToken token);
     }
 }

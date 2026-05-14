@@ -9,6 +9,6 @@ namespace SabzMarket.Application.UseCases.CartItems.DecreaseQuantity
 {
     public interface IDecreaseQuantityUseCase
     {
-        Task<OperationResult> ExecuteAsync(long productId, long farmerId);
+        Task<OperationResult> ExecuteAsync(long productId, long farmerId, CancellationToken token);
     }
 }

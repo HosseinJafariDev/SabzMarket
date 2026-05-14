@@ -9,6 +9,6 @@ namespace SabzMarket.Application.UseCases.Sms.SendSmsOtp
 {
     public interface ISendSmsOtpUseCase
     {
-        Task<OperationResult<long>> Execute(string Phone);
+        Task<OperationResult<long>> Execute(string Phone, CancellationToken token);
     }
 }

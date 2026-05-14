@@ -27,13 +27,13 @@ namespace SabzMarket.Application.UseCases.CartItems.DecreaseQuantity
             _errorRepository = errorRepository;
             _unitOfWork = unitOfWork;
         }
-        public async Task<OperationResult> ExecuteAsync(long productId, long farmerId)
+        public async Task<OperationResult> ExecuteAsync(long productId, long farmerId, CancellationToken token)
         {
             try
             {
                 await _unitOfWork.BeginAsync();
-                await _cartItemRepository.ChangeQuantityAsync(productId, farmerId, -1);
-                await _productRepository.IncreaseNumberAsync(productId, 1);
+                await _cartItemRepository.ChangeQuantityAsync(productId, farmerId, -1, token);
+                await _productRepository.IncreaseNumberAsync(productId, 1, token);
                 await _unitOfWork.CommitAsync();
                 return OperationResult.SuccessedResult(Messages.RemoveAddToCart);
             }

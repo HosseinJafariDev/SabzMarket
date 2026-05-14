@@ -9,6 +9,6 @@ namespace SabzMarket.Application.UseCases.Orders.Checkout
 {
     public interface ICheckoutOrderUseCase
     {
-        Task<OperationResult> ExecuteAsync(long farmerId);
+        Task<OperationResult> ExecuteAsync(long farmerId, CancellationToken token);
     }
 }

@@ -17,11 +17,11 @@ namespace SabzMarket.Application.UseCases.Auth.UserIsSeller
             _errorRepository = errorRepository;
             _sellerRepository = sellerRepository;
         }
-        public async Task<OperationResult<bool>> ExecuteAsync(string username)
+        public async Task<OperationResult<bool>> ExecuteAsync(string username, CancellationToken token)
         {
             try
             {
-                var result = await _sellerRepository.UserIsSellerAsync(username);
+                var result = await _sellerRepository.UserIsSellerAsync(username, token);
 
                 return OperationResult<bool>.SuccessedResult(result);
             }

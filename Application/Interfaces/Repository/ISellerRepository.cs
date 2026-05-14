@@ -9,7 +9,7 @@ namespace SabzMarket.Application.Interfaces.Repository
     public interface ISellerRepository
     {
         Task InsertAsync(string username, Seller seller, CancellationToken token);
-        Task<bool> UserIsSellerAsync(string username);
+        Task<bool> UserIsSellerAsync(string username, CancellationToken token);
         Task<Seller> SelectByUsernameAsync(string username, CancellationToken token);
         Task UpdateAsync(Seller seller, CancellationToken token);
         Task<List<Seller>> SelectByPhoneNumberAsync(string phone, CancellationToken token);

@@ -32,7 +32,7 @@ namespace SabzMarket.Application.UseCases.Farmers.CreateFarmer
             _fileStorageService = fileStorageService;
             _mapper = mapper;
         }
-        public async Task<OperationResult> ExecuteAsync(string username, CreateFarmerInputDTO createFarmerInputDTO, Stream stream)
+        public async Task<OperationResult> ExecuteAsync(string username, CreateFarmerInputDTO createFarmerInputDTO, Stream stream, CancellationToken token)
         {
             try
             {
@@ -42,11 +42,11 @@ namespace SabzMarket.Application.UseCases.Farmers.CreateFarmer
                     return OperationResult.FailedResult(farmerValidation.Errors.First().ErrorMessage);
                 }
 
-                var imageURL = await _fileStorageService.SaveAsync(stream!, createFarmerInputDTO.ProfileImage!);
+                var imageURL = await _fileStorageService.SaveAsync(stream!, createFarmerInputDTO.ProfileImage!, token);
                 createFarmerInputDTO.ProfileImage = imageURL;
 
                 var farmer = _mapper.Map<Farmer>(createFarmerInputDTO);
-                await _farmerRepository.InsertAsync(username, farmer);
+                await _farmerRepository.InsertAsync(username, farmer, token);
                 return OperationResult.SuccessedResult(Messages.SignUpSuccessful);
             }
             catch (Exception ex)

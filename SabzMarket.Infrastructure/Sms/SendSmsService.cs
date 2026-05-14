@@ -22,7 +22,7 @@ namespace SabzMarket.Infrastructure.Sms
             httpClient.Dispose();
         }
 
-        public async Task<bool> SendSmsOtp(string Phone, string otp)
+        public async Task<bool> SendSmsOtp(string Phone, string otp, CancellationToken token)
         {
             httpClient.DefaultRequestHeaders.Add("x-api-key", "GD3UGtSs42BGAAGY128fKCHpN4foc5y4j0loED2oHuac28lL");
 
@@ -42,8 +42,8 @@ namespace SabzMarket.Infrastructure.Sms
             var payload = JsonConvert.SerializeObject(model);
             StringContent stringContent = new(payload, Encoding.UTF8, "application/json");
 
-            var response = await httpClient.PostAsync("https://api.sms.ir/v1/send/verify", stringContent);
-            string content = await response.Content.ReadAsStringAsync();
+            var response = await httpClient.PostAsync("https://api.sms.ir/v1/send/verify", stringContent, token);
+            string content = await response.Content.ReadAsStringAsync(token);
             var result = JsonConvert.DeserializeObject<SmsOutput>(content);
 
             if (result.status == 1)

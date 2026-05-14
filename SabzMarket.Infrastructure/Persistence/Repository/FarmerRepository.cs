@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Domain.Entities;
 using SabzMarket.Infrastructure.Entities;
@@ -39,7 +40,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
 
             _dbContext.Add(farmerTable);
 
-            await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync(token);
         }
 
         public async Task UpdateAsync(Farmer farmer, CancellationToken token)
@@ -54,15 +55,15 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             entryFarmer.Property(x => x.CodePosti).IsModified = true;
             entryFarmer.Property(x => x.ProfileImage).IsModified = true;
 
-            await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync(token);
         }
 
-        public async Task<bool> UserExistsInFarmerAsync(string username)
+        public async Task<bool> UserExistsInFarmerAsync(string username, CancellationToken token)
         {
             var result = await _dbContext
                 .Farmers
                 .AsNoTracking()
-                .AnyAsync(f => f.User!.UserName == username);
+                .AnyAsync(f => f.User!.UserName == username, token);
 
             return result;
         }

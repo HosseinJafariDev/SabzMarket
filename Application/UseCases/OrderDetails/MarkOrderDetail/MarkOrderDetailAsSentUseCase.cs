@@ -17,11 +17,11 @@ namespace SabzMarket.Application.UseCases.OrderDetails.MarkOrderDetail
             _errorRepository = errorRepository;
             _orderDetailRepository = orderDetailRepository;
         }
-        public async Task<OperationResult> ExecuteAsync(long orderDetaileId)
+        public async Task<OperationResult> ExecuteAsync(long orderDetaileId, CancellationToken token)
         {
             try
             {
-                await _orderDetailRepository.SetOrderDetailStatusToSentAsync(orderDetaileId);
+                await _orderDetailRepository.SetOrderDetailStatusToSentAsync(orderDetaileId, token);
                 return OperationResult.SuccessedResult(Messages.OrderSent);
             }
             catch (Exception ex)

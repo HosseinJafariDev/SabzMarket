@@ -20,12 +20,12 @@ namespace SabzMarket.Application.UseCases.Products.GetProduct
             _productRepository = productRepository;
             _mapper = mapper;
         }
-        public async Task<OperationResult<List<GetProductOutputDTO>>> ExecuteAsync(string name)
+        public async Task<OperationResult<List<GetProductOutputDTO>>> ExecuteAsync(string name, CancellationToken token)
         {
             try
             {
                 var products = await _productRepository
-                    .SelectByNameAsync(name);
+                    .SelectByNameAsync(name, token);
 
                 if (!products.Any())
                 {

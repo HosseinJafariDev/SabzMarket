@@ -12,9 +12,9 @@ namespace SabzMarket.API.Controllers
             _getAllSellerUseCase = getAllSellerUseCase;
         }
         [HttpGet]
-        public async Task<OperationResult<List<GetAllFeaturedSellerOutputDTO>>> GetAllSellerAsync()
+        public async Task<OperationResult<List<GetAllFeaturedSellerOutputDTO>>> GetAllSellerAsync(CancellationToken token)
         {
-            var result = await _getAllSellerUseCase.ExecuteAsync();
+            var result = await _getAllSellerUseCase.ExecuteAsync(token);
             return result;
         }
     }

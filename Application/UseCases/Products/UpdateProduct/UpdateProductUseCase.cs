@@ -33,7 +33,7 @@ namespace SabzMarket.Application.UseCases.Products.UpdateProduct
             _mapper = mapper;
             _validator = validator;
         }
-        public async Task<OperationResult> ExecuteAsync(UpdateProductInputDTO updateProductInputDTO, Stream stream)
+        public async Task<OperationResult> ExecuteAsync(UpdateProductInputDTO updateProductInputDTO, Stream stream, CancellationToken token)
         {
             var validationResult = _validator.Validate(updateProductInputDTO);
             if (!validationResult.IsValid)
@@ -45,7 +45,7 @@ namespace SabzMarket.Application.UseCases.Products.UpdateProduct
             {
                 try
                 {
-                    var urlImage = await _fileStorageService.SaveAsync(stream!, updateProductInputDTO.ImageProduct);
+                    var urlImage = await _fileStorageService.SaveAsync(stream!, updateProductInputDTO.ImageProduct, token);
                     updateProductInputDTO.ImageProduct = urlImage;
                 }
                 catch (Exception ex)
@@ -58,7 +58,7 @@ namespace SabzMarket.Application.UseCases.Products.UpdateProduct
             try
             {
                 var product = _mapper.Map<Product>(updateProductInputDTO);
-                await _productRepository.UpdateAsync(product);
+                await _productRepository.UpdateAsync(product, token);
                 return OperationResult.SuccessedResult(Messages.UpdateSuccessful);
             }
             catch (Exception ex)

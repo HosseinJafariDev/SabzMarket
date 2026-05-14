@@ -16,12 +16,12 @@ namespace SabzMarket.Infrastructure.Persistence.QueryServices
             _context = context;
         }
 
-        public async Task<List<GetCartItemByFarmerIdOutputDTO>> SelectByFarmerIdAsync(long farmerId)
+        public async Task<List<GetCartItemByFarmerIdOutputDTO>> SelectByFarmerIdAsync(long farmerId, CancellationToken token)
         {
             var result = await _context
                .CartItems
                .AsNoTracking()
-               .Include(x=>x.Product)
+               .Include(x => x.Product)
                .Where(x =>
                x.FarmerId == farmerId &&
                x.Product.IsDeleted == false)
@@ -37,7 +37,7 @@ namespace SabzMarket.Infrastructure.Persistence.QueryServices
                    ProductPrice = x.Product.Price,
                    Quantity = x.Quantity,
                    ProducNumber = x.Product.Number
-               }).ToListAsync();
+               }).ToListAsync(token);
             return result;
         }
     }

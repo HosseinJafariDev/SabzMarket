@@ -40,7 +40,7 @@ namespace SabzMarket.Application.UseCases.Sellers.UpdateSeller
             _unitOfWork = unitOfWork;
             _errorRepository = errorRepository;
         }
-        public async Task<OperationResult> ExecuteAsync(SellerUpdateInputDTO updateSellerInputDTO, Stream stream)
+        public async Task<OperationResult> ExecuteAsync(SellerUpdateInputDTO updateSellerInputDTO, Stream stream, CancellationToken token)
         {
             var validationResult = _validator.Validate(updateSellerInputDTO);
             if (!validationResult.IsValid)
@@ -52,7 +52,7 @@ namespace SabzMarket.Application.UseCases.Sellers.UpdateSeller
 
             if (updateSellerInputDTO.NewUsername != updateSellerInputDTO.CurrentUsername)
             {
-                var result = await _userRepository.CheckUserAsync(updateSellerInputDTO.NewUsername!);
+                var result = await _userRepository.CheckUserAsync(updateSellerInputDTO.NewUsername!, token);
                 if (result)
                     return OperationResult.FailedResult(Messages.ExistingUserName);
             }
@@ -61,7 +61,7 @@ namespace SabzMarket.Application.UseCases.Sellers.UpdateSeller
             {
                 if (!updateSellerInputDTO.ProfileImage!.StartsWith(Messages.Url))
                     updateSellerInputDTO.ProfileImage = await _fileStorageService
-                        .SaveAsync(stream!, updateSellerInputDTO.ProfileImage);
+                        .SaveAsync(stream!, updateSellerInputDTO.ProfileImage, token);
             }
             catch (Exception ex)
             {
@@ -72,10 +72,10 @@ namespace SabzMarket.Application.UseCases.Sellers.UpdateSeller
             try
             {
                 var user = _mapper.Map<User>(updateSellerInputDTO);
-                await _userRepository.UpdateAsync(user);
+                await _userRepository.UpdateAsync(user, token);
 
                 var seller = _mapper.Map<Seller>(updateSellerInputDTO);
-                await _sellerRepository.UpdateAsync(seller);
+                await _sellerRepository.UpdateAsync(seller, token);
                 await _unitOfWork.CommitAsync();
                 return OperationResult.SuccessedResult(Messages.UpdateSuccessful);
             }

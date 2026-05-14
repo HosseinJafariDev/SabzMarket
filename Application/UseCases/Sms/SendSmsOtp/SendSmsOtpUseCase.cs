@@ -21,7 +21,7 @@ namespace SabzMarket.Application.UseCases.Sms.SendSmsOtp
             _errorRepository = errorRepository;
             _smsService = sendSmsService;
         }
-        public async Task<OperationResult<long>> Execute(string Phone)
+        public async Task<OperationResult<long>> Execute(string Phone, CancellationToken token)
         {
             try
             {
@@ -31,13 +31,13 @@ namespace SabzMarket.Application.UseCases.Sms.SendSmsOtp
                 var digits = bytes.Select(b => (b % 10).ToString());
                 var otp = string.Concat(digits);
 
-                var otpId = await _smsOtpRepository.Insert(long.Parse(otp));
+                var otpId = await _smsOtpRepository.Insert(long.Parse(otp), token);
                 if (otpId == 0)
                 {
                     return OperationResult<long>.FailedResult(Messages.Error);
                 }
 
-                var result = await _smsService.SendSmsOtp(Phone, otp);
+                var result = await _smsService.SendSmsOtp(Phone, otp, token);
                 if (!result)
                 {
                     return OperationResult<long>.FailedResult(Messages.Error);

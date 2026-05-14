@@ -10,6 +10,6 @@ namespace SabzMarket.Application.UseCases.Chats.SendMessage
 {
     public interface ISendMessageUseCase
     {
-        Task<OperationResult> ExecuteAsync(SendMessageInputDTO sendMessageInputDTO);
+        Task<OperationResult> ExecuteAsync(SendMessageInputDTO sendMessageInputDTO, CancellationToken token);
     }
 }

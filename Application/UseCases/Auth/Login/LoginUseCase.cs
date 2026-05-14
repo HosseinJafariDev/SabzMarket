@@ -21,7 +21,7 @@ namespace SabzMarket.Application.UseCases.Auth.Login
             _userRepository = userRepository;
             _errorRepository = errorRepository;
         }
-        public async Task<OperationResult> ExecuteAsync(LoginInputDTO input)
+        public async Task<OperationResult> ExecuteAsync(LoginInputDTO input, CancellationToken token)
         {
             if (input == null || string.IsNullOrWhiteSpace(input.UserName) || string.IsNullOrWhiteSpace(input.Password))
             {
@@ -30,7 +30,7 @@ namespace SabzMarket.Application.UseCases.Auth.Login
 
             try
             {
-                var user = await _userRepository.SelectByUserNameForLoginAsync(input.UserName!);
+                var user = await _userRepository.SelectByUserNameForLoginAsync(input.UserName!, token);
 
                 if (user == null || !user.VerifyPassword(input.Password!))
                 {

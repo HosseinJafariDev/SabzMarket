@@ -13,6 +13,6 @@ namespace SabzMarket.Application.Interfaces.Repository
         Task UpdateAsync(User user, CancellationToken token);
         Task<User> SelectByUserNameAsync(string username, CancellationToken token);
         Task<User?> SelectByUserNameForLoginAsync(string userName, CancellationToken token);
-        Task<bool> CheckUserAsync(string username);
+        Task<bool> CheckUserAsync(string username, CancellationToken token);
     }
 }

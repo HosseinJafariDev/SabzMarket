@@ -20,17 +20,17 @@ namespace SabzMarket.Application.UseCases.Products.DeleteProduct
             _productRepository = productRepository;
             _errorRepository = errorRepository;
         }
-        public async Task<OperationResult> ExecuteAsync(long id)
+        public async Task<OperationResult> ExecuteAsync(long id, CancellationToken token)
         {
             try
             {
-                var hasPendingOrders = await _orderDetailRepository.HasPendingOrdersForProductAsync(id);
+                var hasPendingOrders = await _orderDetailRepository.HasPendingOrdersForProductAsync(id, token);
                 if (hasPendingOrders)
                 {
                     return OperationResult.FailedResult(Messages.ProductIsOnOrder);
                 }
 
-                await _productRepository.DeleteAsync(id);
+                await _productRepository.DeleteAsync(id, token);
                 return OperationResult.SuccessedResult(Messages.ProductDelete);
             }
             catch (Exception ex)

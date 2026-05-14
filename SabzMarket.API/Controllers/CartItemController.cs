@@ -25,27 +25,27 @@ namespace SabzMarket.API.Controllers
             _getCartItemByFarmerIdUseCase = getCartItemByFarmerIdUseCase;
         }
         [HttpPost]
-        public async Task<OperationResult> AddToCartAsync(AddToCartInputDTO addToCartInputDTO)
+        public async Task<OperationResult> AddToCartAsync(AddToCartInputDTO addToCartInputDTO, CancellationToken token)
         {
-            var result = await _addToCartUseCase.ExecuteAsync(addToCartInputDTO);
+            var result = await _addToCartUseCase.ExecuteAsync(addToCartInputDTO, token);
             return result;
         }
         [HttpGet]
-        public async Task<OperationResult> DecreaseQuantityAsync(long productId, long farmerId)
+        public async Task<OperationResult> DecreaseQuantityAsync(long productId, long farmerId, CancellationToken token)
         {
-            var result = await _decreaseQuantityUseCase.ExecuteAsync(productId, farmerId);
+            var result = await _decreaseQuantityUseCase.ExecuteAsync(productId, farmerId, token);
             return result;
         }
         [HttpGet]
-        public async Task<OperationResult> DeleteAsync(int cartId, long productId, int productNumber)
+        public async Task<OperationResult> DeleteAsync(int cartId, long productId, int productNumber, CancellationToken token)
         {
-            var result = await _deleteCartItemUseCase.ExecuteAsync(cartId, productId, productNumber);
+            var result = await _deleteCartItemUseCase.ExecuteAsync(cartId, productId, productNumber, token);
             return result;
         }
         [HttpGet]
-        public Task<OperationResult<List<GetCartItemByFarmerIdOutputDTO>>> GetByFarmerIdAsync(long farmerId)
+        public Task<OperationResult<List<GetCartItemByFarmerIdOutputDTO>>> GetByFarmerIdAsync(long farmerId, CancellationToken token)
         {
-            var result = _getCartItemByFarmerIdUseCase.ExecuteAsync(farmerId);
+            var result = _getCartItemByFarmerIdUseCase.ExecuteAsync(farmerId, token);
             return result;
         }
     }

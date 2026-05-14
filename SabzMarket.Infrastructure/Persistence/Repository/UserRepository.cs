@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Domain.Entities;
 using SabzMarket.Infrastructure.Entities;
@@ -20,12 +21,12 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             _context = context;
         }
 
-        public async Task<bool> CheckUserAsync(string username)
+        public async Task<bool> CheckUserAsync(string username, CancellationToken token)
         {
             var result = await _context
                 .Users
                 .AsNoTracking()
-                .AnyAsync(u => u.UserName == username);
+                .AnyAsync(u => u.UserName == username, token);
             return result;
         }
 
@@ -39,7 +40,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
                     UserName = x.UserName,
                     Password = x.Password
                 })
-                .SingleOrDefaultAsync();
+                .SingleOrDefaultAsync(token);
             return result;
         }
 
@@ -57,7 +58,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             _context.Users
                 .Add(userTable);
             await _context
-                .SaveChangesAsync();
+                .SaveChangesAsync(token);
         }
 
         public async Task<User> SelectByUserNameAsync(string username, CancellationToken token)
@@ -76,7 +77,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
                  Password = u.Password!
 
              })
-             .SingleOrDefaultAsync();
+             .SingleOrDefaultAsync(token);
             return result!;
         }
 
@@ -99,7 +100,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             entryUser.Property(x => x.Email).IsModified = true;
             entryUser.Property(x => x.Phone).IsModified = true;
 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(token);
         }
     }
 }

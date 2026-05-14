@@ -8,6 +8,6 @@ namespace SabzMarket.Application.UseCases.CartItems.GetCartItem
 {
     public interface ICartItemQueryService
     {
-        public Task<List<GetCartItemByFarmerIdOutputDTO>> SelectByFarmerIdAsync(long farmerId);
+        public Task<List<GetCartItemByFarmerIdOutputDTO>> SelectByFarmerIdAsync(long farmerId, CancellationToken token);
     }
 }

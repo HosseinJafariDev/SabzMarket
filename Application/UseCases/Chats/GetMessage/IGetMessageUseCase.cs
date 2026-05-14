@@ -9,6 +9,6 @@ namespace SabzMarket.Application.UseCases.Chats.GetMessage
 {
     public interface IGetMessageUseCase
     {
-        Task<OperationResult<List<GetMessageOutputDTO>>> ExecuteAsync(long fromId, long toId);
+        Task<OperationResult<List<GetMessageOutputDTO>>> ExecuteAsync(long fromId, long toId, CancellationToken token);
     }
 }

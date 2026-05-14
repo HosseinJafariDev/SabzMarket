@@ -39,7 +39,7 @@ namespace SabzMarket.Application.UseCases.Farmers.UpdateFarmer
             _fileStorageService = fileStorageService;
             _unitOfWork = unitOfWork;
         }
-        public async Task<OperationResult> ExecuteAsync(UpdateFarmerInputDTO updateFarmerInputDTO, Stream stream)
+        public async Task<OperationResult> ExecuteAsync(UpdateFarmerInputDTO updateFarmerInputDTO, Stream stream, CancellationToken token)
         {
             var validationResult = _validator.Validate(updateFarmerInputDTO);
             if (!validationResult.IsValid)
@@ -51,7 +51,7 @@ namespace SabzMarket.Application.UseCases.Farmers.UpdateFarmer
 
             if (updateFarmerInputDTO.NewUsername != updateFarmerInputDTO.CurrentUsername)
             {
-                var result = await _userRepository.CheckUserAsync(updateFarmerInputDTO.NewUsername!);
+                var result = await _userRepository.CheckUserAsync(updateFarmerInputDTO.NewUsername!, token);
                 if (result)
                     return OperationResult.FailedResult(Messages.ExistingUserName);
             }
@@ -60,7 +60,7 @@ namespace SabzMarket.Application.UseCases.Farmers.UpdateFarmer
             {
                 if (!updateFarmerInputDTO.ProfileImage!.StartsWith(Messages.Url))
                     updateFarmerInputDTO.ProfileImage = await _fileStorageService
-                        .SaveAsync(stream!, updateFarmerInputDTO.ProfileImage);
+                        .SaveAsync(stream!, updateFarmerInputDTO.ProfileImage, token);
             }
             catch (Exception ex)
             {
@@ -71,10 +71,10 @@ namespace SabzMarket.Application.UseCases.Farmers.UpdateFarmer
             try
             {
                 var user = _mapper.Map<User>(updateFarmerInputDTO);
-                await _userRepository.UpdateAsync(user);
+                await _userRepository.UpdateAsync(user, token);
 
                 var farmer = _mapper.Map<Farmer>(updateFarmerInputDTO);
-                await _farmerRepository.UpdateAsync(farmer);
+                await _farmerRepository.UpdateAsync(farmer, token);
 
                 await _unitOfWork.CommitAsync();
                 return OperationResult.SuccessedResult(Messages.UpdateSuccessful);

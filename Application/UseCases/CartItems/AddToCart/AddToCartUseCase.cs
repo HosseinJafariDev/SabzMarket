@@ -22,27 +22,28 @@ namespace SabzMarket.Application.UseCases.CartItems.AddToCart
             _errorRepository = errorRepository;
             _mapper = mapper;
         }
-        public async Task<OperationResult> ExecuteAsync(AddToCartInputDTO addToCartInputDTO)
+        public async Task<OperationResult> ExecuteAsync(AddToCartInputDTO addToCartInputDTO, CancellationToken token)
         {
             try
             {
                 var existProduct = await _cartItemRepository
-               .ExistProductAsync(addToCartInputDTO.FarmerId, addToCartInputDTO.ProductId);
+               .ExistProductAsync(addToCartInputDTO.FarmerId, addToCartInputDTO.ProductId, token);
 
                 if (existProduct)
                 {
                     await _cartItemRepository
                         .ChangeQuantityAsync(
-                        addToCartInputDTO.ProductId, 
-                        addToCartInputDTO.FarmerId, 
-                        addToCartInputDTO.Quantity);
+                        addToCartInputDTO.ProductId,
+                        addToCartInputDTO.FarmerId,
+                        addToCartInputDTO.Quantity,
+                        token);
 
                     return OperationResult.SuccessedResult(Messages.SuccessAddToCart);
                 }
                 var cartItem = _mapper.Map<CartItem>(addToCartInputDTO);
 
 
-                await _cartItemRepository.InsertAsync(cartItem);
+                await _cartItemRepository.InsertAsync(cartItem, token);
 
                 return OperationResult.SuccessedResult(Messages.SuccessAddToCart);
             }

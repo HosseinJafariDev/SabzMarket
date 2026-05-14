@@ -21,12 +21,12 @@ namespace SabzMarket.Application.UseCases.Chats.SendMessage
             _mapper = mapper;
             _errorRepository = errorRepository;
         }
-        public async Task<OperationResult> ExecuteAsync(SendMessageInputDTO sendMessageInputDTO)
+        public async Task<OperationResult> ExecuteAsync(SendMessageInputDTO sendMessageInputDTO, CancellationToken token)
         {
             try
             {
                 var chat = _mapper.Map<Chat>(sendMessageInputDTO);
-                await _chatRepository.InsertAsync(chat);
+                await _chatRepository.InsertAsync(chat, token);
                 return OperationResult.SuccessedResult();
             }
             catch (Exception ex)

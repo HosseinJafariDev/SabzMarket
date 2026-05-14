@@ -9,6 +9,6 @@ namespace SabzMarket.Application.UseCases.Farmers.CreateFarmer
 {
     public interface ICreateFarmerUseCase
     {
-        Task<OperationResult> ExecuteAsync(string username, CreateFarmerInputDTO createFarmerInputDTO, Stream stream);
+        Task<OperationResult> ExecuteAsync(string username, CreateFarmerInputDTO createFarmerInputDTO, Stream stream, CancellationToken token);
     }
 }

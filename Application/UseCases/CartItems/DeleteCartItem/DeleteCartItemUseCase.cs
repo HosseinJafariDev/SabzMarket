@@ -27,13 +27,13 @@ namespace SabzMarket.Application.UseCases.CartItems.DeleteCartItem
             _productRepository = productRepository;
             _unitOfWork = unitOfWork;
         }
-        public async Task<OperationResult> ExecuteAsync(int cartId, long productId, int productNumber)
+        public async Task<OperationResult> ExecuteAsync(int cartId, long productId, int productNumber, CancellationToken token)
         {
             try
             {
                 await _unitOfWork.BeginAsync();
-                await _cartItemRepository.DeleteAsync(cartId);
-                await _productRepository.IncreaseNumberAsync(productId, productNumber);
+                await _cartItemRepository.DeleteAsync(cartId, token);
+                await _productRepository.IncreaseNumberAsync(productId, productNumber, token);
                 await _unitOfWork.CommitAsync();
                 return OperationResult.SuccessedResult(Messages.RemoveAddToCart);
             }

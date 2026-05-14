@@ -28,43 +28,43 @@ namespace SabzMarket.API.Controllers
             _deleteProductUseCase = deleteProductUseCase;
         }
         [HttpPost]
-        public async Task<OperationResult> CreateProductAsync([FromForm] CreateProductInputDTO product, IFormFile file)
+        public async Task<OperationResult> CreateProductAsync([FromForm] CreateProductInputDTO product, IFormFile file, CancellationToken token)
         {
             Stream stream = null;
             if (file != null)
             {
                 stream = file.OpenReadStream();
             }
-            var result = await _createProductUseCase.ExecuteAsync(product, stream);
+            var result = await _createProductUseCase.ExecuteAsync(product, stream, token);
             return result;
         }
         [HttpGet]
-        public async Task<OperationResult<List<GetProductOutputDTO>>> GetProductsBySellerAsync(long sellerId)
+        public async Task<OperationResult<List<GetProductOutputDTO>>> GetProductsBySellerAsync(long sellerId, CancellationToken token)
         {
-            var result = await _getProductBySellerIdUseCase.ExecuteAsync(sellerId);
+            var result = await _getProductBySellerIdUseCase.ExecuteAsync(sellerId, token);
             return result;
         }
         [HttpGet]
-        public async Task<OperationResult> DeleteAsync(long id)
+        public async Task<OperationResult> DeleteAsync(long id, CancellationToken token)
         {
-            var result = await _deleteProductUseCase.ExecuteAsync(id);
+            var result = await _deleteProductUseCase.ExecuteAsync(id, token);
             return result;
         }
         [HttpPost]
-        public async Task<OperationResult> UpdateAsync([FromForm] UpdateProductInputDTO product, IFormFile file)
+        public async Task<OperationResult> UpdateAsync([FromForm] UpdateProductInputDTO product, IFormFile file, CancellationToken token)
         {
             Stream stream = null;
             if (file != null)
             {
                 stream = file.OpenReadStream();
             }
-            var result = await _updateProductUseCase.ExecuteAsync(product, stream);
+            var result = await _updateProductUseCase.ExecuteAsync(product, stream, token);
             return result;
         }
         [HttpGet]
-        public async Task<OperationResult<List<GetProductOutputDTO>>> GetByNameAsync(string search)
+        public async Task<OperationResult<List<GetProductOutputDTO>>> GetByNameAsync(string search, CancellationToken token)
         {
-            var result = await _getProductByNameUseCase.ExecuteAsync(search);
+            var result = await _getProductByNameUseCase.ExecuteAsync(search, token);
             return result;
         }
     }

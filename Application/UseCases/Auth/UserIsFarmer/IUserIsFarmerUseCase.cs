@@ -9,6 +9,6 @@ namespace SabzMarket.Application.UseCases.Auth.UserIsFarmer
 {
     public interface IUserIsFarmerUseCase
     {
-        Task<OperationResult<bool>> ExecuteAsync(string username);
+        Task<OperationResult<bool>> ExecuteAsync(string username, CancellationToken token);
     }
 }

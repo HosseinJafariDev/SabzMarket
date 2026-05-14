@@ -9,6 +9,6 @@ namespace SabzMarket.Application.Interfaces.Repository
     public interface ISmsOtpRepository
     {
         Task<long> Insert(long Otp, CancellationToken token);
-        Task<bool> VerifyOtp(long id, long otp);
+        Task<bool> VerifyOtp(long id, long otp, CancellationToken token);
     }
 }

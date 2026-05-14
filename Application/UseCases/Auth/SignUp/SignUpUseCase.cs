@@ -33,7 +33,7 @@ namespace SabzMarket.Application.UseCases.Auth.SignUp
             _errorRepository = errorRepository;
             _smsOtpRepository = smsOtpRepository;
         }
-        public async Task<OperationResult> ExecuteAsync(SignUpInputDTO input)
+        public async Task<OperationResult> ExecuteAsync(SignUpInputDTO input, CancellationToken token)
         {
             try
             {
@@ -46,20 +46,20 @@ namespace SabzMarket.Application.UseCases.Auth.SignUp
                     return OperationResult.FailedResult(Messages.EnterOtp);
                 }
 
-                var resultCheckUser = await _userRepository.CheckUserAsync(input.UserName!);
+                var resultCheckUser = await _userRepository.CheckUserAsync(input.UserName!, token);
                 if (resultCheckUser)
                 {
                     return OperationResult.FailedResult(Messages.ExistingUserName);
                 }
 
-                var reuslt = await _smsOtpRepository.VerifyOtp(input.OtpId, input.Otp);
+                var reuslt = await _smsOtpRepository.VerifyOtp(input.OtpId, input.Otp, token);
                 if (!reuslt)
                 {
                     return OperationResult.FailedResult(Messages.InvalidOtp);
                 }
 
                 var user = _mapper.Map<User>(input);
-                await _userRepository.InsertAsync(user);
+                await _userRepository.InsertAsync(user, token);
                 return OperationResult.SuccessedResult(Messages.SignUpSuccessful);
             }
             catch (Exception ex)

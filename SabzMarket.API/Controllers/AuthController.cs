@@ -17,15 +17,15 @@ namespace SabzMarket.API.Controllers
             _loginUseCase = loginUseCase;
         }
         [HttpPost]
-        public async Task<OperationResult> SignUpAsync([FromBody] SignUpInputDTO signUpInputDTO)
+        public async Task<OperationResult> SignUpAsync([FromBody] SignUpInputDTO signUpInputDTO, CancellationToken token)
         {
-            var result = await _signUpUseCase.ExecuteAsync(signUpInputDTO);
+            var result = await _signUpUseCase.ExecuteAsync(signUpInputDTO, token);
             return result;
         }
         [HttpPost]
-        public async Task<OperationResult> LoginAsync([FromBody] LoginInputDTO loginInputDTO)
+        public async Task<OperationResult> LoginAsync([FromBody] LoginInputDTO loginInputDTO, CancellationToken token)
         {
-            var result = await _loginUseCase.ExecuteAsync(loginInputDTO);
+            var result = await _loginUseCase.ExecuteAsync(loginInputDTO, token);
             return result;
         }
     }

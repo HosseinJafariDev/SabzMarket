@@ -12,7 +12,7 @@ namespace Application.Interfaces.Repositories
         public Task InsertAsync(CartItem cartItem, CancellationToken token);
         public Task ChangeQuantityAsync(long productId, long farmerId, int number, CancellationToken token);
         public Task DeleteAsync(int cartId, CancellationToken token);
-        public Task<bool> ExistProductAsync(long farmerId, long productId);
+        public Task<bool> ExistProductAsync(long farmerId, long productId, CancellationToken token);
         public Task<bool> IsCartItemQuantityOneAsync(int id, CancellationToken token);
     }
 }
