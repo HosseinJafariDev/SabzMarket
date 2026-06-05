@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SabzMarket.API.ApiResultt;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.UseCases.Categories.GetCategory;
 
@@ -12,10 +13,10 @@ namespace SabzMarket.API.Controllers
             _getAllCategoriesUseCase = getAllCategoriesUseCase;
         }
         [HttpGet]
-        public async Task<OperationResult<List<GetAllCategoriesOutputDTO>>> GetAllCategoriesAsync(CancellationToken token)
+        public async Task<ApiResult<List<GetAllCategoriesOutputDTO>>> GetAllCategoriesAsync(CancellationToken token)
         {
             var result = await _getAllCategoriesUseCase.ExecuteAsync(token);
-            return result;
+            return result.OperationResultTOApiResult();
         }
     }
 }

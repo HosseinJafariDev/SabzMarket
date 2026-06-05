@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SabzMarket.API.ApiResultt;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.UseCases.Auth.Login;
 using SabzMarket.Application.UseCases.Auth.SignUp;
@@ -17,16 +18,16 @@ namespace SabzMarket.API.Controllers
             _loginUseCase = loginUseCase;
         }
         [HttpPost]
-        public async Task<OperationResult> SignUpAsync([FromBody] SignUpInputDTO signUpInputDTO, CancellationToken token)
+        public async Task<ApiResult> SignUpAsync([FromBody] SignUpInputDTO signUpInputDTO, CancellationToken token)
         {
             var result = await _signUpUseCase.ExecuteAsync(signUpInputDTO, token);
-            return result;
+            return result.OperationResultTOApiResult();
         }
         [HttpPost]
-        public async Task<OperationResult> LoginAsync([FromBody] LoginInputDTO loginInputDTO, CancellationToken token)
+        public async Task<ApiResult> LoginAsync([FromBody] LoginInputDTO loginInputDTO, CancellationToken token)
         {
             var result = await _loginUseCase.ExecuteAsync(loginInputDTO, token);
-            return result;
+            return result.OperationResultTOApiResult();
         }
     }
 }

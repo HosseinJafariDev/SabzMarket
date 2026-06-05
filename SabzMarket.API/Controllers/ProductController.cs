@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SabzMarket.API.ApiResultt;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.UseCases.Products.CreateProduct;
 using SabzMarket.Application.UseCases.Products.DeleteProduct;
@@ -28,7 +29,7 @@ namespace SabzMarket.API.Controllers
             _deleteProductUseCase = deleteProductUseCase;
         }
         [HttpPost]
-        public async Task<OperationResult> CreateProductAsync([FromForm] CreateProductInputDTO product, IFormFile file, CancellationToken token)
+        public async Task<ApiResult> CreateProductAsync([FromForm] CreateProductInputDTO product, IFormFile file, CancellationToken token)
         {
             Stream stream = null;
             if (file != null)
@@ -36,22 +37,22 @@ namespace SabzMarket.API.Controllers
                 stream = file.OpenReadStream();
             }
             var result = await _createProductUseCase.ExecuteAsync(product, stream, token);
-            return result;
+            return result.OperationResultTOApiResult();
         }
         [HttpGet]
-        public async Task<OperationResult<List<GetProductOutputDTO>>> GetProductsBySellerAsync(long sellerId, CancellationToken token)
+        public async Task<ApiResult<List<GetProductOutputDTO>>> GetProductsBySellerAsync(long sellerId, CancellationToken token)
         {
             var result = await _getProductBySellerIdUseCase.ExecuteAsync(sellerId, token);
-            return result;
+            return result.OperationResultTOApiResult();
         }
         [HttpGet]
-        public async Task<OperationResult> DeleteAsync(long id, CancellationToken token)
+        public async Task<ApiResult> DeleteAsync(long id, CancellationToken token)
         {
             var result = await _deleteProductUseCase.ExecuteAsync(id, token);
-            return result;
+            return result.OperationResultTOApiResult();
         }
         [HttpPost]
-        public async Task<OperationResult> UpdateAsync([FromForm] UpdateProductInputDTO product, IFormFile file, CancellationToken token)
+        public async Task<ApiResult> UpdateAsync([FromForm] UpdateProductInputDTO product, IFormFile file, CancellationToken token)
         {
             Stream stream = null;
             if (file != null)
@@ -59,13 +60,13 @@ namespace SabzMarket.API.Controllers
                 stream = file.OpenReadStream();
             }
             var result = await _updateProductUseCase.ExecuteAsync(product, stream, token);
-            return result;
+            return result.OperationResultTOApiResult();
         }
         [HttpGet]
-        public async Task<OperationResult<List<GetProductOutputDTO>>> GetByNameAsync(string search, CancellationToken token)
+        public async Task<ApiResult<List<GetProductOutputDTO>>> GetByNameAsync(string search, CancellationToken token)
         {
             var result = await _getProductByNameUseCase.ExecuteAsync(search, token);
-            return result;
+            return result.OperationResultTOApiResult();
         }
     }
 }

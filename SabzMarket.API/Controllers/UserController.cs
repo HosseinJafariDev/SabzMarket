@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SabzMarket.API.ApiResultt;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.UseCases.Users.GetUser;
 namespace SabzMarket.API.Controllers
@@ -11,10 +12,10 @@ namespace SabzMarket.API.Controllers
             _getUserByUserNameUseCase = getUserByUserNameUseCase;
         }
         [HttpGet]
-        public async Task<OperationResult<GetUserByUserNameOutputDTO>> GetUserAsync(string username, CancellationToken token)
+        public async Task<ApiResult<GetUserByUserNameOutputDTO>> GetUserAsync(string username, CancellationToken token)
         {
             var result = await _getUserByUserNameUseCase.ExecuteAsync(username, token);
-            return result;
+            return result.OperationResultTOApiResult();
         }
     }
 }

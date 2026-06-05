@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SabzMarket.API.ApiResultt;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.UseCases.OrderDetails.MarkOrderDetail;
 
@@ -16,16 +17,16 @@ namespace SabzMarket.API.Controllers
             _markOrderDetailAsSent = markOrderDetailAsSent;
         }
         [HttpGet]
-        public async Task<OperationResult> MarkOrderDetailAsRejectedAsync(long orderDetaileId, int number, int productId, CancellationToken token)
+        public async Task<ApiResult> MarkOrderDetailAsRejectedAsync(long orderDetaileId, int number, int productId, CancellationToken token)
         {
             var result = await _markOrderDetailAsRejectedUseCase.ExecuteAsync(orderDetaileId, number, productId, token);
-            return result;
+            return result.OperationResultTOApiResult();
         }
         [HttpGet]
-        public async Task<OperationResult> MarkOrderDetailAsSentAsync(long orderDetaileId, CancellationToken token)
+        public async Task<ApiResult> MarkOrderDetailAsSentAsync(long orderDetaileId, CancellationToken token)
         {
             var result = await _markOrderDetailAsSent.ExecuteAsync(orderDetaileId, token);
-            return result;
+            return result.OperationResultTOApiResult();
         }
     }
 }

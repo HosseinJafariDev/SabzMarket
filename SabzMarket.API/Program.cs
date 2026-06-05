@@ -51,6 +51,9 @@ builder.Services.AddSwaggerGen();
 //});
 
 var app = builder.Build();
+
+app.UseCustomExceptionHandler();
+
 //app.UseCors("AllowAllOrigins");
 
 //CreateDatabase

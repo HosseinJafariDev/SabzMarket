@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SabzMarket.API.ApiResultt;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.UseCases.Auth.UserIsFarmer;
 using SabzMarket.Application.UseCases.Farmers.CreateFarmer;
@@ -27,13 +28,13 @@ namespace SabzMarket.API.Controllers
             _updateFarmerUseCase = updateFarmerUseCase;
         }
         [HttpGet]
-        public async Task<OperationResult> CheckUserExistsInFarmerAsync(string username, CancellationToken token)
+        public async Task<ApiResult> CheckUserExistsInFarmerAsync(string username, CancellationToken token)
         {
             var result = await _userIsFarmerUseCase.ExecuteAsync(username, token);
-            return result;
+            return result.OperationResultTOApiResult();
         }
         [HttpPost]
-        public async Task<OperationResult> CreateFarmerAsync(string username, [FromForm] CreateFarmerInputDTO farmer, IFormFile file, CancellationToken token)
+        public async Task<ApiResult> CreateFarmerAsync(string username, [FromForm] CreateFarmerInputDTO farmer, IFormFile file, CancellationToken token)
         {
             Stream stream = null;
             if (file != null)
@@ -41,16 +42,16 @@ namespace SabzMarket.API.Controllers
                 stream = file.OpenReadStream();
             }
             var result = await _createFarmerUseCase.ExecuteAsync(username, farmer, stream, token);
-            return result;
+            return result.OperationResultTOApiResult();
         }
         [HttpGet]
-        public async Task<OperationResult<GetFarmerByUsernameOutputDTO>> GetByUsernameAsync(string username, CancellationToken token)
+        public async Task<ApiResult<GetFarmerByUsernameOutputDTO>> GetByUsernameAsync(string username, CancellationToken token)
         {
             var result = await _getFarmerByUsernameUseCase.ExecuteAsync(username, token);
-            return result;
+            return result.OperationResultTOApiResult();
         }
         [HttpPost]
-        public async Task<OperationResult> UpdateAsync([FromForm] UpdateFarmerInputDTO updateFarmerInputDTO, IFormFile file, CancellationToken token)
+        public async Task<ApiResult> UpdateAsync([FromForm] UpdateFarmerInputDTO updateFarmerInputDTO, IFormFile file, CancellationToken token)
         {
             Stream stream = null;
             if (file != null)
@@ -58,7 +59,7 @@ namespace SabzMarket.API.Controllers
                 stream = file.OpenReadStream();
             }
             var result = await _updateFarmerUseCase.ExecuteAsync(updateFarmerInputDTO, stream, token);
-            return result;
+            return result.OperationResultTOApiResult();
         }
     }
 }

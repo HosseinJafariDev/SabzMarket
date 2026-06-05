@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SabzMarket.API.ApiResultt;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.UseCases.Chats.findUsersChatted;
 using SabzMarket.Application.UseCases.Chats.GetMessage;
@@ -21,22 +22,22 @@ namespace SabzMarket.API.Controllers
             _sendMessage = sendMessage;
         }
         [HttpGet]
-        public async Task<OperationResult<List<findUsersChattedOutputDTO>>> FindUsersChattedWithIdAsync(long id, CancellationToken token)
+        public async Task<ApiResult<List<findUsersChattedOutputDTO>>> FindUsersChattedWithIdAsync(long id, CancellationToken token)
         {
             var result = await _findUsersChatted.ExecuteAsync(id, token);
-            return result;
+            return result.OperationResultTOApiResult();
         }
         [HttpGet]
-        public async Task<OperationResult<List<GetMessageOutputDTO>>> GetMessageAsync(long fromId, long toId, CancellationToken token)
+        public async Task<ApiResult<List<GetMessageOutputDTO>>> GetMessageAsync(long fromId, long toId, CancellationToken token)
         {
             var result = await _getMessage.ExecuteAsync(fromId, toId, token);
-            return result;
+            return result.OperationResultTOApiResult();
         }
         [HttpPost]
-        public async Task<OperationResult> SendMessageAsync(SendMessageInputDTO sendMessageInputDTO, CancellationToken token)
+        public async Task<ApiResult> SendMessageAsync(SendMessageInputDTO sendMessageInputDTO, CancellationToken token)
         {
             var result = await _sendMessage.ExecuteAsync(sendMessageInputDTO, token);
-            return result;
+            return result.OperationResultTOApiResult();
         }
     }
 }

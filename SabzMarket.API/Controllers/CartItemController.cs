@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SabzMarket.API.ApiResultt;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.UseCases.CartItems.AddToCart;
 using SabzMarket.Application.UseCases.CartItems.DecreaseQuantity;
 using SabzMarket.Application.UseCases.CartItems.DeleteCartItem;
 using SabzMarket.Application.UseCases.CartItems.GetCartItem;
+using System.Runtime.InteropServices;
 
 namespace SabzMarket.API.Controllers
 {
@@ -25,28 +27,28 @@ namespace SabzMarket.API.Controllers
             _getCartItemByFarmerIdUseCase = getCartItemByFarmerIdUseCase;
         }
         [HttpPost]
-        public async Task<OperationResult> AddToCartAsync(AddToCartInputDTO addToCartInputDTO, CancellationToken token)
+        public async Task<ApiResult> AddToCartAsync(AddToCartInputDTO addToCartInputDTO, CancellationToken token)
         {
             var result = await _addToCartUseCase.ExecuteAsync(addToCartInputDTO, token);
-            return result;
+            return result.OperationResultTOApiResult();
         }
         [HttpGet]
-        public async Task<OperationResult> DecreaseQuantityAsync(long productId, long farmerId, CancellationToken token)
+        public async Task<ApiResult> DecreaseQuantityAsync(long productId, long farmerId, CancellationToken token)
         {
             var result = await _decreaseQuantityUseCase.ExecuteAsync(productId, farmerId, token);
-            return result;
+            return result.OperationResultTOApiResult();
         }
         [HttpGet]
-        public async Task<OperationResult> DeleteAsync(int cartId, long productId, int productNumber, CancellationToken token)
+        public async Task<ApiResult> DeleteAsync(int cartId, long productId, int productNumber, CancellationToken token)
         {
             var result = await _deleteCartItemUseCase.ExecuteAsync(cartId, productId, productNumber, token);
-            return result;
+            return result.OperationResultTOApiResult();
         }
         [HttpGet]
-        public Task<OperationResult<List<GetCartItemByFarmerIdOutputDTO>>> GetByFarmerIdAsync(long farmerId, CancellationToken token)
+        public async Task<ApiResult<List<GetCartItemByFarmerIdOutputDTO>>> GetByFarmerIdAsync(long farmerId, CancellationToken token)
         {
-            var result = _getCartItemByFarmerIdUseCase.ExecuteAsync(farmerId, token);
-            return result;
+            var result = await _getCartItemByFarmerIdUseCase.ExecuteAsync(farmerId, token);
+            return result.OperationResultTOApiResult();
         }
     }
 }

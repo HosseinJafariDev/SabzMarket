@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SabzMarket.API.ApiResultt;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Application.UseCases.Erorr;
@@ -14,10 +15,10 @@ namespace SabzMarket.API.Controllers
             _addLogErrorUseCase = addLogErrorUseCase;
         }
         [HttpPost]
-        public async Task<OperationResult> LogErrorAsync([FromBody] ErrorLogDTO error)
+        public async Task<ApiResult> LogErrorAsync([FromBody] ErrorLogDTO error)
         {
             var errorResult = await _addLogErrorUseCase.ExecuteAsync(error);
-            return errorResult;
+            return errorResult.OperationResultTOApiResult();
         }
     }
 }
