@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
+using SabzMarket.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,15 +28,15 @@ namespace SabzMarket.Application.UseCases.Sellers.GetSeller
                 var seller = await _sellerRepository.SelectByUsernameAsync(username, token);
                 if (seller == null)
                 {
-                    return OperationResult<GetSellerOutputDTO>.FailedResult(Messages.NoSellerFoundWhithUsename);
+                    return OperationResult<GetSellerOutputDTO>.Failed(OperationError.NotFound, Messages.NoSellerFoundWhithUsename);
                 }
                 var sellerDTO = _mapper.Map<GetSellerOutputDTO>(seller);
-                return OperationResult<GetSellerOutputDTO>.SuccessedResult(sellerDTO);
+                return OperationResult<GetSellerOutputDTO>.Success(sellerDTO, OperationError.Success);
             }
             catch (Exception ex)
             {
                 var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult<GetSellerOutputDTO>.Failed(errorResult.ErrorMessage());
+                return OperationResult<GetSellerOutputDTO>.Failed(OperationError.ServerError, errorResult.ErrorMessage());
             }
 
         }

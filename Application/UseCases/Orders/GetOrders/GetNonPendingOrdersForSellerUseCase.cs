@@ -1,5 +1,6 @@
 ﻿using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
+using SabzMarket.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,13 +22,25 @@ namespace SabzMarket.Application.UseCases.Orders.GetOrders
         {
             try
             {
-                var orders = await _orderQueryService.SelectNonPendingOrdersForSellerAsync(sellerId, search, token);
-                return OperationResult<List<GetOrdersForSellerOutputDTO>>.SuccessedResult(orders);
+                var orders = await _orderQueryService
+                    .SelectNonPendingOrdersForSellerAsync(sellerId, search, token);
+
+                if (!orders.Any())
+                {
+                    return OperationResult<List<GetOrdersForSellerOutputDTO>>
+                        .Failed(OperationError.NotFound, Messages.NotFoundPendingOrders);
+                }
+
+                return OperationResult<List<GetOrdersForSellerOutputDTO>>
+                    .Success(orders, OperationError.Success);
             }
             catch (Exception ex)
             {
-                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult<List<GetOrdersForSellerOutputDTO>>.Failed(errorResult.ErrorMessage());
+                var errorResult = await _errorRepository
+                    .LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
+
+                return OperationResult<List<GetOrdersForSellerOutputDTO>>
+                    .Failed(OperationError.ServerError, errorResult.ErrorMessage());
             }
         }
     }

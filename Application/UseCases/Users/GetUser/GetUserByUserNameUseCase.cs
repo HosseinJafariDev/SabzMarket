@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
+using SabzMarket.Domain.Enums;
+using SabzMarket.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,36 +14,26 @@ namespace SabzMarket.Application.UseCases.Users.GetUser
     public class GetUserByUserNameUseCase : IGetUserByUserNameUseCase
     {
         private readonly IUserRepository _userRepository;
-        private readonly IErrorRepository _errorRepository;
         private readonly IMapper _mapper;
-        public GetUserByUserNameUseCase(IUserRepository userRepository, IErrorRepository errorRepository, IMapper mapper)
+        public GetUserByUserNameUseCase(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
-            _errorRepository = errorRepository;
             _mapper = mapper;
         }
 
         public async Task<OperationResult<GetUserByUserNameOutputDTO>> ExecuteAsync(string username, CancellationToken token)
         {
             if (string.IsNullOrWhiteSpace(username))
-                return OperationResult<GetUserByUserNameOutputDTO>.FailedResult(Messages.UserNameMinLength);
+                throw new BadRequestException(Messages.UserNameMinLength);
 
-            try
+            var result = await _userRepository.SelectByUserNameAsync(username, token);
+            if (result == null)
             {
-                var result = await _userRepository.SelectByUserNameAsync(username, token);
-                if (result == null)
-                {
-                    return OperationResult<GetUserByUserNameOutputDTO>.FailedResult(Messages.UserNotFound);
-                }
-                var userDTO = _mapper.Map<GetUserByUserNameOutputDTO>(result);
-                return OperationResult<GetUserByUserNameOutputDTO>.SuccessedResult(userDTO);
-            }
-            catch (Exception ex)
-            {
-                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult<GetUserByUserNameOutputDTO>.Failed(errorResult.ErrorMessage());
+                throw new NotFoundException(Messages.UserNotFound);
             }
 
+            var userDTO = _mapper.Map<GetUserByUserNameOutputDTO>(result);
+            return OperationResult<GetUserByUserNameOutputDTO>.Success(userDTO, OperationError.Success);
         }
     }
 }

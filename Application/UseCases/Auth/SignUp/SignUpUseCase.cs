@@ -5,6 +5,7 @@ using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Application.UseCases.Auth.Mappers;
 using SabzMarket.Application.UseCases.Sellers.CreateSeller;
 using SabzMarket.Domain.Entities;
+using SabzMarket.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,33 +40,33 @@ namespace SabzMarket.Application.UseCases.Auth.SignUp
             {
                 var validationResult = _validator.Validate(input);
                 if (!validationResult.IsValid)
-                    return OperationResult.FailedResult(validationResult.Errors.First().ErrorMessage);
+                    return OperationResult.Failed(OperationError.Validation, validationResult.Errors.First().ErrorMessage);
 
                 if (input.Otp == 0)
                 {
-                    return OperationResult.FailedResult(Messages.EnterOtp);
+                    return OperationResult.Failed(OperationError.Validation, Messages.EnterOtp);
                 }
 
                 var resultCheckUser = await _userRepository.CheckUserAsync(input.UserName!, token);
                 if (resultCheckUser)
                 {
-                    return OperationResult.FailedResult(Messages.ExistingUserName);
+                    return OperationResult.Failed(OperationError.Validation, Messages.ExistingUserName);
                 }
 
                 var reuslt = await _smsOtpRepository.VerifyOtp(input.OtpId, input.Otp, token);
                 if (!reuslt)
                 {
-                    return OperationResult.FailedResult(Messages.InvalidOtp);
+                    return OperationResult.Failed(OperationError.Validation, Messages.InvalidOtp);
                 }
 
                 var user = _mapper.Map<User>(input);
                 await _userRepository.InsertAsync(user, token);
-                return OperationResult.SuccessedResult(Messages.SignUpSuccessful);
+                return OperationResult.Success(OperationError.None, Messages.SignUpSuccessful);
             }
             catch (Exception ex)
             {
                 var result = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(result.ErrorMessage());
+                return OperationResult.Failed(OperationError.ServerError, result.ErrorMessage());
             }
 
         }

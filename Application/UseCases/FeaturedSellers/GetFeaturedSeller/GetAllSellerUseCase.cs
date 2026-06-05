@@ -1,6 +1,7 @@
 ﻿using Microsoft.IdentityModel.Tokens.Experimental;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
+using SabzMarket.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,12 +24,12 @@ namespace SabzMarket.Application.UseCases.FeaturedSellers.GetFeaturedSeller
             try
             {
                 var result = await _featuredSellerQueryService.SelectAllSellerAsync(token);
-                return OperationResult<List<GetAllFeaturedSellerOutputDTO>>.SuccessedResult(result);
+                return OperationResult<List<GetAllFeaturedSellerOutputDTO>>.Success(result, OperationError.Success);
             }
             catch (Exception ex)
             {
                 var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult<List<GetAllFeaturedSellerOutputDTO>>.Failed(errorResult.ErrorMessage());
+                return OperationResult<List<GetAllFeaturedSellerOutputDTO>>.Failed(OperationError.ServerError, errorResult.ErrorMessage());
             }
         }
     }

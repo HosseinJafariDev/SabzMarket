@@ -1,5 +1,6 @@
 ﻿using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
+using SabzMarket.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,14 +25,17 @@ namespace SabzMarket.Application.UseCases.Chats.findUsersChatted
                 var result = await _queryService.findUsersChattedWith(id, token);
                 if (!result.Any())
                 {
-                    return OperationResult<List<findUsersChattedOutputDTO>>.FailedResult(Messages.NotFoundUsersChatted);
+                    return OperationResult<List<findUsersChattedOutputDTO>>
+                        .Failed(OperationError.NotFound, Messages.NotFoundUsersChatted);
                 }
-                return OperationResult<List<findUsersChattedOutputDTO>>.SuccessedResult(result);
+                return OperationResult<List<findUsersChattedOutputDTO>>.Success(result, OperationError.Success);
             }
             catch (Exception ex)
             {
                 var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult<List<findUsersChattedOutputDTO>>.Failed(errorResult);
+
+                return OperationResult<List<findUsersChattedOutputDTO>>
+                    .Failed(OperationError.ServerError, errorResult);
             }
         }
     }

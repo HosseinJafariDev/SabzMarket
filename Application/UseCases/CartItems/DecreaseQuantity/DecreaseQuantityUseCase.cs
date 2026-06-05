@@ -2,6 +2,7 @@
 using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Persistence;
 using SabzMarket.Application.Interfaces.Repository;
+using SabzMarket.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,13 +36,13 @@ namespace SabzMarket.Application.UseCases.CartItems.DecreaseQuantity
                 await _cartItemRepository.ChangeQuantityAsync(productId, farmerId, -1, token);
                 await _productRepository.IncreaseNumberAsync(productId, 1, token);
                 await _unitOfWork.CommitAsync();
-                return OperationResult.SuccessedResult(Messages.RemoveAddToCart);
+                return OperationResult.Success(OperationError.None, Messages.RemoveAddToCart);
             }
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackAsync();
                 var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(errorResult.ErrorMessage());
+                return OperationResult.Failed(OperationError.ServerError, errorResult.ErrorMessage());
             }
 
         }

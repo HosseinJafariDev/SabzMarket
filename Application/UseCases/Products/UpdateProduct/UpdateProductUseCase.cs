@@ -5,6 +5,7 @@ using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Application.Interfaces.Services;
 using SabzMarket.Domain.Entities;
+using SabzMarket.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,7 @@ namespace SabzMarket.Application.UseCases.Products.UpdateProduct
             var validationResult = _validator.Validate(updateProductInputDTO);
             if (!validationResult.IsValid)
             {
-                return OperationResult.FailedResult(validationResult.Errors.First().ErrorMessage);
+                return OperationResult.Failed(OperationError.Validation, validationResult.Errors.First().ErrorMessage);
             }
 
             if (!updateProductInputDTO.ImageProduct!.StartsWith(Messages.Url))
@@ -51,7 +52,7 @@ namespace SabzMarket.Application.UseCases.Products.UpdateProduct
                 catch (Exception ex)
                 {
                     var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(Messages.SavePhotoLayer));
-                    return OperationResult.Failed(Messages.UnsuccessfulSavePhoto);
+                    return OperationResult.Failed(OperationError.ServerError, Messages.UnsuccessfulSavePhoto);
                 }
             }
 
@@ -59,12 +60,12 @@ namespace SabzMarket.Application.UseCases.Products.UpdateProduct
             {
                 var product = _mapper.Map<Product>(updateProductInputDTO);
                 await _productRepository.UpdateAsync(product, token);
-                return OperationResult.SuccessedResult(Messages.UpdateSuccessful);
+                return OperationResult.Success(OperationError.None, Messages.UpdateSuccessful);
             }
             catch (Exception ex)
             {
                 var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(errorResult.ErrorMessage());
+                return OperationResult.Failed(OperationError.ServerError, errorResult.ErrorMessage());
             }
         }
     }

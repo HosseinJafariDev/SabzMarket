@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SabzMarket.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,38 +8,20 @@ using System.Xml;
 
 namespace SabzMarket.Application.Common
 {
-    public class OperationResult<t> : OperationResult
+    public class OperationResult<T> : OperationResult
     {
-        public t Data { get; set; }
-        public static OperationResult<t> SuccessedResult(
-             t data, string message = "")
+        public T? Data { get; protected set; }
+
+        protected OperationResult(bool isSuccess, T? data, OperationError operationError, string? message = null)
+            : base(isSuccess, operationError, message)
         {
-            return new OperationResult<t>
-            {
-                Success = true,
-                Message = message,
-                Data = data,
-            };
+            Data = data;
         }
-        public static OperationResult<t> Failed(
-           string message = "")
-        {
-            return new OperationResult<t>
-            {
-                Success = false,
-                Message = message,
-                Result = false
-            };
-        }
-        public static OperationResult<t> FailedResult(
-                string message = "")
-        {
-            return new OperationResult<t>
-            {
-                Success = false,
-                Message = message,
-                Result = true
-            };
-        }
+
+        public static OperationResult<T> Success(T data, OperationError operationError, string? message = null)
+            => new OperationResult<T>(true, data, operationError, message);
+
+        public static OperationResult<T> Failed(OperationError operationError, string? message = null)
+            => new OperationResult<T>(false, default, operationError, message);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
+using SabzMarket.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,16 +28,16 @@ namespace SabzMarket.Application.UseCases.Products.DeleteProduct
                 var hasPendingOrders = await _orderDetailRepository.HasPendingOrdersForProductAsync(id, token);
                 if (hasPendingOrders)
                 {
-                    return OperationResult.FailedResult(Messages.ProductIsOnOrder);
+                    return OperationResult.Failed(OperationError.Conflict, Messages.ProductIsOnOrder);
                 }
 
                 await _productRepository.DeleteAsync(id, token);
-                return OperationResult.SuccessedResult(Messages.ProductDelete);
+                return OperationResult.Success(OperationError.None, Messages.ProductDelete);
             }
             catch (Exception ex)
             {
                 var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(errorResult.ErrorMessage());
+                return OperationResult.Failed(OperationError.ServerError, errorResult.ErrorMessage());
             }
         }
     }

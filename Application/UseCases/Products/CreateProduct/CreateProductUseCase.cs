@@ -4,6 +4,7 @@ using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Application.Interfaces.Services;
 using SabzMarket.Domain.Entities;
+using SabzMarket.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,7 @@ namespace SabzMarket.Application.UseCases.Products.CreateProduct
             var validationResult = _validator.Validate(createProductInputDTO);
             if (!validationResult.IsValid)
             {
-                return OperationResult.FailedResult(validationResult.Errors.First().ErrorMessage);
+                return OperationResult.Failed(OperationError.Validation, validationResult.Errors.First().ErrorMessage);
             }
 
             try
@@ -49,7 +50,7 @@ namespace SabzMarket.Application.UseCases.Products.CreateProduct
             catch (Exception ex)
             {
                 var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(Messages.SavePhotoLayer));
-                return OperationResult.Failed(Messages.UnsuccessfulSavePhoto);
+                return OperationResult.Failed(OperationError.ServerError, Messages.UnsuccessfulSavePhoto);
             }
 
             try
@@ -57,12 +58,12 @@ namespace SabzMarket.Application.UseCases.Products.CreateProduct
                 var product = _mapper.Map<Product>(createProductInputDTO);
                 await _productRepository.InsertAsync(product, token);
 
-                return OperationResult.SuccessedResult(Messages.CreateProductSuccessful);
+                return OperationResult.Success(OperationError.None, Messages.CreateProductSuccessful);
             }
             catch (Exception ex)
             {
                 var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(errorResult.ErrorMessage());
+                return OperationResult.Failed(OperationError.ServerError, errorResult.ErrorMessage());
             }
         }
     }

@@ -2,6 +2,7 @@
 using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Domain.Entities;
+using SabzMarket.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,12 +29,12 @@ namespace SabzMarket.Application.UseCases.Chats.GetMessage
             {
                 var result = await _chatRepository.GetChatAsync(fromId, toId, token);
                 var chat = _mapper.Map<List<GetMessageOutputDTO>>(result);
-                return OperationResult<List<GetMessageOutputDTO>>.SuccessedResult(chat);
+                return OperationResult<List<GetMessageOutputDTO>>.Success(chat, OperationError.Success);
             }
             catch (Exception ex)
             {
                 var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult<List<GetMessageOutputDTO>>.Failed(errorResult);
+                return OperationResult<List<GetMessageOutputDTO>>.Failed(OperationError.ServerError, errorResult);
             }
         }
     }

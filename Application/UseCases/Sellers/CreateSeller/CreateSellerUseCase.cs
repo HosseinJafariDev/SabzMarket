@@ -4,6 +4,7 @@ using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Application.Interfaces.Services;
 using SabzMarket.Domain.Entities;
+using SabzMarket.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +33,7 @@ namespace SabzMarket.Application.UseCases.Sellers.CreateSeller
             var validationResult = _validator.Validate(sellerInputDTO);
             if (!validationResult.IsValid)
             {
-                return OperationResult.FailedResult(validationResult.Errors.First().ErrorMessage);
+                return OperationResult.Failed(OperationError.Validation, validationResult.Errors.First().ErrorMessage);
             }
 
             try
@@ -43,19 +44,19 @@ namespace SabzMarket.Application.UseCases.Sellers.CreateSeller
             catch (Exception ex)
             {
                 var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(Messages.SavePhotoLayer));
-                return OperationResult.Failed(errorResult.ErrorMessage());
+                return OperationResult.Failed(OperationError.ServerError, errorResult.ErrorMessage());
             }
 
             try
             {
                 var seller = _mapper.Map<Seller>(sellerInputDTO);
                 await _sellerRepository.InsertAsync(sellerInputDTO.Username!, seller, token);
-                return OperationResult.SuccessedResult(Messages.SaveSellerProfileSuccessful);
+                return OperationResult.Success(OperationError.None, Messages.SaveSellerProfileSuccessful);
             }
             catch (Exception ex)
             {
                 var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(errorResult.ErrorMessage());
+                return OperationResult.Failed(OperationError.ServerError, errorResult.ErrorMessage());
             }
 
         }

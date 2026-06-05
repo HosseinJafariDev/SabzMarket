@@ -1,5 +1,6 @@
 ﻿using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
+using SabzMarket.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,12 +23,12 @@ namespace SabzMarket.Application.UseCases.Farmers.GetFarmer
             try
             {
                 var farmer = await _farmerQueryService.SelectByUsernameAsync(username, token);
-                return OperationResult<GetFarmerByUsernameOutputDTO>.SuccessedResult(farmer);
+                return OperationResult<GetFarmerByUsernameOutputDTO>.Success(farmer, OperationError.Success);
             }
             catch (Exception ex)
             {
                 var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult<GetFarmerByUsernameOutputDTO>.Failed(errorResult.ErrorMessage());
+                return OperationResult<GetFarmerByUsernameOutputDTO>.Failed(OperationError.ServerError, errorResult.ErrorMessage());
             }
         }
     }

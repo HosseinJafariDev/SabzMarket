@@ -5,6 +5,7 @@ using SabzMarket.Application.Interfaces.Persistence;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Application.Interfaces.Services;
 using SabzMarket.Domain.Entities;
+using SabzMarket.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -45,7 +46,7 @@ namespace SabzMarket.Application.UseCases.Sellers.UpdateSeller
             var validationResult = _validator.Validate(updateSellerInputDTO);
             if (!validationResult.IsValid)
             {
-                return OperationResult.FailedResult(validationResult.Errors.First().ErrorMessage);
+                return OperationResult.Failed(OperationError.Validation, validationResult.Errors.First().ErrorMessage);
             }
 
             await _unitOfWork.BeginAsync();
@@ -54,7 +55,7 @@ namespace SabzMarket.Application.UseCases.Sellers.UpdateSeller
             {
                 var result = await _userRepository.CheckUserAsync(updateSellerInputDTO.NewUsername!, token);
                 if (result)
-                    return OperationResult.FailedResult(Messages.ExistingUserName);
+                    return OperationResult.Failed(OperationError.Conflict, Messages.ExistingUserName);
             }
 
             try
@@ -66,7 +67,7 @@ namespace SabzMarket.Application.UseCases.Sellers.UpdateSeller
             catch (Exception ex)
             {
                 var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(Messages.SavePhotoLayer));
-                return OperationResult.Failed(Messages.UnsuccessfulSavePhoto);
+                return OperationResult.Failed(OperationError.ServerError, Messages.UnsuccessfulSavePhoto);
             }
 
             try
@@ -77,13 +78,13 @@ namespace SabzMarket.Application.UseCases.Sellers.UpdateSeller
                 var seller = _mapper.Map<Seller>(updateSellerInputDTO);
                 await _sellerRepository.UpdateAsync(seller, token);
                 await _unitOfWork.CommitAsync();
-                return OperationResult.SuccessedResult(Messages.UpdateSuccessful);
+                return OperationResult.Success(OperationError.None, Messages.UpdateSuccessful);
             }
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackAsync();
                 var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(errorResult.ErrorMessage());
+                return OperationResult.Failed(OperationError.ServerError, errorResult.ErrorMessage());
             }
 
         }

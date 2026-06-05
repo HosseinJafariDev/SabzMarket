@@ -1,5 +1,6 @@
 ﻿using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
+using SabzMarket.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,9 @@ namespace SabzMarket.Application.UseCases.Erorr
         public async Task<OperationResult> ExecuteAsync(ErrorLogDTO errorLogDTO)
         {
             var errorResult = await _errorRepository.LogErrorAsync(errorLogDTO);
-            return OperationResult.SuccessedResult(errorResult.ErrorMessage());
+            var errorMessage = errorResult.ErrorMessage();
+
+            return OperationResult.Success(OperationError.ServerError, errorMessage);
         }
     }
 }

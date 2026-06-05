@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
+using SabzMarket.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,16 +29,16 @@ namespace SabzMarket.Application.UseCases.Products.GetProduct
 
                 if (!products.Any())
                 {
-                    return OperationResult<List<GetProductOutputDTO>>.FailedResult(Messages.ProductNotFoundBySellerId);
+                    return OperationResult<List<GetProductOutputDTO>>.Failed(OperationError.NotFound, Messages.ProductNotFoundBySellerId);
                 }
 
                 var productDTO = _mapper.Map<List<GetProductOutputDTO>>(products);
-                return OperationResult<List<GetProductOutputDTO>>.SuccessedResult(productDTO);
+                return OperationResult<List<GetProductOutputDTO>>.Success(productDTO, OperationError.Success);
             }
             catch (Exception ex)
             {
                 var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult<List<GetProductOutputDTO>>.Failed(errorResult.ErrorMessage());
+                return OperationResult<List<GetProductOutputDTO>>.Failed(OperationError.ServerError, errorResult.ErrorMessage());
             }
         }
     }

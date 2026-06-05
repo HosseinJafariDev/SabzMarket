@@ -4,6 +4,7 @@ using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Application.Interfaces.Services;
 using SabzMarket.Domain.Entities;
+using SabzMarket.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +40,7 @@ namespace SabzMarket.Application.UseCases.Farmers.CreateFarmer
                 var farmerValidation = _validator.Validate(createFarmerInputDTO);
                 if (!farmerValidation.IsValid)
                 {
-                    return OperationResult.FailedResult(farmerValidation.Errors.First().ErrorMessage);
+                    return OperationResult.Failed(OperationError.Validation, farmerValidation.Errors.First().ErrorMessage);
                 }
 
                 var imageURL = await _fileStorageService.SaveAsync(stream!, createFarmerInputDTO.ProfileImage!, token);
@@ -47,12 +48,12 @@ namespace SabzMarket.Application.UseCases.Farmers.CreateFarmer
 
                 var farmer = _mapper.Map<Farmer>(createFarmerInputDTO);
                 await _farmerRepository.InsertAsync(username, farmer, token);
-                return OperationResult.SuccessedResult(Messages.SignUpSuccessful);
+                return OperationResult.Success(OperationError.Success, Messages.SignUpSuccessful);
             }
             catch (Exception ex)
             {
                 var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(errorResult.ErrorMessage());
+                return OperationResult.Failed(OperationError.ServerError, errorResult.ErrorMessage());
             }
         }
     }

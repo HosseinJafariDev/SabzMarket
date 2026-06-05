@@ -1,5 +1,6 @@
 ﻿using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
+using SabzMarket.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,12 +23,12 @@ namespace SabzMarket.Application.UseCases.OrderDetails.MarkOrderDetail
             try
             {
                 await _orderDetailRepository.SetOrderDetailStatusToSentAsync(orderDetaileId, token);
-                return OperationResult.SuccessedResult(Messages.OrderSent);
+                return OperationResult.Success(OperationError.None, Messages.OrderSent);
             }
             catch (Exception ex)
             {
                 var errorReslt = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(errorReslt.ErrorMessage());
+                return OperationResult.Failed(OperationError.ServerError, errorReslt.ErrorMessage());
             }
         }
     }

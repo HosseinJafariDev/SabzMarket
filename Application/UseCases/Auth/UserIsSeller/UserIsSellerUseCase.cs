@@ -1,5 +1,6 @@
 ﻿using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
+using SabzMarket.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,12 +24,12 @@ namespace SabzMarket.Application.UseCases.Auth.UserIsSeller
             {
                 var result = await _sellerRepository.UserIsSellerAsync(username, token);
 
-                return OperationResult<bool>.SuccessedResult(result);
+                return OperationResult<bool>.Success(result, OperationError.Success);
             }
             catch (Exception ex)
             {
                 var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult<bool>.Failed(errorResult.ErrorMessage());
+                return OperationResult<bool>.Failed(OperationError.ServerError, errorResult.ErrorMessage());
             }
         }
     }

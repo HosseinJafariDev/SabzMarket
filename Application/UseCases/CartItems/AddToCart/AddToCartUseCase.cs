@@ -3,6 +3,7 @@ using AutoMapper;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Domain.Entities;
+using SabzMarket.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,19 +39,19 @@ namespace SabzMarket.Application.UseCases.CartItems.AddToCart
                         addToCartInputDTO.Quantity,
                         token);
 
-                    return OperationResult.SuccessedResult(Messages.SuccessAddToCart);
+                    return OperationResult.Success(OperationError.None, Messages.SuccessAddToCart);
                 }
                 var cartItem = _mapper.Map<CartItem>(addToCartInputDTO);
 
 
                 await _cartItemRepository.InsertAsync(cartItem, token);
 
-                return OperationResult.SuccessedResult(Messages.SuccessAddToCart);
+                return OperationResult.Success(OperationError.None, Messages.SuccessAddToCart);
             }
             catch (Exception ex)
             {
                 var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(errorResult.ErrorMessage());
+                return OperationResult.Failed(OperationError.ServerError, errorResult.ErrorMessage());
             }
         }
     }

@@ -5,6 +5,7 @@ using SabzMarket.Application.Interfaces.Persistence;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Application.UseCases.CartItems.GetCartItem;
 using SabzMarket.Domain.Entities;
+using SabzMarket.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,7 +58,7 @@ namespace SabzMarket.Application.UseCases.Orders.Checkout
 
                 if (!cartItems.Any())
                 {
-                    return OperationResult.FailedResult(Messages.CartEmpty);
+                    return OperationResult.Failed(OperationError.NotFound, Messages.CartEmpty);
                 }
 
                 await _unitOfWork.BeginAsync();
@@ -86,13 +87,13 @@ namespace SabzMarket.Application.UseCases.Orders.Checkout
                     }
                 }
                 await _unitOfWork.CommitAsync();
-                return OperationResult.SuccessedResult(Messages.ShoppingSuccessful);
+                return OperationResult.Success(OperationError.None, Messages.ShoppingSuccessful);
             }
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackAsync();
                 var erroeResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(erroeResult.ErrorMessage());
+                return OperationResult.Failed(OperationError.ServerError, erroeResult.ErrorMessage());
             }
 
         }

@@ -1,6 +1,7 @@
 ﻿using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Application.Interfaces.Services;
+using SabzMarket.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,21 +35,21 @@ namespace SabzMarket.Application.UseCases.Sms.SendSmsOtp
                 var otpId = await _smsOtpRepository.Insert(long.Parse(otp), token);
                 if (otpId == 0)
                 {
-                    return OperationResult<long>.FailedResult(Messages.Error);
+                    return OperationResult<long>.Failed(OperationError.ServerError, Messages.Error);
                 }
 
                 var result = await _smsService.SendSmsOtp(Phone, otp, token);
                 if (!result)
                 {
-                    return OperationResult<long>.FailedResult(Messages.Error);
+                    return OperationResult<long>.Failed(OperationError.ServerError, Messages.Error);
                 }
 
-                return OperationResult<long>.SuccessedResult(otpId, "کد ورود ارسال شد");
+                return OperationResult<long>.Success(otpId, OperationError.None, "کد ورود ارسال شد");
             }
             catch (Exception ex)
             {
                 var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult<long>.Failed(errorResult.ErrorMessage());
+                return OperationResult<long>.Failed(OperationError.ServerError, errorResult.ErrorMessage());
             }
         }
     }

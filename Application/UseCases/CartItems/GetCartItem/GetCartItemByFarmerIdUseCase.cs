@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces.Repositories;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
+using SabzMarket.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,12 +35,12 @@ namespace SabzMarket.Application.UseCases.CartItems.GetCartItem
                 }
                 carts.RemoveAll(x => x.Quantity > x.ProducNumber);
 
-                return OperationResult<List<GetCartItemByFarmerIdOutputDTO>>.SuccessedResult(carts);
+                return OperationResult<List<GetCartItemByFarmerIdOutputDTO>>.Success(carts, OperationError.Success);
             }
             catch (Exception ex)
             {
                 var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult<List<GetCartItemByFarmerIdOutputDTO>>.Failed(errorResult.ErrorMessage());
+                return OperationResult<List<GetCartItemByFarmerIdOutputDTO>>.Failed(OperationError.ServerError, errorResult.ErrorMessage());
             }
         }
     }

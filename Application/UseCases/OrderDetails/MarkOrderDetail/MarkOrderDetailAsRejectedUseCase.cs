@@ -2,6 +2,7 @@
 using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Persistence;
 using SabzMarket.Application.Interfaces.Repository;
+using SabzMarket.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,18 +36,18 @@ namespace SabzMarket.Application.UseCases.OrderDetails.MarkOrderDetail
                 var result = await _orderDetailRepository.StatusIsReject(orderDetaileId, token);
                 if (result)
                 {
-                    return OperationResult.FailedResult(Messages.OrderAlreadyRejectedMessage);
+                    return OperationResult.Failed(OperationError.Conflict, Messages.OrderAlreadyRejectedMessage);
                 }
                 await _orderDetailRepository.SetOrderDetailStatusToRejectedAsync(orderDetaileId, token);
                 await _productRepository.IncreaseNumberAsync(productId, number, token);
                 await _unitOfWork.CommitAsync();
-                return OperationResult.SuccessedResult(Messages.OrderReject);
+                return OperationResult.Success(OperationError.None, Messages.OrderReject);
             }
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackAsync();
                 var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(errorResult.ErrorMessage());
+                return OperationResult.Failed(OperationError.ServerError, errorResult.ErrorMessage());
             }
         }
     }

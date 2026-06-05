@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
+using SabzMarket.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,13 +29,18 @@ namespace SabzMarket.Application.UseCases.Categories.GetCategory
             try
             {
                 var result = await _categorieRepository.SelectAsync(token);
-                var getAllCategoriesOutputDTO = _mapper.Map<List<GetAllCategoriesOutputDTO>>(result);
-                return OperationResult<List<GetAllCategoriesOutputDTO>>.SuccessedResult(getAllCategoriesOutputDTO);
+                var getAllCategoriesOutputDTO = _mapper
+                    .Map<List<GetAllCategoriesOutputDTO>>(result);
+
+                return OperationResult<List<GetAllCategoriesOutputDTO>>
+                    .Success(getAllCategoriesOutputDTO, OperationError.Success);
             }
             catch (Exception ex)
             {
                 var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult<List<GetAllCategoriesOutputDTO>>.Failed(errorResult.ErrorMessage());
+
+                return OperationResult<List<GetAllCategoriesOutputDTO>>
+                    .Failed(OperationError.ServerError, errorResult.ErrorMessage());
             }
         }
     }
