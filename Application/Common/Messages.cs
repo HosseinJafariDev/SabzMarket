@@ -61,6 +61,7 @@ namespace SabzMarket.Application.Common
         public const string OrderAlreadyRejectedMessage = "این سفارش قبلا رد شده است";
         public const string OrderReject = "سفارش رد شد";
         public const string OrderSent = "سفارش ارسال شد";
+        public const string NotFoundPendingOrders = "محصولی پیدا نشد";
         public const string CartEmpty = "سبد خرید خالی است";
         public const string RemoveAddToCart = "با موفقیت از سبد خرید حذف شد";
         public const string SuccessAddToCart = "با موفقیت به سبد خرید اضافه شد";
