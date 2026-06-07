@@ -2,9 +2,11 @@
 using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Domain.Enums;
+using SabzMarket.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,33 +15,23 @@ namespace SabzMarket.Application.UseCases.Products.GetProduct
     public class GetProductBySellerIdUseCase : IGetProductBySellerIdUseCase
     {
         private readonly IProductRepository _productRepository;
-        private readonly IErrorRepository _errorRepository;
         private readonly IMapper _mapper;
-        public GetProductBySellerIdUseCase(IProductRepository productRepository, IErrorRepository errorRepository, IMapper mapper)
+        public GetProductBySellerIdUseCase(IProductRepository productRepository, IMapper mapper)
         {
-            _errorRepository = errorRepository;
             _mapper = mapper;
             _productRepository = productRepository;
         }
         public async Task<OperationResult<List<GetProductOutputDTO>>> ExecuteAsync(long sellerId, CancellationToken token)
         {
-            try
-            {
-                var products = await _productRepository.SelectAllBySellerIdAsync(sellerId, token);
+            var products = await _productRepository.SelectAllBySellerIdAsync(sellerId, token);
 
-                if (!products.Any())
-                {
-                    return OperationResult<List<GetProductOutputDTO>>.Failed(OperationError.NotFound, Messages.ProductNotFoundBySellerId);
-                }
-
-                var productDTO = _mapper.Map<List<GetProductOutputDTO>>(products);
-                return OperationResult<List<GetProductOutputDTO>>.Success(productDTO, OperationError.Success);
-            }
-            catch (Exception ex)
+            if (!products.Any())
             {
-                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult<List<GetProductOutputDTO>>.Failed(OperationError.ServerError, errorResult.ErrorMessage());
+                throw new NotFoundException(Messages.ProductNotFoundBySellerId);
             }
+
+            var productDTO = _mapper.Map<List<GetProductOutputDTO>>(products);
+            return OperationResult<List<GetProductOutputDTO>>.Success(productDTO, OperationError.Success);
         }
     }
 }

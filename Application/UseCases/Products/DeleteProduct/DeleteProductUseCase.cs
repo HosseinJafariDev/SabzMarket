@@ -1,6 +1,7 @@
 ﻿using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Domain.Enums;
+using SabzMarket.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,31 +15,20 @@ namespace SabzMarket.Application.UseCases.Products.DeleteProduct
     {
         private readonly IProductRepository _productRepository;
         private readonly IOrderDetailRepository _orderDetailRepository;
-        private readonly IErrorRepository _errorRepository;
-        public DeleteProductUseCase(IProductRepository productRepository, IOrderDetailRepository orderDetailRepository, IErrorRepository errorRepository)
+        public DeleteProductUseCase(IProductRepository productRepository, IOrderDetailRepository orderDetailRepository)
         {
             _orderDetailRepository = orderDetailRepository;
             _productRepository = productRepository;
-            _errorRepository = errorRepository;
         }
         public async Task<OperationResult> ExecuteAsync(long id, CancellationToken token)
         {
-            try
-            {
-                var hasPendingOrders = await _orderDetailRepository.HasPendingOrdersForProductAsync(id, token);
-                if (hasPendingOrders)
-                {
-                    return OperationResult.Failed(OperationError.Conflict, Messages.ProductIsOnOrder);
-                }
+            var hasPendingOrders = await _orderDetailRepository.HasPendingOrdersForProductAsync(id, token);
 
-                await _productRepository.DeleteAsync(id, token);
-                return OperationResult.Success(OperationError.None, Messages.ProductDelete);
-            }
-            catch (Exception ex)
-            {
-                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(OperationError.ServerError, errorResult.ErrorMessage());
-            }
+            if (hasPendingOrders)
+                throw new ConflictException(Messages.ProductIsOnOrder);
+
+            await _productRepository.DeleteAsync(id, token);
+            return OperationResult.Success(OperationError.None, Messages.ProductDelete);
         }
     }
 }

@@ -2,6 +2,7 @@
 using SabzMarket.Application.Common;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Domain.Enums;
+using SabzMarket.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,40 +14,27 @@ namespace SabzMarket.Application.UseCases.Products.GetProduct
     public class GetProductByNameUseCase : IGetProductByNameUseCase
     {
         private readonly IProductRepository _productRepository;
-        private readonly IErrorRepository _errorRepository;
         private readonly IMapper _mapper;
-        public GetProductByNameUseCase(IProductRepository productRepository, IErrorRepository errorRepository, IMapper mapper)
+        public GetProductByNameUseCase(IProductRepository productRepository, IMapper mapper)
         {
-            _errorRepository = errorRepository;
             _productRepository = productRepository;
             _mapper = mapper;
         }
         public async Task<OperationResult<List<GetProductOutputDTO>>> ExecuteAsync(string name, CancellationToken token)
         {
-            try
+            var products = await _productRepository
+                .SelectByNameAsync(name, token);
+
+            if (!products.Any())
             {
-                var products = await _productRepository
-                    .SelectByNameAsync(name, token);
-
-                if (!products.Any())
-                {
-                    return OperationResult<List<GetProductOutputDTO>>.Failed(OperationError.Conflict, Messages.ProductNotFoundByName);
-                }
-
-                var productsDTO = _mapper
-                    .Map<List<GetProductOutputDTO>>(products);
-
-                return OperationResult<List<GetProductOutputDTO>>
-                    .Success(productsDTO, OperationError.Success);
+                throw new NotFoundException(Messages.ProductNotFoundByName);
             }
-            catch (Exception ex)
-            {
-                var errorResult = await _errorRepository
-                    .LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
 
-                return OperationResult<List<GetProductOutputDTO>>
-                    .Failed(OperationError.ServerError, errorResult.ErrorMessage());
-            }
+            var productsDTO = _mapper
+                .Map<List<GetProductOutputDTO>>(products);
+
+            return OperationResult<List<GetProductOutputDTO>>
+                .Success(productsDTO, OperationError.Success);
         }
     }
 }

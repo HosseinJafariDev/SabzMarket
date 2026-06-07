@@ -5,6 +5,7 @@ using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Application.Interfaces.Services;
 using SabzMarket.Domain.Entities;
 using SabzMarket.Domain.Enums;
+using SabzMarket.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,18 +18,15 @@ namespace SabzMarket.Application.UseCases.Products.CreateProduct
     {
         private readonly IProductRepository _productRepository;
         private readonly IFileStorageService _fileStorageService;
-        private readonly IErrorRepository _errorRepository;
         private readonly IMapper _mapper;
         private readonly IValidator<CreateProductInputDTO> _validator;
 
         public CreateProductUseCase(
             IProductRepository productRepository,
             IFileStorageService fileStorageService,
-            IErrorRepository errorRepository,
             IMapper mapper,
             IValidator<CreateProductInputDTO> validator)
         {
-            _errorRepository = errorRepository;
             _productRepository = productRepository;
             _fileStorageService = fileStorageService;
             _mapper = mapper;
@@ -39,32 +37,16 @@ namespace SabzMarket.Application.UseCases.Products.CreateProduct
             var validationResult = _validator.Validate(createProductInputDTO);
             if (!validationResult.IsValid)
             {
-                return OperationResult.Failed(OperationError.Validation, validationResult.Errors.First().ErrorMessage);
+                throw new BadRequestException(validationResult.Errors.First().ErrorMessage);
             }
 
-            try
-            {
-                var imageUrl = await _fileStorageService.SaveAsync(stream!, createProductInputDTO.ImageProduct!, token);
-                createProductInputDTO.ImageProduct = imageUrl;
-            }
-            catch (Exception ex)
-            {
-                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(Messages.SavePhotoLayer));
-                return OperationResult.Failed(OperationError.ServerError, Messages.UnsuccessfulSavePhoto);
-            }
+            var imageUrl = await _fileStorageService.SaveAsync(stream!, createProductInputDTO.ImageProduct!, token);
+            createProductInputDTO.ImageProduct = imageUrl;
 
-            try
-            {
-                var product = _mapper.Map<Product>(createProductInputDTO);
-                await _productRepository.InsertAsync(product, token);
+            var product = _mapper.Map<Product>(createProductInputDTO);
+            await _productRepository.InsertAsync(product, token);
 
-                return OperationResult.Success(OperationError.None, Messages.CreateProductSuccessful);
-            }
-            catch (Exception ex)
-            {
-                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(OperationError.ServerError, errorResult.ErrorMessage());
-            }
+            return OperationResult.Success(OperationError.None, Messages.CreateProductSuccessful);
         }
     }
 }

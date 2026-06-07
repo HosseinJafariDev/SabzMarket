@@ -6,6 +6,7 @@ using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Application.Interfaces.Services;
 using SabzMarket.Domain.Entities;
 using SabzMarket.Domain.Enums;
+using SabzMarket.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -23,15 +24,13 @@ namespace SabzMarket.Application.UseCases.Sellers.UpdateSeller
         private readonly IMapper _mapper;
         private readonly IValidator<SellerUpdateInputDTO> _validator;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IErrorRepository _errorRepository;
         public SellerUpdateUseCase(
             IUserRepository userRepository,
             ISellerRepository sellerRepository,
             IMapper mapper,
             IValidator<SellerUpdateInputDTO> validator,
             IFileStorageService fileStorageService,
-            IUnitOfWork unitOfWork,
-            IErrorRepository errorRepository)
+            IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
             _userRepository = userRepository;
@@ -39,14 +38,13 @@ namespace SabzMarket.Application.UseCases.Sellers.UpdateSeller
             _validator = validator;
             _fileStorageService = fileStorageService;
             _unitOfWork = unitOfWork;
-            _errorRepository = errorRepository;
         }
         public async Task<OperationResult> ExecuteAsync(SellerUpdateInputDTO updateSellerInputDTO, Stream stream, CancellationToken token)
         {
             var validationResult = _validator.Validate(updateSellerInputDTO);
             if (!validationResult.IsValid)
             {
-                return OperationResult.Failed(OperationError.Validation, validationResult.Errors.First().ErrorMessage);
+                throw new BadRequestException(validationResult.Errors.First().ErrorMessage);
             }
 
             await _unitOfWork.BeginAsync();
@@ -55,20 +53,12 @@ namespace SabzMarket.Application.UseCases.Sellers.UpdateSeller
             {
                 var result = await _userRepository.CheckUserAsync(updateSellerInputDTO.NewUsername!, token);
                 if (result)
-                    return OperationResult.Failed(OperationError.Conflict, Messages.ExistingUserName);
+                    throw new ConflictException(Messages.ExistingUserName);
             }
 
-            try
-            {
-                if (!updateSellerInputDTO.ProfileImage!.StartsWith(Messages.Url))
-                    updateSellerInputDTO.ProfileImage = await _fileStorageService
-                        .SaveAsync(stream!, updateSellerInputDTO.ProfileImage, token);
-            }
-            catch (Exception ex)
-            {
-                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(Messages.SavePhotoLayer));
-                return OperationResult.Failed(OperationError.ServerError, Messages.UnsuccessfulSavePhoto);
-            }
+            if (!updateSellerInputDTO.ProfileImage!.StartsWith(Messages.Url))
+                updateSellerInputDTO.ProfileImage = await _fileStorageService
+                    .SaveAsync(stream!, updateSellerInputDTO.ProfileImage, token);
 
             try
             {
@@ -83,8 +73,7 @@ namespace SabzMarket.Application.UseCases.Sellers.UpdateSeller
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackAsync();
-                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(OperationError.ServerError, errorResult.ErrorMessage());
+                throw;
             }
 
         }

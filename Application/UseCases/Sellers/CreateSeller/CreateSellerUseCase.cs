@@ -5,6 +5,7 @@ using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Application.Interfaces.Services;
 using SabzMarket.Domain.Entities;
 using SabzMarket.Domain.Enums;
+using SabzMarket.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,13 +17,11 @@ namespace SabzMarket.Application.UseCases.Sellers.CreateSeller
     public class CreateSellerUseCase : ICreateSellerUseCase
     {
         private readonly ISellerRepository _sellerRepository;
-        private readonly IErrorRepository _errorRepository;
         private readonly IValidator<CreateSellerInputDTO> _validator;
         public readonly IMapper _mapper;
         public readonly IFileStorageService _fileStorageService;
-        public CreateSellerUseCase(ISellerRepository sellerRepository, IErrorRepository errorRepository, IValidator<CreateSellerInputDTO> validator, IFileStorageService fileStorageService, IMapper mapper)
+        public CreateSellerUseCase(ISellerRepository sellerRepository, IValidator<CreateSellerInputDTO> validator, IFileStorageService fileStorageService, IMapper mapper)
         {
-            _errorRepository = errorRepository;
             _sellerRepository = sellerRepository;
             _validator = validator;
             _fileStorageService = fileStorageService;
@@ -33,31 +32,15 @@ namespace SabzMarket.Application.UseCases.Sellers.CreateSeller
             var validationResult = _validator.Validate(sellerInputDTO);
             if (!validationResult.IsValid)
             {
-                return OperationResult.Failed(OperationError.Validation, validationResult.Errors.First().ErrorMessage);
+                throw new BadRequestException(validationResult.Errors.First().ErrorMessage);
             }
 
-            try
-            {
-                var imageUrl = await _fileStorageService.SaveAsync(stream!, sellerInputDTO.ProfileImage!, token);
-                sellerInputDTO.ProfileImage = imageUrl;
-            }
-            catch (Exception ex)
-            {
-                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(Messages.SavePhotoLayer));
-                return OperationResult.Failed(OperationError.ServerError, errorResult.ErrorMessage());
-            }
+            var imageUrl = await _fileStorageService.SaveAsync(stream!, sellerInputDTO.ProfileImage!, token);
+            sellerInputDTO.ProfileImage = imageUrl;
 
-            try
-            {
-                var seller = _mapper.Map<Seller>(sellerInputDTO);
-                await _sellerRepository.InsertAsync(sellerInputDTO.Username!, seller, token);
-                return OperationResult.Success(OperationError.None, Messages.SaveSellerProfileSuccessful);
-            }
-            catch (Exception ex)
-            {
-                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(OperationError.ServerError, errorResult.ErrorMessage());
-            }
+            var seller = _mapper.Map<Seller>(sellerInputDTO);
+            await _sellerRepository.InsertAsync(sellerInputDTO.Username!, seller, token);
+            return OperationResult.Success(OperationError.None, Messages.SaveSellerProfileSuccessful);
 
         }
     }
