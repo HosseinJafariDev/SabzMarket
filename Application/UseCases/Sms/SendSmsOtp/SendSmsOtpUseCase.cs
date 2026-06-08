@@ -8,6 +8,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using SabzMarket.Domain.Exceptions;
 
 namespace SabzMarket.Application.UseCases.Sms.SendSmsOtp
 {
@@ -15,42 +16,30 @@ namespace SabzMarket.Application.UseCases.Sms.SendSmsOtp
     {
         private readonly ISmsOtpRepository _smsOtpRepository;
         private readonly ISendSmsService _smsService;
-        private readonly IErrorRepository _errorRepository;
-        public SendSmsOtpUseCase(ISmsOtpRepository smsOtpRepository, ISendSmsService sendSmsService, IErrorRepository errorRepository)
+
+        public SendSmsOtpUseCase(ISmsOtpRepository smsOtpRepository, ISendSmsService sendSmsService)
         {
             _smsOtpRepository = smsOtpRepository;
-            _errorRepository = errorRepository;
             _smsService = sendSmsService;
         }
+
         public async Task<OperationResult<long>> Execute(string Phone, CancellationToken token)
         {
-            try
-            {
-                var bytes = new byte[7];
-                RandomNumberGenerator.Fill(bytes);
+            var bytes = new byte[7];
+            RandomNumberGenerator.Fill(bytes);
 
-                var digits = bytes.Select(b => (b % 10).ToString());
-                var otp = string.Concat(digits);
+            var digits = bytes.Select(b => (b % 10).ToString());
+            var otp = string.Concat(digits);
 
-                var otpId = await _smsOtpRepository.Insert(long.Parse(otp), token);
-                if (otpId == 0)
-                {
-                    return OperationResult<long>.Failed(OperationError.ServerError, Messages.Error);
-                }
+            var otpId = await _smsOtpRepository.Insert(long.Parse(otp), token);
+            if (otpId == 0)
+                throw new ConflictException(Messages.Error);
 
-                var result = await _smsService.SendSmsOtp(Phone, otp, token);
-                if (!result)
-                {
-                    return OperationResult<long>.Failed(OperationError.ServerError, Messages.Error);
-                }
+            var result = await _smsService.SendSmsOtp(Phone, otp, token);
+            if (!result)
+                throw new ConflictException(Messages.Error);
 
-                return OperationResult<long>.Success(otpId, OperationError.None, "کد ورود ارسال شد");
-            }
-            catch (Exception ex)
-            {
-                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult<long>.Failed(OperationError.ServerError, errorResult.ErrorMessage());
-            }
+            return OperationResult<long>.Success(otpId, OperationError.None, "کد ورود ارسال شد");
         }
     }
 }

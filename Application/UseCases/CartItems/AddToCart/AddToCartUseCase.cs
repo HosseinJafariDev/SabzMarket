@@ -15,44 +15,37 @@ namespace SabzMarket.Application.UseCases.CartItems.AddToCart
     public class AddToCartUseCase : IAddToCartUseCase
     {
         private readonly ICartItemRepository _cartItemRepository;
-        private readonly IErrorRepository _errorRepository;
         private readonly IMapper _mapper;
-        public AddToCartUseCase(ICartItemRepository cartItemRepository, IErrorRepository errorRepository, IMapper mapper)
+
+        public AddToCartUseCase(ICartItemRepository cartItemRepository,
+            IMapper mapper)
         {
             _cartItemRepository = cartItemRepository;
-            _errorRepository = errorRepository;
             _mapper = mapper;
         }
+
         public async Task<OperationResult> ExecuteAsync(AddToCartInputDTO addToCartInputDTO, CancellationToken token)
         {
-            try
-            {
-                var existProduct = await _cartItemRepository
-               .ExistProductAsync(addToCartInputDTO.FarmerId, addToCartInputDTO.ProductId, token);
+            var existProduct = await _cartItemRepository
+                .ExistProductAsync(addToCartInputDTO.FarmerId, addToCartInputDTO.ProductId, token);
 
-                if (existProduct)
-                {
-                    await _cartItemRepository
-                        .ChangeQuantityAsync(
+            if (existProduct)
+            {
+                await _cartItemRepository
+                    .ChangeQuantityAsync(
                         addToCartInputDTO.ProductId,
                         addToCartInputDTO.FarmerId,
                         addToCartInputDTO.Quantity,
                         token);
 
-                    return OperationResult.Success(OperationError.None, Messages.SuccessAddToCart);
-                }
-                var cartItem = _mapper.Map<CartItem>(addToCartInputDTO);
-
-
-                await _cartItemRepository.InsertAsync(cartItem, token);
-
                 return OperationResult.Success(OperationError.None, Messages.SuccessAddToCart);
             }
-            catch (Exception ex)
-            {
-                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(OperationError.ServerError, errorResult.ErrorMessage());
-            }
+
+            var cartItem = _mapper.Map<CartItem>(addToCartInputDTO);
+
+            await _cartItemRepository.InsertAsync(cartItem, token);
+
+            return OperationResult.Success(OperationError.None, Messages.SuccessAddToCart);
         }
     }
 }

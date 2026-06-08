@@ -12,25 +12,17 @@ namespace SabzMarket.Application.UseCases.FeaturedSellers.GetFeaturedSeller
 {
     public class GetAllSellerUseCase : IGetAllSellerUseCase
     {
-        private readonly IErrorRepository _errorRepository;
         private readonly IFeaturedSellerQueryService _featuredSellerQueryService;
-        public GetAllSellerUseCase(IErrorRepository errorRepository, IFeaturedSellerQueryService featuredSellerQueryService)
+
+        public GetAllSellerUseCase(IFeaturedSellerQueryService featuredSellerQueryService)
         {
-            _errorRepository = errorRepository;
             _featuredSellerQueryService = featuredSellerQueryService;
         }
+
         public async Task<OperationResult<List<GetAllFeaturedSellerOutputDTO>>> ExecuteAsync(CancellationToken token)
         {
-            try
-            {
-                var result = await _featuredSellerQueryService.SelectAllSellerAsync(token);
-                return OperationResult<List<GetAllFeaturedSellerOutputDTO>>.Success(result, OperationError.Success);
-            }
-            catch (Exception ex)
-            {
-                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult<List<GetAllFeaturedSellerOutputDTO>>.Failed(OperationError.ServerError, errorResult.ErrorMessage());
-            }
+            var result = await _featuredSellerQueryService.SelectAllSellerAsync(token);
+            return OperationResult<List<GetAllFeaturedSellerOutputDTO>>.Success(result, OperationError.Success);
         }
     }
 }

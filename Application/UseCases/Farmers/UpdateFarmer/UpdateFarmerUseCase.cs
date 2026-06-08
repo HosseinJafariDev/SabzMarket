@@ -11,20 +11,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SabzMarket.Domain.Exceptions;
 
 namespace SabzMarket.Application.UseCases.Farmers.UpdateFarmer
 {
     public class UpdateFarmerUseCase : IUpdateFarmerUseCase
     {
-        private readonly IErrorRepository _errorRepository;
         private readonly IMapper _mapper;
         private readonly IValidator<UpdateFarmerInputDTO> _validator;
         private readonly IUserRepository _userRepository;
         private readonly IFarmerRepository _farmerRepository;
         private readonly IFileStorageService _fileStorageService;
         private readonly IUnitOfWork _unitOfWork;
+
         public UpdateFarmerUseCase(
-            IErrorRepository errorRepository,
             IMapper mapper,
             IValidator<UpdateFarmerInputDTO> validator,
             IUserRepository userRepository,
@@ -32,7 +32,6 @@ namespace SabzMarket.Application.UseCases.Farmers.UpdateFarmer
             IFileStorageService fileStorageService,
             IUnitOfWork unitOfWork)
         {
-            _errorRepository = errorRepository;
             _mapper = mapper;
             _validator = validator;
             _userRepository = userRepository;
@@ -40,13 +39,13 @@ namespace SabzMarket.Application.UseCases.Farmers.UpdateFarmer
             _fileStorageService = fileStorageService;
             _unitOfWork = unitOfWork;
         }
-        public async Task<OperationResult> ExecuteAsync(UpdateFarmerInputDTO updateFarmerInputDTO, Stream stream, CancellationToken token)
+
+        public async Task<OperationResult> ExecuteAsync(UpdateFarmerInputDTO updateFarmerInputDTO, Stream stream,
+            CancellationToken token)
         {
             var validationResult = _validator.Validate(updateFarmerInputDTO);
             if (!validationResult.IsValid)
-            {
-                return OperationResult.Failed(OperationError.Validation, validationResult.Errors.First().ErrorMessage);
-            }
+                throw new BadRequestException(validationResult.Errors.First().ErrorMessage);
 
             await _unitOfWork.BeginAsync();
 
@@ -57,17 +56,9 @@ namespace SabzMarket.Application.UseCases.Farmers.UpdateFarmer
                     return OperationResult.Failed(OperationError.Validation, Messages.ExistingUserName);
             }
 
-            try
-            {
-                if (!updateFarmerInputDTO.ProfileImage!.StartsWith(Messages.Url))
-                    updateFarmerInputDTO.ProfileImage = await _fileStorageService
-                        .SaveAsync(stream!, updateFarmerInputDTO.ProfileImage, token);
-            }
-            catch (Exception ex)
-            {
-                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(OperationError.ServerError, Messages.UnsuccessfulSavePhoto);
-            }
+            if (!updateFarmerInputDTO.ProfileImage!.StartsWith(Messages.Url))
+                updateFarmerInputDTO.ProfileImage = await _fileStorageService
+                    .SaveAsync(stream!, updateFarmerInputDTO.ProfileImage, token);
 
             try
             {
@@ -80,11 +71,10 @@ namespace SabzMarket.Application.UseCases.Farmers.UpdateFarmer
                 await _unitOfWork.CommitAsync();
                 return OperationResult.Success(OperationError.None, Messages.UpdateSuccessful);
             }
-            catch (Exception ex)
+            catch
             {
                 await _unitOfWork.RollbackAsync();
-                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(OperationError.ServerError, errorResult.ErrorMessage());
+                throw;
             }
         }
     }

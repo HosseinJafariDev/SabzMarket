@@ -14,34 +14,23 @@ namespace SabzMarket.Application.UseCases.Categories.GetCategory
     {
         private readonly IMapper _mapper;
         private readonly ICategorieRepository _categorieRepository;
-        private readonly IErrorRepository _errorRepository;
+
         public GetAllCategoriesUseCase(
             IMapper mapper,
-            ICategorieRepository categorieRepository,
-            IErrorRepository errorRepository)
+            ICategorieRepository categorieRepository)
         {
             _categorieRepository = categorieRepository;
-            _errorRepository = errorRepository;
             _mapper = mapper;
         }
+
         public async Task<OperationResult<List<GetAllCategoriesOutputDTO>>> ExecuteAsync(CancellationToken token)
         {
-            try
-            {
-                var result = await _categorieRepository.SelectAsync(token);
-                var getAllCategoriesOutputDTO = _mapper
-                    .Map<List<GetAllCategoriesOutputDTO>>(result);
+            var result = await _categorieRepository.SelectAsync(token);
+            var getAllCategoriesOutputDTO = _mapper
+                .Map<List<GetAllCategoriesOutputDTO>>(result);
 
-                return OperationResult<List<GetAllCategoriesOutputDTO>>
-                    .Success(getAllCategoriesOutputDTO, OperationError.Success);
-            }
-            catch (Exception ex)
-            {
-                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-
-                return OperationResult<List<GetAllCategoriesOutputDTO>>
-                    .Failed(OperationError.ServerError, errorResult.ErrorMessage());
-            }
+            return OperationResult<List<GetAllCategoriesOutputDTO>>
+                .Success(getAllCategoriesOutputDTO, OperationError.Success);
         }
     }
 }

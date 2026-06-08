@@ -14,21 +14,21 @@ namespace SabzMarket.Application.UseCases.CartItems.DeleteCartItem
     public class DeleteCartItemUseCase : IDeleteCartItemUseCase
     {
         private readonly ICartItemRepository _cartItemRepository;
-        private readonly IErrorRepository _errorRepository;
         private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _unitOfWork;
+
         public DeleteCartItemUseCase(
             ICartItemRepository cartItemRepository,
-            IErrorRepository errorRepository,
             IProductRepository productRepository,
             IUnitOfWork unitOfWork)
         {
             _cartItemRepository = cartItemRepository;
-            _errorRepository = errorRepository;
             _productRepository = productRepository;
             _unitOfWork = unitOfWork;
         }
-        public async Task<OperationResult> ExecuteAsync(int cartId, long productId, int productNumber, CancellationToken token)
+
+        public async Task<OperationResult> ExecuteAsync(int cartId, long productId, int productNumber,
+            CancellationToken token)
         {
             try
             {
@@ -38,11 +38,10 @@ namespace SabzMarket.Application.UseCases.CartItems.DeleteCartItem
                 await _unitOfWork.CommitAsync();
                 return OperationResult.Success(OperationError.None, Messages.RemoveAddToCart);
             }
-            catch (Exception ex)
+            catch
             {
                 await _unitOfWork.RollbackAsync();
-                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(OperationError.ServerError, errorResult.ErrorMessage());
+                throw;
             }
         }
     }

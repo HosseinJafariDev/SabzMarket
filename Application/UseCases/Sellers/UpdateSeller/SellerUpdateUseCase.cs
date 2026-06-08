@@ -70,7 +70,7 @@ namespace SabzMarket.Application.UseCases.Sellers.UpdateSeller
                 await _unitOfWork.CommitAsync();
                 return OperationResult.Success(OperationError.None, Messages.UpdateSuccessful);
             }
-            catch (Exception ex)
+            catch
             {
                 await _unitOfWork.RollbackAsync();
                 throw;

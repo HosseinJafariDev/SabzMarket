@@ -14,28 +14,21 @@ namespace SabzMarket.Application.UseCases.Chats.SendMessage
     public class SendMessageUseCase : ISendMessageUseCase
     {
         private readonly IMapper _mapper;
-        private readonly IErrorRepository _errorRepository;
         private readonly IChatRepository _chatRepository;
-        public SendMessageUseCase(IMapper mapper, IErrorRepository errorRepository, IChatRepository chatRepository)
+
+        public SendMessageUseCase(IMapper mapper, IChatRepository chatRepository)
         {
             _chatRepository = chatRepository;
             _mapper = mapper;
-            _errorRepository = errorRepository;
         }
-        public async Task<OperationResult> ExecuteAsync(SendMessageInputDTO sendMessageInputDTO, CancellationToken token)
-        {
-            try
-            {
-                var chat = _mapper.Map<Chat>(sendMessageInputDTO);
-                await _chatRepository.InsertAsync(chat, token);
 
-                return OperationResult.Success(OperationError.Success);
-            }
-            catch (Exception ex)
-            {
-                var erorrResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(OperationError.ServerError, erorrResult);
-            }
+        public async Task<OperationResult> ExecuteAsync(SendMessageInputDTO sendMessageInputDTO,
+            CancellationToken token)
+        {
+            var chat = _mapper.Map<Chat>(sendMessageInputDTO);
+            await _chatRepository.InsertAsync(chat, token);
+
+            return OperationResult.Success(OperationError.Success);
         }
     }
 }

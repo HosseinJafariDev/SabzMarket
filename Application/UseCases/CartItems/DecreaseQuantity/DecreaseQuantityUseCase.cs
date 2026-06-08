@@ -15,19 +15,18 @@ namespace SabzMarket.Application.UseCases.CartItems.DecreaseQuantity
     {
         private readonly ICartItemRepository _cartItemRepository;
         private readonly IProductRepository _productRepository;
-        private readonly IErrorRepository _errorRepository;
         private readonly IUnitOfWork _unitOfWork;
+
         public DecreaseQuantityUseCase(
             ICartItemRepository cartItemRepository,
             IProductRepository productRepository,
-            IErrorRepository errorRepository,
             IUnitOfWork unitOfWork)
         {
             _cartItemRepository = cartItemRepository;
             _productRepository = productRepository;
-            _errorRepository = errorRepository;
             _unitOfWork = unitOfWork;
         }
+
         public async Task<OperationResult> ExecuteAsync(long productId, long farmerId, CancellationToken token)
         {
             try
@@ -38,13 +37,11 @@ namespace SabzMarket.Application.UseCases.CartItems.DecreaseQuantity
                 await _unitOfWork.CommitAsync();
                 return OperationResult.Success(OperationError.None, Messages.RemoveAddToCart);
             }
-            catch (Exception ex)
+            catch
             {
                 await _unitOfWork.RollbackAsync();
-                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(OperationError.ServerError, errorResult.ErrorMessage());
+                throw;
             }
-
         }
     }
 }

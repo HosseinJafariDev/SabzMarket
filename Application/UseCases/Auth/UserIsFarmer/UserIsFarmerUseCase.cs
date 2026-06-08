@@ -12,25 +12,17 @@ namespace SabzMarket.Application.UseCases.Auth.UserIsFarmer
     public class UserIsFarmerUseCase : IUserIsFarmerUseCase
     {
         private readonly IFarmerRepository _farmerRepository;
-        private readonly IErrorRepository _errorRepository;
-        public UserIsFarmerUseCase(IFarmerRepository farmerRepository, IErrorRepository errorRepository)
+
+        public UserIsFarmerUseCase(IFarmerRepository farmerRepository)
         {
-            _errorRepository = errorRepository;
             _farmerRepository = farmerRepository;
         }
+
         public async Task<OperationResult<bool>> ExecuteAsync(string username, CancellationToken token)
         {
-            try
-            {
-                var result = await _farmerRepository.UserExistsInFarmerAsync(username, token);
+            var result = await _farmerRepository.UserExistsInFarmerAsync(username, token);
 
-                return OperationResult<bool>.Success(result, OperationError.Success);
-            }
-            catch (Exception ex)
-            {
-                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult<bool>.Failed(OperationError.ServerError, errorResult.ErrorMessage());
-            }
+            return OperationResult<bool>.Success(result, OperationError.Success);
         }
     }
 }

@@ -10,51 +10,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SabzMarket.Domain.Exceptions;
 
 namespace SabzMarket.Application.UseCases.Farmers.CreateFarmer
 {
     public class CreateFarmerUseCase : ICreateFarmerUseCase
     {
-        private readonly IErrorRepository _errorRepository;
         private readonly IFarmerRepository _farmerRepository;
         private readonly IValidator<CreateFarmerInputDTO> _validator;
         private readonly IFileStorageService _fileStorageService;
         private readonly IMapper _mapper;
+
         public CreateFarmerUseCase(
-            IErrorRepository errorRepository,
             IFarmerRepository farmerRepository,
             IValidator<CreateFarmerInputDTO> validator,
             IFileStorageService fileStorageService,
             IMapper mapper)
         {
-            _errorRepository = errorRepository;
             _farmerRepository = farmerRepository;
             _validator = validator;
             _fileStorageService = fileStorageService;
             _mapper = mapper;
         }
-        public async Task<OperationResult> ExecuteAsync(string username, CreateFarmerInputDTO createFarmerInputDTO, Stream stream, CancellationToken token)
+
+        public async Task<OperationResult> ExecuteAsync(string username, CreateFarmerInputDTO createFarmerInputDTO,
+            Stream stream, CancellationToken token)
         {
-            try
-            {
-                var farmerValidation = _validator.Validate(createFarmerInputDTO);
-                if (!farmerValidation.IsValid)
-                {
-                    return OperationResult.Failed(OperationError.Validation, farmerValidation.Errors.First().ErrorMessage);
-                }
+            var farmerValidation = _validator.Validate(createFarmerInputDTO);
+            if (!farmerValidation.IsValid)
+                throw new BadRequestException(farmerValidation.Errors.First().ErrorMessage);
 
-                var imageURL = await _fileStorageService.SaveAsync(stream!, createFarmerInputDTO.ProfileImage!, token);
-                createFarmerInputDTO.ProfileImage = imageURL;
+            var imageUrl = await _fileStorageService.SaveAsync(stream!, createFarmerInputDTO.ProfileImage!, token);
+            createFarmerInputDTO.ProfileImage = imageUrl;
 
-                var farmer = _mapper.Map<Farmer>(createFarmerInputDTO);
-                await _farmerRepository.InsertAsync(username, farmer, token);
-                return OperationResult.Success(OperationError.Success, Messages.SignUpSuccessful);
-            }
-            catch (Exception ex)
-            {
-                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(OperationError.ServerError, errorResult.ErrorMessage());
-            }
+            var farmer = _mapper.Map<Farmer>(createFarmerInputDTO);
+            await _farmerRepository.InsertAsync(username, farmer, token);
+
+            return OperationResult.Success(OperationError.Success, Messages.SignUpSuccessful);
         }
     }
 }

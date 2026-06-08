@@ -11,25 +11,17 @@ namespace SabzMarket.Application.UseCases.OrderDetails.MarkOrderDetail
 {
     public class MarkOrderDetailAsSentUseCase : IMarkOrderDetailAsSentUseCase
     {
-        private readonly IErrorRepository _errorRepository;
         private readonly IOrderDetailRepository _orderDetailRepository;
-        public MarkOrderDetailAsSentUseCase(IErrorRepository errorRepository, IOrderDetailRepository orderDetailRepository)
+
+        public MarkOrderDetailAsSentUseCase(IOrderDetailRepository orderDetailRepository)
         {
-            _errorRepository = errorRepository;
             _orderDetailRepository = orderDetailRepository;
         }
+
         public async Task<OperationResult> ExecuteAsync(long orderDetaileId, CancellationToken token)
         {
-            try
-            {
-                await _orderDetailRepository.SetOrderDetailStatusToSentAsync(orderDetaileId, token);
-                return OperationResult.Success(OperationError.None, Messages.OrderSent);
-            }
-            catch (Exception ex)
-            {
-                var errorReslt = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(OperationError.ServerError, errorReslt.ErrorMessage());
-            }
+            await _orderDetailRepository.SetOrderDetailStatusToSentAsync(orderDetaileId, token);
+            return OperationResult.Success(OperationError.None, Messages.OrderSent);
         }
     }
 }

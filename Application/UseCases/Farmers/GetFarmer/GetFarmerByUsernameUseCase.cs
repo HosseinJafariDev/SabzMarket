@@ -12,24 +12,17 @@ namespace SabzMarket.Application.UseCases.Farmers.GetFarmer
     public class GetFarmerByUsernameUseCase : IGetFarmerByUsernameUseCase
     {
         private readonly IFarmerQueryService _farmerQueryService;
-        private readonly IErrorRepository _errorRepository;
-        public GetFarmerByUsernameUseCase(IFarmerQueryService farmerQueryService, IErrorRepository errorRepository)
+
+        public GetFarmerByUsernameUseCase(IFarmerQueryService farmerQueryService)
         {
-            _errorRepository = errorRepository;
             _farmerQueryService = farmerQueryService;
         }
-        public async Task<OperationResult<GetFarmerByUsernameOutputDTO>> ExecuteAsync(string username, CancellationToken token)
+
+        public async Task<OperationResult<GetFarmerByUsernameOutputDTO>> ExecuteAsync(string username,
+            CancellationToken token)
         {
-            try
-            {
-                var farmer = await _farmerQueryService.SelectByUsernameAsync(username, token);
-                return OperationResult<GetFarmerByUsernameOutputDTO>.Success(farmer, OperationError.Success);
-            }
-            catch (Exception ex)
-            {
-                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult<GetFarmerByUsernameOutputDTO>.Failed(OperationError.ServerError, errorResult.ErrorMessage());
-            }
+            var farmer = await _farmerQueryService.SelectByUsernameAsync(username, token);
+            return OperationResult<GetFarmerByUsernameOutputDTO>.Success(farmer, OperationError.Success);
         }
     }
 }

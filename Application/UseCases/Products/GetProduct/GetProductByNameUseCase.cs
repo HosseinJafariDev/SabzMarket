@@ -15,20 +15,20 @@ namespace SabzMarket.Application.UseCases.Products.GetProduct
     {
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
+
         public GetProductByNameUseCase(IProductRepository productRepository, IMapper mapper)
         {
             _productRepository = productRepository;
             _mapper = mapper;
         }
+
         public async Task<OperationResult<List<GetProductOutputDTO>>> ExecuteAsync(string name, CancellationToken token)
         {
             var products = await _productRepository
                 .SelectByNameAsync(name, token);
 
             if (!products.Any())
-            {
                 throw new NotFoundException(Messages.ProductNotFoundByName);
-            }
 
             var productsDTO = _mapper
                 .Map<List<GetProductOutputDTO>>(products);

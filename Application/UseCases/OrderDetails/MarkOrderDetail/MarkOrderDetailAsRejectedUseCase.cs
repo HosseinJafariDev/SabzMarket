@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SabzMarket.Domain.Exceptions;
 
 namespace SabzMarket.Application.UseCases.OrderDetails.MarkOrderDetail
 {
@@ -15,39 +16,38 @@ namespace SabzMarket.Application.UseCases.OrderDetails.MarkOrderDetail
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IOrderDetailRepository _orderDetailRepository;
-        private readonly IErrorRepository _errorRepository;
         private readonly IProductRepository _productRepository;
+
         public MarkOrderDetailAsRejectedUseCase(
             IUnitOfWork unitOfWork,
             IOrderDetailRepository orderDetailRepository,
-            IErrorRepository errorRepository,
             IProductRepository productRepository)
         {
-            _errorRepository = errorRepository;
             _unitOfWork = unitOfWork;
             _orderDetailRepository = orderDetailRepository;
             _productRepository = productRepository;
         }
-        public async Task<OperationResult> ExecuteAsync(long orderDetaileId, int number, int productId, CancellationToken token)
+
+        public async Task<OperationResult> ExecuteAsync(long orderDetaileId, int number, int productId,
+            CancellationToken token)
         {
             try
             {
                 await _unitOfWork.BeginAsync();
                 var result = await _orderDetailRepository.StatusIsReject(orderDetaileId, token);
                 if (result)
-                {
-                    return OperationResult.Failed(OperationError.Conflict, Messages.OrderAlreadyRejectedMessage);
-                }
+                    throw new ConflictException(Messages.OrderAlreadyRejectedMessage);
+
                 await _orderDetailRepository.SetOrderDetailStatusToRejectedAsync(orderDetaileId, token);
                 await _productRepository.IncreaseNumberAsync(productId, number, token);
                 await _unitOfWork.CommitAsync();
+
                 return OperationResult.Success(OperationError.None, Messages.OrderReject);
             }
-            catch (Exception ex)
+            catch
             {
                 await _unitOfWork.RollbackAsync();
-                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(OperationError.ServerError, errorResult.ErrorMessage());
+                throw;
             }
         }
     }

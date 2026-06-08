@@ -12,25 +12,17 @@ namespace SabzMarket.Application.UseCases.Auth.UserIsSeller
     public class UserIsSellerUseCase : IUserIsSellerUseCase
     {
         private readonly ISellerRepository _sellerRepository;
-        private readonly IErrorRepository _errorRepository;
-        public UserIsSellerUseCase(ISellerRepository sellerRepository, IErrorRepository errorRepository)
+
+        public UserIsSellerUseCase(ISellerRepository sellerRepository)
         {
-            _errorRepository = errorRepository;
             _sellerRepository = sellerRepository;
         }
+
         public async Task<OperationResult<bool>> ExecuteAsync(string username, CancellationToken token)
         {
-            try
-            {
-                var result = await _sellerRepository.UserIsSellerAsync(username, token);
+            var result = await _sellerRepository.UserIsSellerAsync(username, token);
 
-                return OperationResult<bool>.Success(result, OperationError.Success);
-            }
-            catch (Exception ex)
-            {
-                var errorResult = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult<bool>.Failed(OperationError.ServerError, errorResult.ErrorMessage());
-            }
+            return OperationResult<bool>.Success(result, OperationError.Success);
         }
     }
 }

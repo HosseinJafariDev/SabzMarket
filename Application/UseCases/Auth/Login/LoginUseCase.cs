@@ -7,43 +7,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SabzMarket.Domain.Exceptions;
 
 namespace SabzMarket.Application.UseCases.Auth.Login
 {
     public class LoginUseCase : ILoginUseCase
     {
         private readonly IUserRepository _userRepository;
-        private readonly IErrorRepository _errorRepository;
 
         public LoginUseCase(
-            IErrorRepository errorRepository,
             IUserRepository userRepository)
         {
             _userRepository = userRepository;
-            _errorRepository = errorRepository;
         }
+
         public async Task<OperationResult> ExecuteAsync(LoginInputDTO input, CancellationToken token)
         {
             if (input == null || string.IsNullOrWhiteSpace(input.UserName) || string.IsNullOrWhiteSpace(input.Password))
-            {
-                return OperationResult.Failed(OperationError.Validation, Messages.EnterUsernameAndPassword);
-            }
+                throw new BadRequestException(Messages.EnterUsernameAndPassword);
 
-            try
-            {
-                var user = await _userRepository.SelectByUserNameForLoginAsync(input.UserName!, token);
+            var user = await _userRepository.SelectByUserNameForLoginAsync(input.UserName!, token);
 
-                if (user == null || !user.VerifyPassword(input.Password!))
-                {
-                    return OperationResult.Failed(OperationError.Validation, Messages.InvalidPasswordAndUsername);
-                }
-                return OperationResult.Success(OperationError.Success);
-            }
-            catch (Exception ex)
-            {
-                var result = await _errorRepository.LogErrorAsync(ex.ExceptionToErrorDTO(GetType().Name));
-                return OperationResult.Failed(OperationError.ServerError, result.ErrorMessage());
-            }
+            if (user == null || !user.VerifyPassword(input.Password!))
+                throw new BadRequestException(Messages.InvalidPasswordAndUsername);
+
+            return OperationResult.Success(OperationError.Success);
         }
     }
 }
