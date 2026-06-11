@@ -2,17 +2,20 @@
 using SabzMarket.API.ApiResultt;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.UseCases.Users.GetUser;
+
 namespace SabzMarket.API.Controllers
 {
-    public class UserController : BaseController
+    public class UsersController : BaseController
     {
         private readonly IGetUserByUserNameUseCase _getUserByUserNameUseCase;
-        public UserController(IGetUserByUserNameUseCase getUserByUserNameUseCase)
+
+        public UsersController(IGetUserByUserNameUseCase getUserByUserNameUseCase)
         {
             _getUserByUserNameUseCase = getUserByUserNameUseCase;
         }
-        [HttpGet]
-        public async Task<ApiResult<GetUserByUserNameOutputDTO>> GetUserAsync(string username, CancellationToken token)
+
+        [HttpGet("{username}")]
+        public async Task<ApiResult<GetUserByUserNameOutputDTO>> GetByUsername(string username, CancellationToken token)
         {
             var result = await _getUserByUserNameUseCase.ExecuteAsync(username, token);
             return result.OperationResultTOApiResult();

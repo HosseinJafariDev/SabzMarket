@@ -10,7 +10,7 @@ using SabzMarket.Domain.Exceptions;
 
 namespace SabzMarket.Application.UseCases.Chats.findUsersChatted
 {
-    public class findUsersChattedWithIdUseCase : IfindUsersChattedWithIdUseCase
+    public class findUsersChattedWithIdUseCase : IFindUsersChattedWithIdUseCase
     {
         private readonly IChatQueryService _queryService;
 

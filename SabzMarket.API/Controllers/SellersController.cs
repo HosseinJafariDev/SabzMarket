@@ -9,7 +9,7 @@ using System.IO;
 
 namespace SabzMarket.API.Controllers
 {
-    public class SellerController : BaseController
+    public class SellersController : BaseController
     {
         private readonly ICreateSellerUseCase _createSellerUseCase;
         private readonly IUserIsSellerUseCase _userIsSellerUseCase;
@@ -17,7 +17,8 @@ namespace SabzMarket.API.Controllers
         private readonly IGetSellerByIdUseCase _getSellerByIdUseCase;
         private readonly IGetAllSellerByPhoneNumberUseCase _getAllSellerByPhoneNumberUseCase;
         private readonly ISellerUpdateUseCase _sellerUpdateUseCase;
-        public SellerController(
+
+        public SellersController(
             ICreateSellerUseCase createSellerUseCase,
             IUserIsSellerUseCase userIsSellerUseCase,
             IGetSellerByUsenameUseCase getSellerByUsenameUseCase,
@@ -32,49 +33,60 @@ namespace SabzMarket.API.Controllers
             _getAllSellerByPhoneNumberUseCase = getAllSellerByPhoneNumberUseCase;
             _sellerUpdateUseCase = sellerUpdateUseCase;
         }
+
         [HttpPost]
-        public async Task<ApiResult> CreateSelllerAsync([FromForm] CreateSellerInputDTO createSellerInputDTO, IFormFile file, CancellationToken token)
+        public async Task<ApiResult> CreateSeller([FromForm] CreateSellerInputDTO createSellerInputDto,
+            IFormFile file, CancellationToken token)
         {
-            Stream stream = null;
+            Stream? stream = null;
             if (file != null)
             {
                 stream = file.OpenReadStream();
             }
-            var result = await _createSellerUseCase.ExecuteAsync(createSellerInputDTO, stream, token);
+
+            var result = await _createSellerUseCase.ExecuteAsync(createSellerInputDto, stream, token);
             return result.OperationResultTOApiResult();
         }
-        [HttpGet]
-        public async Task<ApiResult> CheckUserInSellerAsync(string username, CancellationToken token)
+
+        [HttpGet("{username}/is-seller")]
+        public async Task<ApiResult> CheckUserIsSeller(string username, CancellationToken token)
         {
             var result = await _userIsSellerUseCase.ExecuteAsync(username, token);
             return result.OperationResultTOApiResult();
         }
-        [HttpGet]
-        public async Task<ApiResult<GetSellerOutputDTO>> GetSellerByUsernameAsync(string username, CancellationToken token)
+
+        [HttpGet("{username}")]
+        public async Task<ApiResult<GetSellerOutputDTO>> GetByUsername(string username,
+            CancellationToken token)
         {
             var result = await _getSellerByUsenameUseCase.ExecuteAsync(username, token);
             return result.OperationResultTOApiResult();
-
         }
-        [HttpPost]
-        public async Task<ApiResult> UpdateAsync([FromForm] SellerUpdateInputDTO sellerUpdateInputDTO, IFormFile file, CancellationToken token)
+
+        [HttpPut]
+        public async Task<ApiResult> Update([FromForm] SellerUpdateInputDTO sellerUpdateInputDto, IFormFile file,
+            CancellationToken token)
         {
-            Stream stream = null;
+            Stream? stream = null;
             if (file != null)
             {
                 stream = file.OpenReadStream();
             }
-            var result = await _sellerUpdateUseCase.ExecuteAsync(sellerUpdateInputDTO, stream!, token);
+
+            var result = await _sellerUpdateUseCase.ExecuteAsync(sellerUpdateInputDto, stream, token);
             return result.OperationResultTOApiResult();
         }
-        [HttpGet]
-        public async Task<ApiResult<List<GetSellerOutputDTO>>> GetByPhoneNumberAsync(string phone, CancellationToken token)
+
+        [HttpGet("by-phone/{phone}")]
+        public async Task<ApiResult<List<GetSellerOutputDTO>>> GetByPhoneNumber(string phone,
+            CancellationToken token)
         {
             var result = await _getAllSellerByPhoneNumberUseCase.ExecuteAsync(phone, token);
             return result.OperationResultTOApiResult();
         }
-        [HttpGet]
-        public async Task<ApiResult<GetSellerOutputDTO>> GetByIdAsync(long id, CancellationToken token)
+
+        [HttpGet("{id:long}")]
+        public async Task<ApiResult<GetSellerOutputDTO>> GetById(long id, CancellationToken token)
         {
             var result = await _getSellerByIdUseCase.ExecuteAsync(id, token);
             return result.OperationResultTOApiResult();

@@ -7,13 +7,14 @@ using SabzMarket.Application.UseCases.Chats.SendMessage;
 
 namespace SabzMarket.API.Controllers
 {
-    public class ChatController : BaseController
+    public class ChatsController : BaseController
     {
-        private readonly IfindUsersChattedWithIdUseCase _findUsersChatted;
+        private readonly IFindUsersChattedWithIdUseCase _findUsersChatted;
         private readonly IGetMessageUseCase _getMessage;
         private readonly ISendMessageUseCase _sendMessage;
-        public ChatController(
-            IfindUsersChattedWithIdUseCase findUsersChatted,
+
+        public ChatsController(
+            IFindUsersChattedWithIdUseCase findUsersChatted,
             IGetMessageUseCase getMessage,
             ISendMessageUseCase sendMessage)
         {
@@ -21,22 +22,27 @@ namespace SabzMarket.API.Controllers
             _getMessage = getMessage;
             _sendMessage = sendMessage;
         }
-        [HttpGet]
-        public async Task<ApiResult<List<findUsersChattedOutputDTO>>> FindUsersChattedWithIdAsync(long id, CancellationToken token)
+
+        [HttpGet("{id:long}/user")]
+        public async Task<ApiResult<List<findUsersChattedOutputDTO>>> FindUsersChattedWithId(long id,
+            CancellationToken token)
         {
             var result = await _findUsersChatted.ExecuteAsync(id, token);
             return result.OperationResultTOApiResult();
         }
+
         [HttpGet]
-        public async Task<ApiResult<List<GetMessageOutputDTO>>> GetMessageAsync(long fromId, long toId, CancellationToken token)
+        public async Task<ApiResult<List<GetMessageOutputDTO>>> GetMessage(long fromId, long toId,
+            CancellationToken token)
         {
             var result = await _getMessage.ExecuteAsync(fromId, toId, token);
             return result.OperationResultTOApiResult();
         }
+
         [HttpPost]
-        public async Task<ApiResult> SendMessageAsync(SendMessageInputDTO sendMessageInputDTO, CancellationToken token)
+        public async Task<ApiResult> SendMessage(SendMessageInputDTO sendMessageInputDto, CancellationToken token)
         {
-            var result = await _sendMessage.ExecuteAsync(sendMessageInputDTO, token);
+            var result = await _sendMessage.ExecuteAsync(sendMessageInputDto, token);
             return result.OperationResultTOApiResult();
         }
     }

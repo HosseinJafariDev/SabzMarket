@@ -135,7 +135,7 @@ namespace SabzMarket.API.DependencyInjection
             services.AddScoped<ISellerUpdateUseCase, SellerUpdateUseCase>();
             services.AddScoped<IGetUserByUserNameUseCase, GetUserByUserNameUseCase>();
             services.AddScoped<ISendMessageUseCase, SendMessageUseCase>();
-            services.AddScoped<IfindUsersChattedWithIdUseCase, findUsersChattedWithIdUseCase>();
+            services.AddScoped<IFindUsersChattedWithIdUseCase, findUsersChattedWithIdUseCase>();
             services.AddScoped<IGetMessageUseCase, GetMessageUseCase>();
             return services;
         }

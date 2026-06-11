@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SabzMarket.Application.UseCases.Chats.findUsersChatted
 {
-    public interface IfindUsersChattedWithIdUseCase
+    public interface IFindUsersChattedWithIdUseCase
     {
         Task<OperationResult<List<findUsersChattedOutputDTO>>> ExecuteAsync(long id, CancellationToken token);
     }

@@ -8,10 +8,12 @@ namespace SabzMarket.API.Controllers
     public class FeaturedSellerController : BaseController
     {
         private readonly IGetAllSellerUseCase _getAllSellerUseCase;
+
         public FeaturedSellerController(IGetAllSellerUseCase getAllSellerUseCase)
         {
             _getAllSellerUseCase = getAllSellerUseCase;
         }
+
         [HttpGet]
         public async Task<ApiResult<List<GetAllFeaturedSellerOutputDTO>>> GetAllSellerAsync(CancellationToken token)
         {

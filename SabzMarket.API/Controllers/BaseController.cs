@@ -3,7 +3,7 @@
 namespace SabzMarket.API.Controllers
 {
     [ApiController]
-    [Route("[controller]/[action]")]
+    [Route("api/[controller]")]
     public class BaseController:ControllerBase
     {
     }

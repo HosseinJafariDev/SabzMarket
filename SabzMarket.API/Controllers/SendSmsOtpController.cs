@@ -8,11 +8,13 @@ namespace SabzMarket.API.Controllers
     public class SendSmsOtpController : BaseController
     {
         private readonly ISendSmsOtpUseCase _sendSmsOtpUseCase;
+
         public SendSmsOtpController(ISendSmsOtpUseCase sendSmsOtpUseCase)
         {
             _sendSmsOtpUseCase = sendSmsOtpUseCase;
         }
-        [HttpGet]
+
+        [HttpGet("({Phone})")]
         public async Task<ApiResult<long>> Send(string Phone, CancellationToken token)
         {
             var result = await _sendSmsOtpUseCase.Execute(Phone, token);

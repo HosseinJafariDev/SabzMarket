@@ -8,14 +8,15 @@ using SabzMarket.Application.UseCases.Products.UpdateProduct;
 
 namespace SabzMarket.API.Controllers
 {
-    public class ProductController : BaseController
+    public class ProductsController : BaseController
     {
-        public readonly ICreateProductUseCase _createProductUseCase;
+        private readonly ICreateProductUseCase _createProductUseCase;
         private readonly IGetProductBySellerIdUseCase _getProductBySellerIdUseCase;
         private readonly IGetProductByNameUseCase _getProductByNameUseCase;
         private readonly IUpdateProductUseCase _updateProductUseCase;
         private readonly IDeleteProductUseCase _deleteProductUseCase;
-        public ProductController(
+
+        public ProductsController(
             ICreateProductUseCase createProductUseCase,
             IGetProductBySellerIdUseCase getProductBySellerIdUseCase,
             IGetProductByNameUseCase getProductByNameUseCase,
@@ -28,46 +29,55 @@ namespace SabzMarket.API.Controllers
             _updateProductUseCase = updateProductUseCase;
             _deleteProductUseCase = deleteProductUseCase;
         }
+
         [HttpPost]
-        public async Task<ApiResult> CreateProductAsync([FromForm] CreateProductInputDTO product, IFormFile file, CancellationToken token)
+        public async Task<ApiResult> CreateProduct([FromForm] CreateProductInputDTO product, IFormFile file,
+            CancellationToken token)
         {
             Stream stream = null;
             if (file != null)
             {
                 stream = file.OpenReadStream();
             }
+
             var result = await _createProductUseCase.ExecuteAsync(product, stream, token);
             return result.OperationResultTOApiResult();
         }
-        [HttpGet]
-        public async Task<ApiResult<List<GetProductOutputDTO>>> GetProductsBySellerAsync(long sellerId, CancellationToken token)
+
+        [HttpGet("seller/{sellerId:long}")]
+        public async Task<ApiResult<List<GetProductOutputDTO>>> GetProductsBySeller(long sellerId,
+            CancellationToken token)
         {
             var result = await _getProductBySellerIdUseCase.ExecuteAsync(sellerId, token);
             return result.OperationResultTOApiResult();
         }
-        [HttpGet]
-        public async Task<ApiResult> DeleteAsync(long id, CancellationToken token)
+
+        [HttpDelete("{id:long}")]
+        public async Task<ApiResult> Delete(long id, CancellationToken token)
         {
             var result = await _deleteProductUseCase.ExecuteAsync(id, token);
             return result.OperationResultTOApiResult();
         }
-        [HttpPost]
-        public async Task<ApiResult> UpdateAsync([FromForm] UpdateProductInputDTO product, IFormFile file, CancellationToken token)
+
+        [HttpPut]
+        public async Task<ApiResult> Update([FromForm] UpdateProductInputDTO product, IFormFile file,
+            CancellationToken token)
         {
             Stream stream = null;
             if (file != null)
             {
                 stream = file.OpenReadStream();
             }
+
             var result = await _updateProductUseCase.ExecuteAsync(product, stream, token);
             return result.OperationResultTOApiResult();
         }
-        [HttpGet]
-        public async Task<ApiResult<List<GetProductOutputDTO>>> GetByNameAsync(string search, CancellationToken token)
+
+        [HttpGet("name/{search}")]
+        public async Task<ApiResult<List<GetProductOutputDTO>>> GetByName(string search, CancellationToken token)
         {
             var result = await _getProductByNameUseCase.ExecuteAsync(search, token);
             return result.OperationResultTOApiResult();
         }
     }
 }
-

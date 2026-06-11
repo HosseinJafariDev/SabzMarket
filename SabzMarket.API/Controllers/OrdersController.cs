@@ -6,12 +6,13 @@ using SabzMarket.Application.UseCases.Orders.GetOrders;
 
 namespace SabzMarket.API.Controllers
 {
-    public class OrderController : BaseController
+    public class OrdersController : BaseController
     {
         private readonly IGetPendingOrdersForSellerUseCase _getPendingOrdersForSellerUseCase;
         private readonly IGetNonPendingOrdersForSellerUseCase _getNonPendingOrdersForSellerUseCase;
         private readonly ICheckoutOrderUseCase _checkoutOrderUseCase;
-        public OrderController(
+
+        public OrdersController(
             IGetPendingOrdersForSellerUseCase getPendingOrdersForSellerUseCase,
             IGetNonPendingOrdersForSellerUseCase getNonPendingOrdersForSellerUseCase,
             ICheckoutOrderUseCase checkoutOrderUseCase)
@@ -20,24 +21,29 @@ namespace SabzMarket.API.Controllers
             _getNonPendingOrdersForSellerUseCase = getNonPendingOrdersForSellerUseCase;
             _checkoutOrderUseCase = checkoutOrderUseCase;
         }
-        [HttpGet]
-        public async Task<ApiResult<List<GetOrdersForSellerOutputDTO>>> GetPendingOrdersForSellerAsync(long id, string search, CancellationToken token)
+
+        [HttpGet("{sellerId:long}/pending-orders")]
+        public async Task<ApiResult<List<GetOrdersForSellerOutputDTO>>> GetPendingOrdersForSeller(long sellerId,
+            string search, CancellationToken token)
         {
             var result = await _getPendingOrdersForSellerUseCase
-                .ExecuteAsync(id, search, token);
+                .ExecuteAsync(sellerId, search, token);
 
             return result.OperationResultTOApiResult();
         }
-        [HttpGet]
-        public async Task<ApiResult<List<GetOrdersForSellerOutputDTO>>> GetNonPendingOrdersForSellerAsync(long id, string search, CancellationToken token)
+
+        [HttpGet("{sellerId:long}/non-pending-orders")]
+        public async Task<ApiResult<List<GetOrdersForSellerOutputDTO>>> GetNonPendingOrdersForSeller(long sellerId,
+            string search, CancellationToken token)
         {
             var result = await _getNonPendingOrdersForSellerUseCase
-                .ExecuteAsync(id, search, token);
+                .ExecuteAsync(sellerId, search, token);
 
             return result.OperationResultTOApiResult();
         }
-        [HttpGet]
-        public async Task<ApiResult> CheckoutAsync(long farmerId, CancellationToken token)
+
+        [HttpPost("{farmerId:long}")]
+        public async Task<ApiResult> Checkout(long farmerId, CancellationToken token)
         {
             var result = await _checkoutOrderUseCase
                 .ExecuteAsync(farmerId, token);
