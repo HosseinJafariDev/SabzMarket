@@ -6,6 +6,4 @@ namespace SabzMarket.Application.Interfaces.Services;
 public interface ITokenService
 {
     string GenerateToken(User user);
-
-    ClaimsPrincipal? ValidateToken(string token);
 }

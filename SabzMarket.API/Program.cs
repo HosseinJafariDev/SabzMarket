@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SabzMarket.API.DependencyInjection;
 using SabzMarket.API.Hubs;
 using SabzMarket.Application.UseCases.Auth.Mappers;
+using SabzMarket.Infrastructure.Configuration.JwtToken;
 using SabzMarket.Infrastructure.Configuration.S3;
 using SabzMarket.Infrastructure.Persistence;
 
@@ -17,12 +18,14 @@ if (string.IsNullOrEmpty(connectionString))
 }
 
 builder.Services.AddSignalR();
-var s3Settings = builder.Configuration.GetSection("S3").Get<S3Settings>();
+
+builder.Services.Configure<S3Settings>(builder.Configuration.GetSection("S3"));
+builder.Services.Configure<JwtConfiguration>(builder.Configuration.GetSection("Jwt"));
 
 builder.Services
     .AddDatabase(connectionString)
     .AddRepositories()
-    .AddInfrastructureServices(s3Settings!)
+    .AddInfrastructureServices()
     .AddUnitOfWork()
     .AddUseCase()
     .AddAutoMapper()
@@ -30,13 +33,8 @@ builder.Services
     .AddQueryService();
 
 
-
-
 // Add services to the container.
-builder.Services.Configure<ApiBehaviorOptions>(options =>
-{
-    options.SuppressModelStateInvalidFilter = true;
-});
+builder.Services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

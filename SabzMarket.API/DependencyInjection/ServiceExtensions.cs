@@ -2,6 +2,7 @@
 using Amazon.S3;
 using Application.Interfaces.Repositories;
 using FluentValidation;
+using Microsoft.Extensions.Options;
 using SabzMarket.Application.Interfaces.Persistence;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Application.Interfaces.Services;
@@ -42,6 +43,7 @@ using SabzMarket.Infrastructure.Persistence.Repository;
 using SabzMarket.Infrastructure.SignalR;
 using SabzMarket.Infrastructure.Sms;
 using SabzMarket.Infrastructure.Storage;
+using SabzMarket.Infrastructure.TokenService;
 
 namespace SabzMarket.API.DependencyInjection
 {
@@ -63,6 +65,7 @@ namespace SabzMarket.API.DependencyInjection
 
             return services;
         }
+
         public static IServiceCollection AddQueryService(this IServiceCollection services)
         {
             services.AddScoped<IOrderQueryService, OrderQueryService>();
@@ -72,13 +75,12 @@ namespace SabzMarket.API.DependencyInjection
             services.AddScoped<IChatQueryService, ChatQueryService>();
             return services;
         }
-        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, S3Settings s3Settings)
-        {
-            services.AddSingleton(s3Settings);
 
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
+        {
             services.AddScoped<IAmazonS3>(sp =>
             {
-                var settings = sp.GetRequiredService<S3Settings>();
+                var settings = sp.GetRequiredService<IOptions<S3Settings>>().Value;
                 var config = new AmazonS3Config
                 {
                     ServiceURL = settings.ServiceURL,
@@ -93,14 +95,17 @@ namespace SabzMarket.API.DependencyInjection
             services.AddScoped<IFileLogService, FileLogService>();
             services.AddScoped<ISendSmsService, SendSmsService>();
             services.AddSingleton<IConnectionManager, ConnectionManager>();
+            services.AddScoped<ITokenService, JwtTokenService>();
 
             return services;
         }
+
         public static IServiceCollection AddUnitOfWork(this IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             return services;
         }
+
         public static IServiceCollection AddUseCase(this IServiceCollection services)
         {
             services.AddScoped<ILoginUseCase, LoginUseCase>();
@@ -139,6 +144,7 @@ namespace SabzMarket.API.DependencyInjection
             services.AddScoped<IGetMessageUseCase, GetMessageUseCase>();
             return services;
         }
+
         public static IServiceCollection AddAutoMapper(this IServiceCollection services)
         {
             services.AddAutoMapper(cfg => { }, typeof(SignUpProfile).Assembly);

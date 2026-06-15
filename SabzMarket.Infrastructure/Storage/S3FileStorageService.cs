@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 
 namespace SabzMarket.Infrastructure.Storage
 {
@@ -17,15 +18,16 @@ namespace SabzMarket.Infrastructure.Storage
         private readonly string _bucketName;
         private readonly string _serviceURL;
         private readonly IAmazonS3 _s3Client;
-        public S3FileStorageService(IAmazonS3 s3Client, S3Settings settings)
+
+        public S3FileStorageService(IAmazonS3 s3Client, IOptionsSnapshot<S3Settings> settings)
         {
             _s3Client = s3Client;
-            _serviceURL = settings.ServiceURL;
-            _bucketName = settings.BucketName;
+            _serviceURL = settings.Value.ServiceURL;
+            _bucketName = settings.Value.BucketName;
         }
+
         public async Task<string> SaveAsync(Stream fileStream, string fileName, CancellationToken token)
         {
-
             fileStream.Position = 0;
             string objectKey = Path.GetFileName(fileName).Replace(" ", "_");
 
@@ -38,8 +40,6 @@ namespace SabzMarket.Infrastructure.Storage
             };
 
             await _s3Client.PutObjectAsync(putRequest, token);
-
-
 
 
             string fileUrl = $"{_serviceURL}/{_bucketName}/{objectKey}";
