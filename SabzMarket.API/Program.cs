@@ -20,7 +20,15 @@ if (string.IsNullOrEmpty(connectionString))
 builder.Services.AddSignalR();
 
 builder.Services.Configure<S3Settings>(builder.Configuration.GetSection("S3"));
+
 builder.Services.Configure<JwtConfiguration>(builder.Configuration.GetSection("Jwt"));
+var jwtConfig = builder.Configuration
+    .GetSection("Jwt")
+    .Get<JwtConfiguration>();
+
+
+builder.Services.AddJwtAuthentication(jwtConfig!);
+builder.Services.AddAuthorization();
 
 builder.Services
     .AddDatabase(connectionString)
@@ -72,6 +80,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -6,9 +6,11 @@ using SabzMarket.Application.UseCases.CartItems.DecreaseQuantity;
 using SabzMarket.Application.UseCases.CartItems.DeleteCartItem;
 using SabzMarket.Application.UseCases.CartItems.GetCartItem;
 using System.Runtime.InteropServices;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SabzMarket.API.Controllers
 {
+    [Authorize]
     public class CartItemsController : BaseController
     {
         private readonly IAddToCartUseCase _addToCartUseCase;

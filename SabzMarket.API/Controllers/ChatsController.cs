@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SabzMarket.API.ApiResultt;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.UseCases.Chats.findUsersChatted;
@@ -7,6 +8,7 @@ using SabzMarket.Application.UseCases.Chats.SendMessage;
 
 namespace SabzMarket.API.Controllers
 {
+    [Authorize]
     public class ChatsController : BaseController
     {
         private readonly IFindUsersChattedWithIdUseCase _findUsersChatted;

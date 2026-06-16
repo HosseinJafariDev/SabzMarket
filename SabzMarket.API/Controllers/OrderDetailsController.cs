@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SabzMarket.API.ApiResultt;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.UseCases.OrderDetails.MarkOrderDetail;
 
 namespace SabzMarket.API.Controllers
 {
+    [Authorize]
     public class OrderDetailsController : BaseController
     {
         private readonly IMarkOrderDetailAsRejectedUseCase _markOrderDetailAsRejectedUseCase;

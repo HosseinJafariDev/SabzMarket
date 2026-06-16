@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SabzMarket.API.ApiResultt;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.UseCases.Sms.SendSmsOtp;
 
 namespace SabzMarket.API.Controllers
 {
+    [Authorize]
     public class SendSmsOtpController : BaseController
     {
         private readonly ISendSmsOtpUseCase _sendSmsOtpUseCase;

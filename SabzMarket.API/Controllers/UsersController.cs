@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SabzMarket.API.ApiResultt;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.UseCases.Users.GetUser;
 
 namespace SabzMarket.API.Controllers
 {
+    [Authorize]
     public class UsersController : BaseController
     {
         private readonly IGetUserByUserNameUseCase _getUserByUserNameUseCase;

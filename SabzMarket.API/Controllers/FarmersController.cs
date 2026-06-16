@@ -7,9 +7,11 @@ using SabzMarket.Application.UseCases.Farmers.GetFarmer;
 using SabzMarket.Application.UseCases.Farmers.UpdateFarmer;
 using System.IO;
 using System.IO.Pipes;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SabzMarket.API.Controllers
 {
+    [Authorize]
     public class FarmersController : BaseController
     {
         private readonly IUserIsFarmerUseCase _userIsFarmerUseCase;

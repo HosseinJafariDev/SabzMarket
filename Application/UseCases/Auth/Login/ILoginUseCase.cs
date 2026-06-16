@@ -9,6 +9,6 @@ namespace SabzMarket.Application.UseCases.Auth.Login
 {
     public interface ILoginUseCase
     {
-        Task<OperationResult> ExecuteAsync(LoginInputDTO input, CancellationToken token);
+        Task<OperationResult<string>> ExecuteAsync(LoginInputDTO input, CancellationToken token);
     }
 }

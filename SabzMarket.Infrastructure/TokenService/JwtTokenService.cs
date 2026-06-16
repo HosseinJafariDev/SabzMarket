@@ -14,7 +14,7 @@ public class JwtTokenService : ITokenService
 {
     private readonly JwtConfiguration _configuration;
 
-    public JwtTokenService(IOptionsSnapshot<JwtConfiguration> configuration)
+    public JwtTokenService(IOptions<JwtConfiguration> configuration)
     {
         _configuration = configuration.Value;
     }
@@ -39,6 +39,7 @@ public class JwtTokenService : ITokenService
             expires: DateTime.UtcNow.AddMinutes(double.Parse(_configuration.ExpirationInMinutes!)),
             signingCredentials: signingCredentials);
 
-        return new JwtSecurityTokenHandler().WriteToken(token);
+        var a = new JwtSecurityTokenHandler().WriteToken(token);
+        return a;
     }
 }

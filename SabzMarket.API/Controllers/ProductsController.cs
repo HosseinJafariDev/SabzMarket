@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SabzMarket.API.ApiResultt;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.UseCases.Products.CreateProduct;
@@ -8,6 +9,7 @@ using SabzMarket.Application.UseCases.Products.UpdateProduct;
 
 namespace SabzMarket.API.Controllers
 {
+    [Authorize]
     public class ProductsController : BaseController
     {
         private readonly ICreateProductUseCase _createProductUseCase;

@@ -6,9 +6,11 @@ using SabzMarket.Application.UseCases.Sellers.CreateSeller;
 using SabzMarket.Application.UseCases.Sellers.GetSeller;
 using SabzMarket.Application.UseCases.Sellers.UpdateSeller;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SabzMarket.API.Controllers
 {
+    [Authorize]
     public class SellersController : BaseController
     {
         private readonly ICreateSellerUseCase _createSellerUseCase;

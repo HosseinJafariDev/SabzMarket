@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SabzMarket.API.ApiResultt;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.UseCases.Orders.Checkout;
@@ -6,6 +7,7 @@ using SabzMarket.Application.UseCases.Orders.GetOrders;
 
 namespace SabzMarket.API.Controllers
 {
+    [Authorize]
     public class OrdersController : BaseController
     {
         private readonly IGetPendingOrdersForSellerUseCase _getPendingOrdersForSellerUseCase;
