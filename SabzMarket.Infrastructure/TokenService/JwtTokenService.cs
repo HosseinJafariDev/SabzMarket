@@ -14,7 +14,7 @@ public class JwtTokenService : ITokenService
 {
     private readonly JwtConfiguration _configuration;
 
-    public JwtTokenService(IOptions<JwtConfiguration> configuration)
+    public JwtTokenService(IOptionsSnapshot<JwtConfiguration> configuration)
     {
         _configuration = configuration.Value;
     }
