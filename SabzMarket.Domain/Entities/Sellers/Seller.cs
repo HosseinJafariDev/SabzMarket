@@ -1,0 +1,36 @@
+﻿using SabzMarket.Domain.Entities.Users;
+using SabzMarket.Domain.Exceptions;
+
+namespace SabzMarket.Domain.Entities.Sellers
+{
+    public class Seller
+    {
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
+        public long Id { get; private set; }
+        public long UserId { get; private set; }
+        public string Address { get; private set; } = null!;
+        public string? ProfileImage { get; private set; }
+        public string WorkHistory { get; private set; } = null!;
+
+        public User? Users { get; private init; }
+
+        private Seller()
+        {
+        }
+
+        public Seller(long userId, string address, string profileImage, string workHistory)
+        {
+            if (string.IsNullOrWhiteSpace(address))
+                throw new DomainException(SellerMessages.AddressRequired);
+            if (string.IsNullOrWhiteSpace(workHistory))
+                throw new DomainException(SellerMessages.WorkHistoryRequired);
+            if (userId <= 0)
+                throw new DomainException(SellerMessages.UserIdRequired);
+
+            UserId = userId;
+            Address = address;
+            ProfileImage = profileImage;
+            WorkHistory = workHistory;
+        }
+    }
+}
