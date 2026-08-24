@@ -5,16 +5,22 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SabzMarket.Domain.Entities.Base;
+using SabzMarket.Domain.Entities.Farmers;
+using SabzMarket.Domain.Entities.Sellers;
 using SabzMarket.Domain.Exceptions;
 
 namespace SabzMarket.Domain.Entities.Orders
 {
-    public class Order
+    public class Order : BaseEntity
     {
-        public long Id { get; private set; }
         public long SellerId { get; private set; }
         public long FarmerId { get; private set; }
         public DateTime OrderDate { get; private set; }
+
+        public Seller? Seller { get; private init; }
+        public Farmer? Farmer { get; private init; }
+        public ICollection<OrderDetail> OrderDetails { get; private init; }
 
         private Order()
         {

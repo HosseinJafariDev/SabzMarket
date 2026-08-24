@@ -1,18 +1,23 @@
-﻿using SabzMarket.Domain.Entities.Users;
+﻿using SabzMarket.Domain.Entities.Base;
+using SabzMarket.Domain.Entities.FeaturedSellers;
+using SabzMarket.Domain.Entities.Orders;
+using SabzMarket.Domain.Entities.Products;
+using SabzMarket.Domain.Entities.Users;
 using SabzMarket.Domain.Exceptions;
 
 namespace SabzMarket.Domain.Entities.Sellers
 {
-    public class Seller
+    public class Seller : BaseEntity
     {
-        // ReSharper disable once UnusedAutoPropertyAccessor.Local
-        public long Id { get; private set; }
         public long UserId { get; private set; }
         public string Address { get; private set; } = null!;
         public string? ProfileImage { get; private set; }
         public string WorkHistory { get; private set; } = null!;
 
         public User? Users { get; private init; }
+        public ICollection<Order>? Orders { get; private init; }
+        public ICollection<Product>? Products { get; private init; }
+        public ICollection<FeaturedSeller>? FeaturedSellerTables { get; private init; }
 
         private Seller()
         {

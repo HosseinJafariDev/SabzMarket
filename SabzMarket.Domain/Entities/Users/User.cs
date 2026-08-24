@@ -1,8 +1,12 @@
-﻿using SabzMarket.Domain.Exceptions;
+﻿using SabzMarket.Domain.Entities.Base;
+using SabzMarket.Domain.Entities.Chats;
+using SabzMarket.Domain.Entities.Farmers;
+using SabzMarket.Domain.Entities.Sellers;
+using SabzMarket.Domain.Exceptions;
 
 namespace SabzMarket.Domain.Entities.Users
 {
-    public class User
+    public class User : BaseEntity
     {
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         public long Id { get; private set; }
@@ -12,6 +16,10 @@ namespace SabzMarket.Domain.Entities.Users
         public string? Email { get; private set; }
         public string? UserName { get; private set; }
         public string? PasswordHash { get; private set; }
+
+        public Seller? Seller { get; private init; }
+        public Farmer? Farmer { get; private init; }
+        public Chat? Chat { get; private init; }
 
         private User()
         {

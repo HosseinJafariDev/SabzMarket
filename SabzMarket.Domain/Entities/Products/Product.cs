@@ -1,19 +1,27 @@
-﻿using SabzMarket.Domain.Exceptions;
+﻿using SabzMarket.Domain.Entities.Base;
+using SabzMarket.Domain.Entities.CartItems;
+using SabzMarket.Domain.Entities.Categories;
+using SabzMarket.Domain.Entities.Orders;
+using SabzMarket.Domain.Entities.Sellers;
+using SabzMarket.Domain.Exceptions;
 
 namespace SabzMarket.Domain.Entities.Products
 {
-    public class Product
+    public class Product : BaseEntity
     {
-        // ReSharper disable once UnusedAutoPropertyAccessor.Local
-        public long Id { get; private set; }
         public long SellerId { get; private set; }
         public long CategoryId { get; private set; }
         public string Name { get; private set; } = null!;
-        public string? Description { get; private set; }
+        public string Description { get; private set; }
         public int Price { get; private set; }
         public int Number { get; private set; }
         public string ImageProduct { get; private set; } = null!;
         public bool IsDeleted { get; private set; } = false;
+
+        public Seller? Seller { get; private init; }
+        public Category? Category { get; private init; }
+        public ICollection<CartItem> CartItems { get; private init; }
+        public ICollection<OrderDetail>? OrderDetails { get; private init; }
 
         private Product()
         {

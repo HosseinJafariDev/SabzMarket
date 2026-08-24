@@ -1,23 +1,20 @@
 ﻿using SabzMarket.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SabzMarket.Domain.Entities.Base;
+using SabzMarket.Domain.Entities.Products;
 using SabzMarket.Domain.Exceptions;
 
 namespace SabzMarket.Domain.Entities.Orders
 {
-    public class OrderDetail
+    public class OrderDetail : BaseEntity
     {
-        // ReSharper disable once UnusedAutoPropertyAccessor.Local
-        public long Id { get; private set; }
         public long OrderId { get; private set; }
         public long ProductId { get; private set; }
         public int Price { get; private set; }
         public int Number { get; private set; }
+        public string Status { get; set; } = nameof(OrderStatus.Pending);
+
+        public Order? Order { get; private init; }
+        public Product? Product { get; private init; }
 
         private OrderDetail()
         {
