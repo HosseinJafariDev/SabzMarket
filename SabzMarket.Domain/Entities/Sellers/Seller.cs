@@ -10,9 +10,9 @@ namespace SabzMarket.Domain.Entities.Sellers
     public class Seller : BaseEntity
     {
         public long UserId { get; private set; }
-        public string Address { get; private set; } = null!;
+        public string Address { get; private set; }
         public string? ProfileImage { get; private set; }
-        public string WorkHistory { get; private set; } = null!;
+        public string WorkHistory { get; private set; }
 
         public User? Users { get; private init; }
         public ICollection<Order>? Orders { get; private init; }

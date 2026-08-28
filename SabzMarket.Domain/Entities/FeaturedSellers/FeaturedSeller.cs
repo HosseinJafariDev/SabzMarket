@@ -24,14 +24,10 @@ namespace SabzMarket.Domain.Entities.FeaturedSellers
         public FeaturedSeller(long sellerId, DateTime startDate, DateTime endDate)
         {
             if (sellerId <= 0)
-            {
                 throw new ArgumentException(FeaturedSellerMessages.SellerIdRequired);
-            }
 
             if (startDate <= endDate)
-            {
                 throw new ArgumentException(FeaturedSellerMessages.InvalidDateRange);
-            }
 
             SellerId = sellerId;
             StartDate = startDate;

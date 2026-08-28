@@ -8,11 +8,9 @@ namespace SabzMarket.Domain.Entities.Users
 {
     public class User : BaseEntity
     {
-        // ReSharper disable once UnusedAutoPropertyAccessor.Local
-        public long Id { get; private set; }
-        public string FirstName { get; private set; } = null!;
-        public string LastName { get; private set; } = null!;
-        public string Phone { get; private set; } = null!;
+        public string FirstName { get; private set; }
+        public string LastName { get; private set; }
+        public string Phone { get; private set; }
         public string? Email { get; private set; }
         public string? UserName { get; private set; }
         public string? PasswordHash { get; private set; }

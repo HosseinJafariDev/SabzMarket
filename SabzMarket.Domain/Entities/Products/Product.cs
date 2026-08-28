@@ -11,11 +11,11 @@ namespace SabzMarket.Domain.Entities.Products
     {
         public long SellerId { get; private set; }
         public long CategoryId { get; private set; }
-        public string Name { get; private set; } = null!;
+        public string Name { get; private set; }
         public string Description { get; private set; }
         public int Price { get; private set; }
         public int Number { get; private set; }
-        public string ImageProduct { get; private set; } = null!;
+        public string ImageProduct { get; private set; }
         public bool IsDeleted { get; private set; } = false;
 
         public Seller? Seller { get; private init; }
