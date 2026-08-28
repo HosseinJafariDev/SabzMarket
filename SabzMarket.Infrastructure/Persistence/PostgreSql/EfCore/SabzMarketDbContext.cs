@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SabzMarket.Infrastructure.Persistence
+namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore
 {
     public class SabzMarketDbContext : DbContext
     {
