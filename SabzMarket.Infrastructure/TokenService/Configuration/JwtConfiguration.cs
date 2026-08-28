@@ -1,4 +1,4 @@
-namespace SabzMarket.Infrastructure.Configuration.JwtToken;
+namespace SabzMarket.Infrastructure.TokenService.Configuration;
 
 public class JwtConfiguration
 {

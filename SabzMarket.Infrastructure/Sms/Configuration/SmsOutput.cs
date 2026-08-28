@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace SabzMarket.Infrastructure.Configuration.Sms
+namespace SabzMarket.Infrastructure.Sms.Configuration
 {
     public class SmsOutput
     {

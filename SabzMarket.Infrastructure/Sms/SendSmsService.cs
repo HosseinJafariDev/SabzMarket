@@ -1,11 +1,7 @@
 ﻿using Newtonsoft.Json;
 using SabzMarket.Application.Interfaces.Services;
-using SabzMarket.Infrastructure.Configuration.Sms;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using SabzMarket.Infrastructure.Sms.Configuration;
 
 namespace SabzMarket.Infrastructure.Sms
 {

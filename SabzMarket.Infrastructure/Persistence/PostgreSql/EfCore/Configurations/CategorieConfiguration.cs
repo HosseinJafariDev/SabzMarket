@@ -9,7 +9,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SabzMarket.Infrastructure.Configuration.Repository
+namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations
 {
     public class CategorieConfiguration : IEntityTypeConfiguration<CategorieTable>
     {

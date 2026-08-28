@@ -1,5 +1,4 @@
-using System.Security.Claims;
-using SabzMarket.Domain.Entities;
+using SabzMarket.Domain.Entities.Users;
 
 namespace SabzMarket.Application.Interfaces.Services;
 

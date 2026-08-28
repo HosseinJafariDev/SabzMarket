@@ -4,9 +4,8 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SabzMarket.Application.Interfaces.Services;
-using SabzMarket.Domain.Entities;
-using SabzMarket.Domain.Exceptions;
-using SabzMarket.Infrastructure.Configuration.JwtToken;
+using SabzMarket.Domain.Entities.Users;
+using SabzMarket.Infrastructure.TokenService.Configuration;
 
 namespace SabzMarket.Infrastructure.TokenService;
 

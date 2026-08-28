@@ -1,15 +1,8 @@
-﻿using Amazon.Runtime;
-using Amazon.S3;
+﻿using Amazon.S3;
 using Amazon.S3.Model;
-using Newtonsoft.Json.Linq;
 using SabzMarket.Application.Interfaces.Services;
-using SabzMarket.Infrastructure.Configuration.S3;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
+using SabzMarket.Infrastructure.Storage.Configuration;
 
 namespace SabzMarket.Infrastructure.Storage
 {
