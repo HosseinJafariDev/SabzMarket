@@ -1,19 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SabzMarket.Infrastructure.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
+using SabzMarket.Domain.Entities.Orders;
+using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations.Base;
 
 namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations
 {
-    public class OrderConfiguration : IEntityTypeConfiguration<OrderTable>
+    public class OrderConfiguration : BaseEntityConfiguration<Order, long>
     {
-        public void Configure(EntityTypeBuilder<OrderTable> builder)
+        public override void Configure(EntityTypeBuilder<Order> builder)
         {
+            base.Configure(builder);
+
             builder.ToTable("Order");
 
             builder

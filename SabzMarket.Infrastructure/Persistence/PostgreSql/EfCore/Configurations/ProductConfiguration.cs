@@ -8,13 +8,18 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using SabzMarket.Domain.Constants;
+using SabzMarket.Domain.Entities.Products;
+using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations.Base;
 
 namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations
 {
-    public class ProductConfiguration : IEntityTypeConfiguration<ProductTable>
+    public class ProductConfiguration : BaseEntityConfiguration<Product, long>
     {
-        public void Configure(EntityTypeBuilder<ProductTable> builder)
+        public override void Configure(EntityTypeBuilder<Product> builder)
         {
+            base.Configure(builder);
+
             builder
                 .ToTable("Product");
 
@@ -24,22 +29,22 @@ namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations
                 .HasForeignKey(x => x.SellerId);
 
             builder
-                .HasOne(x => x.Categorie)
+                .HasOne(x => x.Category)
                 .WithMany(x => x.Products)
-                .HasForeignKey(x => x.CategorieId);
+                .HasForeignKey(x => x.CategoryId);
 
 
             builder
-                .Property(x => x.ProductName)
+                .Property(x => x.Name)
                 .IsRequired()
                 .HasColumnType("nvarchar")
-                .HasMaxLength(50);
+                .HasMaxLength(ProductConstants.NameMaxLength);
 
             builder
                 .Property(x => x.Description)
                 .IsRequired()
                 .HasColumnType("nvarchar")
-                .HasMaxLength(500);
+                .HasMaxLength(ProductConstants.DescriptionMaxLength);
 
             builder
                 .Property(x => x.Price)

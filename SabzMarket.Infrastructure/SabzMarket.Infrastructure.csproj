@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <Folder Include="Caching\" />
+    <Folder Include="Entities\Base\" />
     <Folder Include="Persistence\Mongo\" />
   </ItemGroup>
 

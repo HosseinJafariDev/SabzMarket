@@ -14,7 +14,7 @@ namespace SabzMarket.Domain.Entities.Sellers
         public string? ProfileImage { get; private set; }
         public string WorkHistory { get; private set; }
 
-        public User? Users { get; private init; }
+        public User? User { get; private init; }
         public ICollection<Order>? Orders { get; private init; }
         public ICollection<Product>? Products { get; private init; }
         public ICollection<FeaturedSeller>? FeaturedSellerTables { get; private init; }

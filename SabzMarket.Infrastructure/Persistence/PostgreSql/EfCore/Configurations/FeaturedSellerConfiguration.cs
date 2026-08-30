@@ -1,20 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SabzMarket.Domain.Entities;
+using SabzMarket.Domain.Entities.FeaturedSellers;
 using SabzMarket.Infrastructure.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
+using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations.Base;
 
 namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations
 {
-    public class FeaturedSellerConfiguration : IEntityTypeConfiguration<FeaturedSellerTable>
+    public class FeaturedSellerConfiguration : BaseEntityConfiguration<FeaturedSeller, int>
     {
-        public void Configure(EntityTypeBuilder<FeaturedSellerTable> builder)
+        public override void Configure(EntityTypeBuilder<FeaturedSeller> builder)
         {
+            base.Configure(builder);
+
             builder.ToTable("FeaturedSeller")
                 .HasIndex(x => x.SellerId)
                 .IsUnique();

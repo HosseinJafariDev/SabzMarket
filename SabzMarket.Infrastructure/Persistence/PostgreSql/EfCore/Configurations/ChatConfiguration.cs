@@ -7,32 +7,36 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using SabzMarket.Domain.Entities.Chats;
+using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations.Base;
 
 namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations
 {
-    public class ChatConfiguration : IEntityTypeConfiguration<ChatTable>
+    public class ChatConfiguration : BaseEntityConfiguration<Chat, long>
     {
-        public void Configure(EntityTypeBuilder<ChatTable> builder)
+        public override void Configure(EntityTypeBuilder<Chat> builder)
         {
+            base.Configure(builder);
+
             builder
                 .ToTable("Chat")
                 .HasOne(c => c.FromUser)
                 .WithMany()
-                .HasForeignKey(c => c.FromUserId)
+                .HasForeignKey(c => c.SenderId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .HasOne(c => c.ToUser)
                 .WithMany()
-                .HasForeignKey(c => c.ToUserId)
+                .HasForeignKey(c => c.ReceiverId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
-                .HasIndex(c => c.FromUserId)
+                .HasIndex(c => c.SenderId)
                 .HasDatabaseName("IX_Chats_FromUserId");
 
             builder
-                .HasIndex(c => c.ToUserId)
+                .HasIndex(c => c.ReceiverId)
                 .HasDatabaseName("IX_Chats_ToUserId");
 
             builder

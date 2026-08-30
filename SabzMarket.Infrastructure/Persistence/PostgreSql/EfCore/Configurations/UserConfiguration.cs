@@ -1,19 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SabzMarket.Infrastructure.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
+using SabzMarket.Domain.Constants;
+using SabzMarket.Domain.Entities.Users;
+using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations.Base;
 
 namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations
 {
-    public class UserConfiguration : IEntityTypeConfiguration<UserTable>
+    public class UserConfiguration : BaseEntityConfiguration<User, long>
     {
-        public void Configure(EntityTypeBuilder<UserTable> builder)
+        public override void Configure(EntityTypeBuilder<User> builder)
         {
+            base.Configure(builder);
+
             builder
                 .ToTable("User");
 
@@ -21,33 +19,33 @@ namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations
                 .Property(x => x.FirstName)
                 .IsRequired()
                 .HasColumnType("nvarchar")
-                .HasMaxLength(50);
+                .HasMaxLength(UserConstants.FirsNameMaxLength);
 
             builder
                 .Property(x => x.LastName)
                 .IsRequired()
                 .HasColumnType("nvarchar")
-                .HasMaxLength(50);
+                .HasMaxLength(UserConstants.LastNameMaxLength);
 
             builder
                 .Property(x => x.Phone)
                 .IsRequired()
                 .HasColumnType("char")
-                .HasMaxLength(11);
+                .HasMaxLength(UserConstants.PhoneMaxLength);
 
             builder
                 .Property(x => x.Email)
                 .HasColumnType("varchar")
-                .HasMaxLength(30);
+                .HasMaxLength(UserConstants.EmailMaxLength);
 
             builder
                 .Property(x => x.UserName)
                 .IsRequired()
                 .HasColumnType("varchar")
-                .HasMaxLength(50);
+                .HasMaxLength(UserConstants.UserNameMaxLength);
 
             builder
-                .Property(x => x.Password)
+                .Property(x => x.PasswordHash)
                 .IsRequired()
                 .HasColumnType("nvarchar");
         }

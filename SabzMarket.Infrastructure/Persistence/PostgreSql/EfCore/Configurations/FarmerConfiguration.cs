@@ -1,19 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SabzMarket.Domain.Constants;
 using SabzMarket.Infrastructure.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
+using SabzMarket.Domain.Entities.Farmers;
+using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations.Base;
 
 namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations
 {
-    public class FarmerConfiguration : IEntityTypeConfiguration<FarmerTable>
+    public class FarmerConfiguration : BaseEntityConfiguration<Farmer, long>
     {
-        public void Configure(EntityTypeBuilder<FarmerTable> builder)
+        public override void Configure(EntityTypeBuilder<Farmer> builder)
         {
+            base.Configure(builder);
+
             builder.ToTable("Farmer")
                 .HasOne(f => f.User)
                 .WithOne(u => u.Farmer)
@@ -24,12 +23,12 @@ namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations
                 .Property(x => x.Address)
                 .IsRequired()
                 .HasColumnType("nvarchar")
-                .HasMaxLength(500);
+                .HasMaxLength(FarmerConstants.AddressMaxLength);
 
             builder
                 .Property(x => x.DataBuilt)
                 .IsRequired()
-                .HasMaxLength(10);
+                .HasMaxLength(FarmerConstants.DataBuiltMaxLength);
 
             builder
                 .Property(x => x.LandArea)
@@ -39,13 +38,12 @@ namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations
                 .Property(x => x.NationalCode)
                 .IsRequired()
                 .HasColumnType("char")
-                .HasMaxLength(10);
+                .HasMaxLength(FarmerConstants.NationalCodeMaxLength);
 
             builder
-                .Property(x => x.CodParvaneBHB)
+                .Property(x => x.CodeParvaneBhb)
                 .IsRequired()
-                .HasColumnType("varchar")
-                .HasMaxLength(50);
+                .HasColumnType("varchar(14)");
 
             builder
                 .Property(x => x.ProfileImage)

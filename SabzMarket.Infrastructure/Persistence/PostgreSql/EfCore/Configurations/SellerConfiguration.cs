@@ -1,26 +1,25 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SabzMarket.Domain.Constants;
+using SabzMarket.Domain.Entities.Sellers;
 using SabzMarket.Infrastructure.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
+using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations.Base;
 
 namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations
 {
-    public class SellerConfiguration : IEntityTypeConfiguration<SellerTable>
+    public class SellerConfiguration : BaseEntityConfiguration<Seller, long>
     {
-        public void Configure(EntityTypeBuilder<SellerTable> builder)
+        public override void Configure(EntityTypeBuilder<Seller> builder)
         {
+            base.Configure(builder);
+
             builder.ToTable("Seller");
 
             builder
-                   .HasOne(s => s.User)
-                   .WithOne(u => u.Seller)
-                   .HasForeignKey<SellerTable>(o => o.UserId)
-                   .OnDelete(DeleteBehavior.Restrict);
+                .HasOne(s => s.User)
+                .WithOne(u => u.Seller)
+                .HasForeignKey<SellerTable>(o => o.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .Property(X => X.Address)
@@ -36,7 +35,7 @@ namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations
                 .Property(x => x.WorkHistory)
                 .IsRequired()
                 .HasColumnType("varchar")
-                .HasMaxLength(3);
+                .HasMaxLength(SellerConstants.WorkHistoryMaxLength);
         }
     }
 }

@@ -7,13 +7,18 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using SabzMarket.Domain.Constants;
+using SabzMarket.Domain.Entities.Orders;
+using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations.Base;
 
 namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations
 {
-    public class OrderDetailConfiguration : IEntityTypeConfiguration<OrderDetailTable>
+    public class OrderDetailConfiguration : BaseEntityConfiguration<OrderDetail, long>
     {
-        public void Configure(EntityTypeBuilder<OrderDetailTable> builder)
+        public override void Configure(EntityTypeBuilder<OrderDetail> builder)
         {
+            base.Configure(builder);
+
             builder.ToTable("OrderDetail")
                 .HasOne(od => od.Product)
                 .WithMany(p => p.OrderDetails)
@@ -36,7 +41,7 @@ namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations
                 .Property(x => x.Status)
                 .IsRequired()
                 .HasColumnType("nvarchar")
-                .HasMaxLength(50);
+                .HasMaxLength(OrderDetileConstants.StatusMaxLength);
         }
     }
 }
