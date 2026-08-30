@@ -21,11 +21,12 @@ namespace SabzMarket.Domain.Entities.Categories
         {
         }
 
-        public Category(string name)
+        public Category(long id, string name)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new DomainException(CategoryMessages.NameRequired);
 
+            Id = id;
             Name = name;
         }
     }

@@ -6,13 +6,11 @@ namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Repositories;
 public abstract class RepositoryBase<TEntity, TKey>(SabzMarketDbContext context)
     : IRepository<TEntity, TKey> where TEntity : class
 {
-    protected readonly SabzMarketDbContext Context = context;
     private readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
 
     public virtual async Task<TEntity?> GetByIdAsync(TKey id, CancellationToken cancellationToken)
     {
-        await _dbSet.FindAsync(id, cancellationToken);
-        return _dbSet.Find(id);
+        return await _dbSet.FindAsync([id], cancellationToken);
     }
 
     public virtual async Task<IReadOnlyList<TEntity>> GetAllAsync(CancellationToken cancellationToken)
