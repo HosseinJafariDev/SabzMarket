@@ -1,16 +1,9 @@
-﻿using SabzMarket.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SabzMarket.Domain.Entities.Farmers;
+using SabzMarket.Application.Interfaces.Persistence;
 
 namespace SabzMarket.Application.Interfaces.Repository
 {
-    public interface IFarmerRepository
+    public interface IFarmerRepository : IRepository<Farmer, long>
     {
-        public Task<bool> UserExistsInFarmerAsync(string username, CancellationToken token);
-        public Task InsertAsync(string username, Farmer farmer, CancellationToken token);
-        public Task UpdateAsync(Farmer farmer, CancellationToken token);
     }
 }

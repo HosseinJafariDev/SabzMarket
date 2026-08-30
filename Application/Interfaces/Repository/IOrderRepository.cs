@@ -1,16 +1,9 @@
-﻿using SabzMarket.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SabzMarket.Application.Interfaces.Persistence;
+using SabzMarket.Domain.Entities.Orders;
 
 namespace SabzMarket.Application.Interfaces.Repository
 {
-    public interface IOrderRepository
+    public interface IOrderRepository : IRepository<Order, long>
     {
-        public Task<long> InsertAsync(Order order, CancellationToken token);
-        public Task<bool> CheckOrderAsync(long farmerId, long SellerId, CancellationToken token);
-        Task<long> FindOrderByFarmerAndSellerAsync(long farmerId, long SellerId, CancellationToken token);
     }
 }

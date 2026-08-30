@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SabzMarket.Application.Interfaces.Persistence;
+using SabzMarket.Domain.Entities.SmsOtps;
 
 namespace SabzMarket.Application.Interfaces.Repository
 {
-    public interface ISmsOtpRepository
+    public interface ISmsOtpRepository : IRepository<SmsOtp, long>
     {
-        Task<long> Insert(long Otp, CancellationToken token);
-        Task<bool> VerifyOtp(long id, long otp, CancellationToken token);
     }
 }

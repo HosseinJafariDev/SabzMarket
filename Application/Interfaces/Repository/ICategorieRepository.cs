@@ -1,13 +1,9 @@
-﻿using SabzMarket.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SabzMarket.Application.Interfaces.Persistence;
+using SabzMarket.Domain.Entities.Categories;
 
 namespace SabzMarket.Application.Interfaces.Repository
 {
-    public interface ICategorieRepository
+    public interface ICategorieRepository : IRepository<Category, long>
     {
-        public Task<List<Categorie>> SelectAsync(CancellationToken token);
     }
 }

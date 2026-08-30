@@ -1,15 +1,9 @@
-﻿using SabzMarket.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SabzMarket.Application.Interfaces.Persistence;
+using SabzMarket.Domain.Entities.Chats;
 
 namespace SabzMarket.Application.Interfaces.Repository
 {
-    public interface IChatRepository
+    public interface IChatRepository : IRepository<Chat, long>
     {
-        Task<List<Chat>> GetChatAsync(long fromId, long toId, CancellationToken token);
-        Task InsertAsync(Chat chat, CancellationToken token);
     }
 }
