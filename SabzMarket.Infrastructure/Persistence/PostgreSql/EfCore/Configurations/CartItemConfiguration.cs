@@ -15,11 +15,11 @@ namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations
 
             builder
                 .HasOne(x => x.Farmer)
-                .WithMany(x => x.CartItemTables)
+                .WithMany()
                 .HasForeignKey(x => x.FarmerId);
 
             builder.HasOne(x => x.Product)
-                .WithMany(x => x.CartItems)
+                .WithMany()
                 .HasForeignKey(x => x.ProductId);
         }
     }

@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using SabzMarket.Application.UseCases.Auth.SignUp;
-using SabzMarket.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SabzMarket.Domain.Entities.Users;
 
 namespace SabzMarket.Application.UseCases.Auth.Mappers
 {
@@ -13,8 +8,8 @@ namespace SabzMarket.Application.UseCases.Auth.Mappers
     {
         public SignUpProfile()
         {
-            CreateMap<SignUpInputDTO, User>()
-                .ForMember(x => x.Password, opt => opt.MapFrom(src => src.Password1));
+            CreateMap<SignUpInputDto, User>()
+                .ForMember(x => x.PasswordHash, opt => opt.MapFrom(src => src.Password));
         }
     }
 }

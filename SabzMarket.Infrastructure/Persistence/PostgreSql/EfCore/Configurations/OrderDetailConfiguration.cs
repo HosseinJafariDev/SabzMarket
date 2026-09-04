@@ -14,7 +14,7 @@ namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations
 
             builder.ToTable("OrderDetail")
                 .HasOne(od => od.Product)
-                .WithMany(p => p.OrderDetails)
+                .WithMany()
                 .HasForeignKey(od => od.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
 

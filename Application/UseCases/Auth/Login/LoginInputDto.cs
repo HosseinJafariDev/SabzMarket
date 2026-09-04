@@ -6,9 +6,5 @@ using System.Threading.Tasks;
 
 namespace SabzMarket.Application.UseCases.Auth.Login
 {
-    public class LoginInputDTO
-    {
-        public string? UserName { get; set; }
-        public string? Password { get; set; }
-    }
+    public record LoginInputDto(string UserName, string Password);
 }

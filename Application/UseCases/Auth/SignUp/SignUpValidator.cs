@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SabzMarket.Application.UseCases.Auth.SignUp
 {
-    public class SignUpValidator : AbstractValidator<SignUpInputDTO>
+    public class SignUpValidator : AbstractValidator<SignUpInputDto>
     {
         public SignUpValidator()
         {
@@ -23,9 +23,9 @@ namespace SabzMarket.Application.UseCases.Auth.SignUp
             RuleFor(x => x.Phone)
                 .NotEmpty().WithMessage(Messages.PhoneRequired)
                 .Must(p =>
-                     p.StartsWith("09") &&
-                     p.Length == 11 &&
-                     p.All(char.IsDigit))
+                    p.StartsWith("09") &&
+                    p.Length == 11 &&
+                    p.All(char.IsDigit))
                 .WithMessage(Messages.PhoneInvalid);
 
             RuleFor(x => x.UserName)
@@ -34,13 +34,13 @@ namespace SabzMarket.Application.UseCases.Auth.SignUp
                 .Matches(@"^[^\u0600-\u06FF]+$")
                 .WithMessage(Messages.UsernameNotFarsi);
 
-            RuleFor(x => x.Password1)
+            RuleFor(x => x.Password)
                 .NotEmpty().WithMessage(Messages.Password1Required)
                 .MinimumLength(5).WithMessage(Messages.Password1Powerful);
 
-            RuleFor(x => x.Password2)
+            RuleFor(x => x.ConfirmPassword)
                 .NotEmpty().WithMessage(Messages.Password2Required)
-                .Equal(x => x.Password1)
+                .Equal(x => x.Password)
                 .WithMessage(Messages.PasswordsDoNotMatch);
         }
     }

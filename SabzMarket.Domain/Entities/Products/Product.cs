@@ -20,8 +20,6 @@ namespace SabzMarket.Domain.Entities.Products
 
         public Seller? Seller { get; private init; }
         public Category? Category { get; private init; }
-        public ICollection<CartItem> CartItems { get; private init; }
-        public ICollection<OrderDetail>? OrderDetails { get; private init; }
 
         private Product()
         {

@@ -8,31 +8,20 @@ using SabzMarket.Application.UseCases.Auth.SignUp;
 namespace SabzMarket.API.Controllers
 {
     [Authorize]
-    public class AuthController : BaseController
+    public class AuthController(ISignUpUseCase signUpUseCase, ILoginUseCase loginUseCase) : BaseController
     {
-        private readonly ISignUpUseCase _signUpUseCase;
-        private readonly ILoginUseCase _loginUseCase;
-
-        public AuthController(
-            ISignUpUseCase signUpUseCase,
-            ILoginUseCase loginUseCase)
-        {
-            _signUpUseCase = signUpUseCase;
-            _loginUseCase = loginUseCase;
-        }
-
         [HttpPost("signup")]
-        public async Task<ApiResult> SignUp([FromBody] SignUpInputDTO signUpInputDTO, CancellationToken token)
+        public async Task<ApiResult> SignUp([FromBody] SignUpInputDto signUpInputDto, CancellationToken token)
         {
-            var result = await _signUpUseCase.ExecuteAsync(signUpInputDTO, token);
-            return result.OperationResultTOApiResult();
+            await signUpUseCase.ExecuteAsync(signUpInputDto, token);
+            return Ok();
         }
 
         [HttpPost("login")]
-        public async Task<ApiResult> Login([FromBody] LoginInputDTO loginInputDTO, CancellationToken token)
+        public async Task<ApiResult> Login([FromBody] LoginInputDto loginInputDto, CancellationToken token)
         {
-            var result = await _loginUseCase.ExecuteAsync(loginInputDTO, token);
-            return result.OperationResultTOApiResult();
+            var result = await loginUseCase.ExecuteAsync(loginInputDto, token);
+            return Ok(result);
         }
     }
 }

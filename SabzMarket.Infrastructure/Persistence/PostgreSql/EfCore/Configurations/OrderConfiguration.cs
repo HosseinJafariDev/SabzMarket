@@ -15,11 +15,11 @@ namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations
 
             builder
                 .HasOne(x => x.Seller)
-                .WithMany(x => x.Orders);
+                .WithMany();
 
             builder
                 .HasOne(x => x.Farmer)
-                .WithMany(x => x.Orders);
+                .WithMany();
 
             builder
                 .Property(x => x.OrderDate)

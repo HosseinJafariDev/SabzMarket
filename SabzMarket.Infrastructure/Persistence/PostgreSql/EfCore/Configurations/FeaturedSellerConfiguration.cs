@@ -17,7 +17,7 @@ namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations
 
             builder
                 .HasOne(x => x.Seller)
-                .WithMany(x => x.FeaturedSellerTables);
+                .WithMany();
 
             builder
                 .Property(x => x.IsActive)

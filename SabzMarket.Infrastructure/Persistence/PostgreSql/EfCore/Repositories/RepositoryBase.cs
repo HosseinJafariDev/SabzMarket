@@ -11,9 +11,9 @@ public abstract class RepositoryBase<TEntity, TKey>(SabzMarketDbContext context)
 {
     private readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
 
-    public virtual async Task<TEntity?> GetByIdAsync(TKey id,
-        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null, bool tracking = false,
-        CancellationToken cancellationToken = default)
+    public virtual async Task<TEntity?> GetByIdAsync(TKey id, CancellationToken cancellationToken,
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null, bool tracking = false
+    )
     {
         IQueryable<TEntity> query = _dbSet;
 
@@ -32,10 +32,11 @@ public abstract class RepositoryBase<TEntity, TKey>(SabzMarketDbContext context)
             cancellationToken);
     }
 
-    public virtual async Task<IReadOnlyList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? where = null,
+    public virtual async Task<IReadOnlyList<TEntity>> GetAllAsync(CancellationToken cancellationToken,
+        Expression<Func<TEntity, bool>>? where = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null, bool tracking = false,
-        CancellationToken cancellationToken = default)
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null, bool tracking = false
+    )
     {
         IQueryable<TEntity> query = _dbSet;
 

@@ -6,17 +6,16 @@ using System.Threading.Tasks;
 
 namespace SabzMarket.Application.UseCases.Auth.SignUp
 {
-    public class SignUpInputDTO
-    {
-        public long Id { get; set; }
-        public long OtpId { get; set; }
-        public long Otp { get; set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
-        public string? Phone { get; set; }
-        public string? Email { get; set; }
-        public string? UserName { get; set; }
-        public string? Password1 { get; set; }
-        public string? Password2 { get; set; }
-    }
+    public record SignUpInputDto(
+        long Id,
+        long OtpId,
+        long Otp,
+        string FirstName,
+        string LastName,
+        string Email,
+        string Phone,
+        string UserName,
+        string Password,
+        string ConfirmPassword
+    );
 }

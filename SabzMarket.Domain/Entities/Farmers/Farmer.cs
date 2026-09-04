@@ -26,8 +26,6 @@ namespace SabzMarket.Domain.Entities.Farmers
         public string CodePosti { get; private set; }
 
         public User? User { get; private init; }
-        public ICollection<Order>? Orders { get; private init; }
-        public ICollection<CartItem>? CartItemTables { get; private init; }
 
         private Farmer()
         {

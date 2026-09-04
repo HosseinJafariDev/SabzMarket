@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Asp.Versioning.Mvc" Version="10.2.1" />
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="10.2.1" />
+    <PackageReference Include="Asp.Versioning.OpenApi" Version="10.2.3" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.2.12" />
@@ -14,6 +17,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Scalar.AspNetCore" Version="2.17.2" />
+    <PackageReference Include="Scalar.AspNetCore.Microsoft" Version="2.17.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3" />
     
   </ItemGroup>
@@ -31,7 +36,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\V1\" />
+    <Folder Include="Contracts\V1\Auth\Login\" />
+    <Folder Include="Contracts\V1\Auth\SignUp\" />
+    <Folder Include="Contracts\V1\CartItems\AddToCart\" />
+    <Folder Include="Contracts\V1\CartItems\GetCartItem\" />
+    <Folder Include="Contracts\V1\Categories\GetCategory\" />
+    <Folder Include="Contracts\V1\Chats\findUsersChatted\" />
+    <Folder Include="Contracts\V1\Chats\GetMessage\" />
+    <Folder Include="Contracts\V1\Chats\SendMessage\" />
+    <Folder Include="Contracts\V1\Farmers\CreateFarmer\" />
+    <Folder Include="Contracts\V1\Farmers\GetFarmer\" />
+    <Folder Include="Contracts\V1\Farmers\UpdateFarmer\" />
+    <Folder Include="Contracts\V1\FeaturedSellers\GetFeaturedSeller\" />
+    <Folder Include="Contracts\V1\OrderDetails\" />
+    <Folder Include="Contracts\V1\Orders\GetOrders\" />
+    <Folder Include="Contracts\V1\Products\CreateProduct\" />
+    <Folder Include="Contracts\V1\Products\GetProduct\" />
+    <Folder Include="Contracts\V1\Products\UpdateProduct\" />
+    <Folder Include="Contracts\V1\Sellers\CreateSeller\" />
+    <Folder Include="Contracts\V1\Sellers\GetSeller\" />
+    <Folder Include="Contracts\V1\Sellers\UpdateSeller\" />
+    <Folder Include="Contracts\V1\Users\GetUser\" />
   </ItemGroup>
 
 </Project>

@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using Microsoft.EntityFrameworkCore;
 using SabzMarket.API.DependencyInjection;
 using SabzMarket.API.Hubs;
@@ -5,6 +6,7 @@ using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore;
 using SabzMarket.Infrastructure.TokenService.Configuration;
 using SabzMarket.Infrastructure;
 using SabzMarket.Application;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,21 @@ builder.Services
     .AddApplication(builder.Configuration)
     .AddInfrastructure(builder.Configuration);
 
+builder.Services
+    .AddApiVersioning(options =>
+    {
+        options.DefaultApiVersion = new ApiVersion(1, 0);
+        options.ApiVersionReader = new UrlSegmentApiVersionReader();
+        options.ReportApiVersions = true;
+        options.AssumeDefaultVersionWhenUnspecified = true;
+    })
+    .AddMvc()
+    .AddApiExplorer(options =>
+    {
+        options.GroupNameFormat = "'v'VVV";
+        options.SubstituteApiVersionInUrl = true;
+    })
+    .AddOpenApi(options => options.Document.AddScalarTransformers());
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -54,7 +71,38 @@ using (var scope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(op => { op.DisplayRequestDuration(); });
+    app.UseSwaggerUI(op =>
+    {
+        op.DisplayRequestDuration();
+
+        foreach (var description in app.DescribeApiVersions())
+        {
+            op.SwaggerEndpoint(
+                $"/swagger/{description.GroupName}/swagger.json",
+                description.GroupName.ToUpperInvariant());
+        }
+    });
+
+    app.MapOpenApi().WithDocumentPerVersion();
+
+    app.MapScalarApiReference(options =>
+    {
+        options.WithTitle("Shop API");
+
+        var descriptions = app.DescribeApiVersions();
+
+        for (var index = 0; index < descriptions.Count; index++)
+        {
+            var description = descriptions[index];
+            //var isDefault = index == descriptions.Count - 1;
+            var isDefault = index == 0;
+
+            options.AddDocument(
+                description.GroupName,
+                description.GroupName.ToUpperInvariant(),
+                isDefault: isDefault);
+        }
+    });
 }
 
 app.UseHttpsRedirection();

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SabzMarket.Domain.Entities.Base;
+﻿using SabzMarket.Domain.Entities.Base;
 using SabzMarket.Domain.Entities.Farmers;
 using SabzMarket.Domain.Entities.Products;
 

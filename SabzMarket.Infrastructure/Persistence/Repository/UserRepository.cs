@@ -1,24 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using SabzMarket.Application.Interfaces.Repository;
-using SabzMarket.Domain.Entities;
-using SabzMarket.Infrastructure.Entities;
-using SabzMarket.Infrastructure.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SabzMarket.Domain.Entities.Users;
+using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore;
+using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Repositories;
 
 namespace SabzMarket.Infrastructure.Persistence.Repository
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository(SabzMarketDbContext context) : RepositoryBase<User, long>(context), IUserRepository
     {
-        private readonly SabzMarketDbContext _context;
-        public UserRepository(SabzMarketDbContext context)
+        public async Task<User?> GetByUserNameAsync(string useName, CancellationToken token)
         {
-            _context = context;
+            var user = await context.Users.FirstOrDefaultAsync(x => x.UserName == useName, token);
+            return user;
         }
 
         public async Task<bool> CheckUserAsync(string username, CancellationToken token)
@@ -64,20 +57,19 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
         public async Task<User> SelectByUserNameAsync(string username, CancellationToken token)
         {
             var result = await _context.Users
-             .AsNoTracking()
-             .Where(u => u.UserName == username)
-             .Select(u => new User
-             {
-                 UserName = u.UserName!,
-                 Email = u.Email!,
-                 FirstName = u.FirstName!,
-                 LastName = u.LastName!,
-                 Phone = u.Phone!,
-                 Id = u.Id,
-                 Password = u.Password!
-
-             })
-             .SingleOrDefaultAsync(token);
+                .AsNoTracking()
+                .Where(u => u.UserName == username)
+                .Select(u => new User
+                {
+                    UserName = u.UserName!,
+                    Email = u.Email!,
+                    FirstName = u.FirstName!,
+                    LastName = u.LastName!,
+                    Phone = u.Phone!,
+                    Id = u.Id,
+                    Password = u.Password!
+                })
+                .SingleOrDefaultAsync(token);
             return result!;
         }
 

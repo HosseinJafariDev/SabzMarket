@@ -5,5 +5,6 @@ namespace SabzMarket.Application.Interfaces.Repository
 {
     public interface IUserRepository : IRepository<User, long>
     {
+        Task<User?> GetByUserNameAsync(string useName, CancellationToken token);
     }
 }
