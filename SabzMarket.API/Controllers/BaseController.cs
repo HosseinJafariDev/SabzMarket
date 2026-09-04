@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SabzMarket.API.Filters;
 
 namespace SabzMarket.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class BaseController:ControllerBase
+    [ApiResultFilter]
+    public class BaseController : ControllerBase
     {
     }
 }

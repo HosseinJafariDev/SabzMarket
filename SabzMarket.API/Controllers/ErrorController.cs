@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SabzMarket.API.ApiResultt;
-using SabzMarket.Application.Common;
-using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Application.UseCases.Erorr;
-using System.Buffers.Text;
 using Microsoft.AspNetCore.Authorization;
+using SabzMarket.Domain.Entities.Log;
 
 namespace SabzMarket.API.Controllers
 {
@@ -19,10 +17,10 @@ namespace SabzMarket.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ApiResult> LogErrorAsync([FromBody] ErrorLogDTO error)
+        public async Task<ApiResult> LogErrorAsync([FromBody] ExceptionLog exceptionLog)
         {
-            var errorResult = await _addLogErrorUseCase.ExecuteAsync(error);
-            return errorResult.OperationResultTOApiResult();
+            await _addLogErrorUseCase.ExecuteAsync(exceptionLog);
+            return Ok();
         }
     }
 }

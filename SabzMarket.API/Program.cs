@@ -1,51 +1,30 @@
-using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using SabzMarket.API.DependencyInjection;
 using SabzMarket.API.Hubs;
-using SabzMarket.Application.UseCases.Auth.Mappers;
-using SabzMarket.Infrastructure.Configuration.JwtToken;
-using SabzMarket.Infrastructure.Configuration.S3;
-using SabzMarket.Infrastructure.Persistence;
+using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore;
+using SabzMarket.Infrastructure.TokenService.Configuration;
+using SabzMarket.Infrastructure;
+using SabzMarket.Application;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = Environment.GetEnvironmentVariable("SABZMARKET_DB");
-
-if (string.IsNullOrEmpty(connectionString))
-{
-    throw new Exception("? Connection string not found. Please set environment variable: SABZMARKET_DB");
-}
 
 builder.Services.AddSignalR();
-
-builder.Services.Configure<S3Settings>(builder.Configuration.GetSection("S3"));
 
 builder.Services.Configure<JwtConfiguration>(builder.Configuration.GetSection("Jwt"));
 var jwtConfig = builder.Configuration
     .GetSection("Jwt")
     .Get<JwtConfiguration>();
-
-
 builder.Services.AddJwtAuthentication(jwtConfig!);
 builder.Services.AddAuthorization();
 
+
 builder.Services
-    .AddDatabase(connectionString)
-    .AddRepositories()
-    .AddInfrastructureServices()
-    .AddUnitOfWork()
-    .AddUseCase()
-    .AddAutoMapper()
     .AddValidator()
-    .AddQueryService();
+    .AddApplication(builder.Configuration)
+    .AddInfrastructure(builder.Configuration);
 
-
-// Add services to the container.
-builder.Services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 //builder.Services.AddCors(options =>
@@ -57,8 +36,8 @@ builder.Services.AddSwaggerGen();
 //});
 
 var app = builder.Build();
-
 app.UseCustomExceptionHandler();
+
 
 //app.UseCors("AllowAllOrigins");
 
@@ -75,14 +54,12 @@ using (var scope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(op => { op.DisplayRequestDuration(); });
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.MapHub<ChatHub>("/chatHub");

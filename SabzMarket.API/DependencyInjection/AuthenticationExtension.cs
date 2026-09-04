@@ -2,7 +2,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using SabzMarket.Infrastructure.Configuration.JwtToken;
+using SabzMarket.Infrastructure.TokenService.Configuration;
 
 namespace SabzMarket.API.DependencyInjection;
 

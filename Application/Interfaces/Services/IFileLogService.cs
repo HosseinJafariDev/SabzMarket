@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SabzMarket.Domain.Entities.Log;
 
 namespace SabzMarket.Application.Interfaces.Services
 {
     public interface IFileLogService
     {
-        public Task<string> SaveFailedLogAsync(ErrorLogDTO errorLogDTO);
+        public Task<string> SaveFailedLogAsync(ExceptionLog exceptionLog);
     }
 }

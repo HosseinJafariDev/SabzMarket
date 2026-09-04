@@ -1,13 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SabzMarket.Infrastructure.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 using SabzMarket.Domain.Constants;
 using SabzMarket.Domain.Entities.Products;
 using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations.Base;

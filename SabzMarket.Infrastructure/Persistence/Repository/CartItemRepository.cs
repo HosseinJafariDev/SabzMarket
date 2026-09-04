@@ -1,43 +1,32 @@
-﻿using Application.Interfaces.Repositories;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SabzMarket.Application.Interfaces.Repository;
-using SabzMarket.Domain.Entities;
-using SabzMarket.Infrastructure.Entities;
-using SabzMarket.Infrastructure.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SabzMarket.Domain.Entities.CartItems;
+using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore;
+using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Repositories;
 
 namespace SabzMarket.Infrastructure.Persistence.Repository
 {
-    public class CartItemRepository : ICartItemRepository
+    public class CartItemRepository(SabzMarketDbContext context)
+        : RepositoryBase<CartItem, int>(context), ICartItemRepository
     {
-        private readonly SabzMarketDbContext _Context;
-        public CartItemRepository(SabzMarketDbContext Context)
-        {
-            _Context = Context;
-        }
         public async Task DeleteAsync(int cartId, CancellationToken token)
         {
-            CartItemTable item = new CartItemTable()
-            {
-                Id = cartId
-            };
+            CartItem item = new CartItem()
             _Context.Remove(item);
             await _Context.SaveChangesAsync(token);
         }
+
         public async Task<bool> ExistProductAsync(long farmerId, long productId, CancellationToken token)
         {
             var result = await _Context
-           .CartItems
-           .AsNoTracking()
-           .Where(x => x.ProductId == productId && x.FarmerId == farmerId)
-           .AnyAsync(token);
+                .CartItems
+                .AsNoTracking()
+                .Where(x => x.ProductId == productId && x.FarmerId == farmerId)
+                .AnyAsync(token);
 
             return result;
         }
+
         public async Task InsertAsync(CartItem cartItem, CancellationToken token)
         {
             CartItemTable cartItemTable = new CartItemTable()
@@ -50,17 +39,19 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             _Context.CartItems.Add(cartItemTable);
             await _Context.SaveChangesAsync(token);
         }
+
         public async Task ChangeQuantityAsync(long productId, long farmerId, int number, CancellationToken token)
         {
             var item = await _Context
-            .CartItems
-            .Where(x => x.ProductId == productId && x.FarmerId == farmerId)
-            .SingleAsync();
+                .CartItems
+                .Where(x => x.ProductId == productId && x.FarmerId == farmerId)
+                .SingleAsync();
 
             item.Quantity += number;
 
             await _Context.SaveChangesAsync(token);
         }
+
         public async Task<bool> IsCartItemQuantityOneAsync(int id, CancellationToken token)
         {
             var item = await _Context
@@ -72,6 +63,7 @@ namespace SabzMarket.Infrastructure.Persistence.Repository
             {
                 return true;
             }
+
             return false;
         }
     }

@@ -10,9 +10,10 @@ namespace SabzMarket.API.Filters
         {
             if (context.Result is OkObjectResult okObjectResult)
             {
-                var apiResult = new ApiResult<object>(true, ApiResultStatusCode.Success, okObjectResult.Value!);
+                var apiResult = new ApiResult<object>(true, 200, okObjectResult.Value!);
                 context.Result = new JsonResult(apiResult) { StatusCode = okObjectResult.StatusCode };
             }
+
             base.OnResultExecuting(context);
         }
     }

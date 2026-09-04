@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SabzMarket.Domain.Constants;
 using SabzMarket.Domain.Entities.Sellers;
-using SabzMarket.Infrastructure.Entities;
 using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations.Base;
 
 namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations
@@ -18,7 +17,7 @@ namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations
             builder
                 .HasOne(s => s.User)
                 .WithOne(u => u.Seller)
-                .HasForeignKey<SellerTable>(o => o.UserId)
+                .HasForeignKey<Seller>(o => o.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder

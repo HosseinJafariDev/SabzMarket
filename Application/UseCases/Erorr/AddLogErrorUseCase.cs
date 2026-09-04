@@ -6,22 +6,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SabzMarket.Domain.Entities.Log;
 
 namespace SabzMarket.Application.UseCases.Erorr
 {
-    public class AddLogErrorUseCase : IAddLogErrorUseCase
+    public class AddLogErrorUseCase(IExceptionLogRepository exceptionLogRepository) : IAddLogErrorUseCase
     {
-        private readonly IErrorRepository _errorRepository;
-        public AddLogErrorUseCase(IErrorRepository errorRepository)
+        public async Task ExecuteAsync(ExceptionLog errorLogDTO)
         {
-            _errorRepository = errorRepository;
-        }
-        public async Task<OperationResult> ExecuteAsync(ErrorLogDTO errorLogDTO)
-        {
-            var errorResult = await _errorRepository.LogErrorAsync(errorLogDTO);
-            var errorMessage = errorResult.ErrorMessage();
-
-            return OperationResult.Success(OperationError.ServerError, errorMessage);
+            await exceptionLogRepository.AddAsync(errorLogDTO);
         }
     }
 }

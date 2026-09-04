@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\..\..\.nuget\packages\mongodb.bson\3.11.1\lib\net6.0\MongoDB.Bson.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

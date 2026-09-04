@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SabzMarket.Application.Exceptions;
 using SabzMarket.Application.Interfaces.Services;
 using SabzMarket.Domain.Exceptions;
 
