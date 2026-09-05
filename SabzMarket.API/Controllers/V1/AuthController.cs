@@ -5,7 +5,7 @@ using SabzMarket.Application.Common;
 using SabzMarket.Application.UseCases.Auth.Login;
 using SabzMarket.Application.UseCases.Auth.SignUp;
 
-namespace SabzMarket.API.Controllers
+namespace SabzMarket.API.Controllers.V1
 {
     [Authorize]
     public class AuthController(ISignUpUseCase signUpUseCase, ILoginUseCase loginUseCase) : BaseController

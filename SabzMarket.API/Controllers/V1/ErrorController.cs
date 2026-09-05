@@ -4,7 +4,7 @@ using SabzMarket.Application.UseCases.Erorr;
 using Microsoft.AspNetCore.Authorization;
 using SabzMarket.Domain.Entities.Log;
 
-namespace SabzMarket.API.Controllers
+namespace SabzMarket.API.Controllers.V1
 {
     [Authorize]
     public class ErrorController : BaseController

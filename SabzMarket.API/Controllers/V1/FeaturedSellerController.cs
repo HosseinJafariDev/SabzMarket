@@ -4,7 +4,7 @@ using SabzMarket.API.ApiResultt;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.UseCases.FeaturedSellers.GetFeaturedSeller;
 
-namespace SabzMarket.API.Controllers
+namespace SabzMarket.API.Controllers.V1
 {
     [Authorize]
     public class FeaturedSellerController : BaseController

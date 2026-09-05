@@ -5,7 +5,7 @@ using SabzMarket.Application.Common;
 using SabzMarket.Application.UseCases.Orders.Checkout;
 using SabzMarket.Application.UseCases.Orders.GetOrders;
 
-namespace SabzMarket.API.Controllers
+namespace SabzMarket.API.Controllers.V1
 {
     [Authorize]
     public class OrdersController : BaseController

@@ -8,7 +8,7 @@ using SabzMarket.Application.UseCases.CartItems.GetCartItem;
 using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Authorization;
 
-namespace SabzMarket.API.Controllers
+namespace SabzMarket.API.Controllers.V1
 {
     [Authorize]
     public class CartItemsController : BaseController

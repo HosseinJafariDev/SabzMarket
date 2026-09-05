@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SabzMarket.API.ApiResultt;
+using SabzMarket.API.Controllers.V1;
 using SabzMarket.Application.Common;
 using SabzMarket.Application.UseCases.Categories.GetCategory;
 
-namespace SabzMarket.API.Controllers
+namespace SabzMarket.API.Controllers.V1
 {
     [Authorize]
     public class CategoriesController : BaseController

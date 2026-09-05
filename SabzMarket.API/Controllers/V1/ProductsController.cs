@@ -7,7 +7,7 @@ using SabzMarket.Application.UseCases.Products.DeleteProduct;
 using SabzMarket.Application.UseCases.Products.GetProduct;
 using SabzMarket.Application.UseCases.Products.UpdateProduct;
 
-namespace SabzMarket.API.Controllers
+namespace SabzMarket.API.Controllers.V1
 {
     [Authorize]
     public class ProductsController : BaseController

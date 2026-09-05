@@ -6,8 +6,7 @@ using SabzMarket.Application.UseCases.Chats.findUsersChatted;
 using SabzMarket.Application.UseCases.Chats.GetMessage;
 using SabzMarket.Application.UseCases.Chats.SendMessage;
 
-namespace SabzMarket.API.Controllers
-{
+namespace SabzMarket.API.Controllers.V1{
     [Authorize]
     public class ChatsController : BaseController
     {

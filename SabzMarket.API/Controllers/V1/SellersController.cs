@@ -8,7 +8,7 @@ using SabzMarket.Application.UseCases.Sellers.UpdateSeller;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
 
-namespace SabzMarket.API.Controllers
+namespace SabzMarket.API.Controllers.V1
 {
     [Authorize]
     public class SellersController : BaseController
