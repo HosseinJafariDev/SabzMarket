@@ -1,57 +1,48 @@
-﻿using AutoMapper;
-using FluentValidation;
-using FluentValidation.Internal;
-using SabzMarket.Application.Common;
+﻿using SabzMarket.Application.Common;
+using SabzMarket.Application.Common.Enums;
+using SabzMarket.Application.Constants.Common.Messages;
+using SabzMarket.Application.Constants.Product;
+using SabzMarket.Application.Exceptions;
+using SabzMarket.Application.Interfaces.Persistence;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Application.Interfaces.Services;
-using SabzMarket.Domain.Entities;
-using SabzMarket.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SabzMarket.Domain.Exceptions;
 
-namespace SabzMarket.Application.UseCases.Products.UpdateProduct
+namespace SabzMarket.Application.UseCases.Products.UpdateProduct;
+
+public class UpdateProductUseCase(
+    IProductRepository productRepository,
+    IFileStorageService fileStorageService,
+    IUnitOfWork unitOfWork)
+    : IUpdateProductUseCase
 {
-    public class UpdateProductUseCase : IUpdateProductUseCase
+    public async Task ExecuteAsync(UpdateProductInputDto inputDto, Stream stream,
+        CancellationToken token)
     {
-        private readonly IProductRepository _productRepository;
-        private readonly IFileStorageService _fileStorageService;
-        private readonly IMapper _mapper;
-        private readonly IValidator<UpdateProductInputDTO> _validator;
+        var product = await productRepository.GetByIdAsync(inputDto.SellerId, token);
 
-        public UpdateProductUseCase(
-            IProductRepository productRepository,
-            IFileStorageService fileStorageService,
-            IMapper mapper,
-            IValidator<UpdateProductInputDTO> validator)
+        if (product is null)
         {
-            _productRepository = productRepository;
-            _fileStorageService = fileStorageService;
-            _mapper = mapper;
-            _validator = validator;
+            throw new NotFoundException(CommonMessages.NotFoundWarning(ProductMessages.Product));
         }
 
-        public async Task<OperationResult> ExecuteAsync(UpdateProductInputDTO updateProductInputDTO, Stream stream,
-            CancellationToken token)
+        bool newImage = false;
+        if (!inputDto.ImageProduct!.StartsWith(CommonMessages.Url))
         {
-            var validationResult = _validator.Validate(updateProductInputDTO);
-            if (!validationResult.IsValid)
-                throw new BadRequestException(validationResult.Errors.First().ErrorMessage);
-
-            if (!updateProductInputDTO.ImageProduct!.StartsWith(Messages.Url))
-            {
-                var urlImage =
-                    await _fileStorageService.SaveAsync(stream!, updateProductInputDTO.ImageProduct, token);
-                updateProductInputDTO.ImageProduct = urlImage;
-            }
-
-            var product = _mapper.Map<Product>(updateProductInputDTO);
-            await _productRepository.UpdateAsync(product, token);
-
-            return OperationResult.Success(OperationError.None, Messages.UpdateSuccessful);
+            newImage = true;
         }
+
+        productRepository.Update(product);
+        if (!newImage)
+        {
+            product.UpdateImageProduct(inputDto.ImageProduct);
+        }
+        else
+        {
+            product.UpdateImageProduct(await fileStorageService.SaveAsync(stream!,
+                inputDto.ImageProduct, FileFolder.ProductImage, product.Id, token));
+        }
+
+        await unitOfWork.SaveChangesAsync(token);
+        await unitOfWork.SaveChangesAsync(token);
     }
 }

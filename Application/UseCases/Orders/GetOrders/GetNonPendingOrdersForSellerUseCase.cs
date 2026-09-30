@@ -1,35 +1,37 @@
 ﻿using SabzMarket.Application.Common;
+using SabzMarket.Application.Constants.Common.Messages;
+using SabzMarket.Application.Constants.Order;
+using SabzMarket.Application.Exceptions;
+using SabzMarket.Application.Interfaces.Persistence;
 using SabzMarket.Application.Interfaces.Repository;
+using SabzMarket.Domain.Entities.Orders;
 using SabzMarket.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SabzMarket.Domain.Exceptions;
 
-namespace SabzMarket.Application.UseCases.Orders.GetOrders
+namespace SabzMarket.Application.UseCases.Orders.GetOrders;
+
+public class GetNonPendingOrdersForSellerUseCase(IOrderRepository orderRepository, IUnitOfWork unitOfWork)
+    : IGetNonPendingOrdersForSellerUseCase
 {
-    public class GetNonPendingOrdersForSellerUseCase : IGetNonPendingOrdersForSellerUseCase
+    public async Task<GetOrderPagedOutputDto> ExecuteAsync(long sellerId, SearchOrderFilterInputInputDto inputInputDto,
+        CancellationToken token)
     {
-        private readonly IOrderQueryService _orderQueryService;
+        var orders = await orderRepository
+            .GetWithPaginationAsync(token,
+                x => x.OrderDetails.Any(s => s.Status != OrderStatus.Pending) && x.SellerId == sellerId,
+                filter: inputInputDto,
+                skip: inputInputDto.Skip,
+                take: inputInputDto.Take);
 
-        public GetNonPendingOrdersForSellerUseCase(IOrderQueryService orderQueryService)
-        {
-            _orderQueryService = orderQueryService;
-        }
 
-        public async Task<OperationResult<List<GetOrdersForSellerOutputDTO>>> ExecuteAsync(long sellerId, string search,
-            CancellationToken token)
-        {
-            var orders = await _orderQueryService
-                .SelectNonPendingOrdersForSellerAsync(sellerId, search, token);
+        if (!orders.Items.Any())
+            throw new NotFoundException(CommonMessages.NotFoundWarning(OrderMessages.Order));
 
-            if (!orders.Any())
-                throw new NotFoundException(Messages.NotFoundPendingOrders);
-
-            return OperationResult<List<GetOrdersForSellerOutputDTO>>
-                .Success(orders, OperationError.Success);
-        }
+        return new GetOrderPagedOutputDto(ToDto(orders.Items), orders.TotalCount);
     }
+
+    private static IReadOnlyList<GetOrdersForSellerOutputDto> ToDto(IReadOnlyList<Order> orders) =>
+        orders.SelectMany(s => s.OrderDetails.Select(x =>
+            new GetOrdersForSellerOutputDto(s.Id, x.Id, x.ProductId,
+                x.Product!.ImageProduct, x.Status, x.Number, s.FarmerId, s.Farmer!.Address, s.Farmer.ProfileImage,
+                s.Farmer.User!.FirstName, s.Farmer.User.LastName, s.Farmer.CodePosti))).ToList();
 }

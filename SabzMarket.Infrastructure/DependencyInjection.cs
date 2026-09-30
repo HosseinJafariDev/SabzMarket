@@ -16,6 +16,7 @@ using SabzMarket.Infrastructure.Logging;
 using SabzMarket.Infrastructure.Persistence.Mongo;
 using SabzMarket.Infrastructure.Persistence.Mongo.Repositories;
 using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore;
+using SabzMarket.Infrastructure.Persistence.PostgreSql.EfCore.Repositories;
 using SabzMarket.Infrastructure.Persistence.Repository;
 using SabzMarket.Infrastructure.SignalR;
 using SabzMarket.Infrastructure.Sms;

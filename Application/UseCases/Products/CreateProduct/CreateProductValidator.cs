@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SabzMarket.Application.UseCases.Products.CreateProduct
 {
-    public class CreateProductValidator: AbstractValidator<CreateProductInputDTO>
+    public class CreateProductValidator: AbstractValidator<CreateProductInputDto>
     {
         public CreateProductValidator()
         {

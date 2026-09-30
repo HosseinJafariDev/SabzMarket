@@ -2,7 +2,7 @@
 using SabzMarket.Application.Interfaces.Persistence;
 using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore;
 
-namespace SabzMarket.Infrastructure.Persistence.Repository
+namespace SabzMarket.Infrastructure.Persistence.PostgreSql.EfCore.Repositories
 {
     public class UnitOfWork(SabzMarketDbContext context) : IUnitOfWork
     {

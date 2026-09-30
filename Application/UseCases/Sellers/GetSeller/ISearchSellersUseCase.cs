@@ -2,5 +2,5 @@
 
 public interface ISearchSellersUseCase
 {
-    Task<GetSellersPagedOutputDto> ExecuteAsync(SearchSellerFilterInputDto inputDto, CancellationToken token);
+    Task<GetSellersPagedOutputDto> ExecuteAsync(SearchSellerFilterInputInputDto inputInputDto, CancellationToken token);
 }

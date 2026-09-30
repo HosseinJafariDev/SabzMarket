@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace SabzMarket.Application.UseCases.Products.UpdateProduct
 {
-    public class UpdateProductValidatior:AbstractValidator<UpdateProductInputDTO>
+    public class UpdateProductValidatior : AbstractValidator<UpdateProductInputDto>
     {
-        public UpdateProductValidatior() 
+        public UpdateProductValidatior()
         {
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage(Messages.ProductNameRequired);

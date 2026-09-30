@@ -1,34 +1,38 @@
-﻿using SabzMarket.Application.Common;
+﻿using SabzMarket.Application.Constants.Common.Messages;
+using SabzMarket.Application.Constants.Product;
+using SabzMarket.Application.Exceptions;
+using SabzMarket.Application.Interfaces.Persistence;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Domain.Enums;
-using SabzMarket.Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.WebSockets;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SabzMarket.Application.UseCases.Products.DeleteProduct
+namespace SabzMarket.Application.UseCases.Products.DeleteProduct;
+
+public class DeleteProductUseCase(
+    IProductRepository productRepository,
+    IOrderRepository orderRepository,
+    IUnitOfWork unitOfWork)
+    : IDeleteProductUseCase
 {
-    public class DeleteProductUseCase : IDeleteProductUseCase
+    public async Task ExecuteAsync(long id, CancellationToken token)
     {
-        private readonly IProductRepository _productRepository;
-        private readonly IOrderDetailRepository _orderDetailRepository;
-        public DeleteProductUseCase(IProductRepository productRepository, IOrderDetailRepository orderDetailRepository)
+        var order = await orderRepository.GetOrderWithDetilsByProductId(id, token);
+        if (order is not null)
         {
-            _orderDetailRepository = orderDetailRepository;
-            _productRepository = productRepository;
+            if (order.OrderDetails.Any(x => x.Status == OrderStatus.Pending))
+            {
+                throw new ConflictException(ProductMessages.ProductIsOnOrder);
+            }
         }
-        public async Task<OperationResult> ExecuteAsync(long id, CancellationToken token)
+
+        var product = await productRepository.GetByIdAsync(id, token);
+        if (product is null)
         {
-            var hasPendingOrders = await _orderDetailRepository.HasPendingOrdersForProductAsync(id, token);
-
-            if (hasPendingOrders)
-                throw new ConflictException(Messages.ProductIsOnOrder);
-
-            await _productRepository.DeleteAsync(id, token);
-            return OperationResult.Success(OperationError.None, Messages.ProductDelete);
+            throw new NotFoundException(CommonMessages.NotFoundWarning(ProductMessages.Product));
         }
+
+        product.Delete();
+
+        productRepository.Update(product);
+        await unitOfWork.SaveChangesAsync(token);
     }
 }

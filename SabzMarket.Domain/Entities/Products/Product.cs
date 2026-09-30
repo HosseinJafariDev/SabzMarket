@@ -23,7 +23,7 @@ public class Product : BaseEntity
     {
     }
 
-    public Product(long sellerId, long categoryId, string name, int price, int number, string imageProduct,
+    public Product(long sellerId, long categoryId, string name, int price, int number,
         string description)
     {
         if (sellerId <= 0)
@@ -41,17 +41,22 @@ public class Product : BaseEntity
         if (string.IsNullOrWhiteSpace(name))
             throw new DomainException(ProductDomainMessages.NameRequired);
 
-        if (string.IsNullOrWhiteSpace(imageProduct))
-            throw new DomainException(ProductDomainMessages.ImageProductRequired);
 
         SellerId = sellerId;
         CategoryId = categoryId;
         Name = name;
         Price = price;
         Number = number;
-        ImageProduct = imageProduct;
         Description = description;
     }
 
     public void Delete() => IsDeleted = true;
+
+    public void UpdateImageProduct(string imageProduct)
+    {
+        if (string.IsNullOrWhiteSpace(imageProduct))
+            throw new DomainException(ProductDomainMessages.ImageProductRequired);
+
+        ImageProduct = imageProduct;
+    }
 }

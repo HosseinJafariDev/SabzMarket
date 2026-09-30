@@ -18,4 +18,7 @@ public static class CommonMessages
 
     public static string PleaseEnter(string param) => $"لطفا {param} را وارد نمایید";
     public static string PleaseSelect(string param) => $"لطفا {param} را انتخاب نمایید";
+
+    public const string Url = "http";
+    public const string Error = "مشکلی پیش امده لطفا با پشتیبانی تماس بگیرید";
 }

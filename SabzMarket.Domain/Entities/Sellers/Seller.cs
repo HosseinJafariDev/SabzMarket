@@ -11,7 +11,7 @@ public class Seller : BaseEntity
 {
     public long UserId { get; private set; }
     public string Address { get; private set; }
-    public string? ProfileImage { get; private set; }
+    public string ProfileImage { get; private set; }
     public string WorkHistory { get; private set; }
     public User? User { get; private init; }
 
@@ -23,8 +23,10 @@ public class Seller : BaseEntity
     {
         if (string.IsNullOrWhiteSpace(address))
             throw new DomainException(SellerDomainMessages.AddressRequired);
+
         if (string.IsNullOrWhiteSpace(workHistory))
             throw new DomainException(SellerDomainMessages.WorkHistoryRequired);
+
         if (userId <= 0)
             throw new DomainException(SellerDomainMessages.UserIdRequired);
 

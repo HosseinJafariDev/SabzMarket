@@ -1,38 +1,23 @@
-﻿using AutoMapper;
-using SabzMarket.Application.Common;
+﻿using SabzMarket.Application.Common;
+using SabzMarket.Application.Exceptions;
 using SabzMarket.Application.Interfaces.Repository;
-using SabzMarket.Domain.Enums;
-using SabzMarket.Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+using SabzMarket.Domain.Entities.Products;
 
-namespace SabzMarket.Application.UseCases.Products.GetProduct
+namespace SabzMarket.Application.UseCases.Products.GetProduct;
+
+public class GetProductBySellerIdUseCase(IProductRepository productRepository) : IGetProductBySellerIdUseCase
 {
-    public class GetProductBySellerIdUseCase : IGetProductBySellerIdUseCase
+    public async Task<List<GetProductOutputDto>> ExecuteAsync(long sellerId,
+        CancellationToken token)
     {
-        private readonly IProductRepository _productRepository;
-        private readonly IMapper _mapper;
+        var products = await productRepository.GetAllAsync(token, x => x.SellerId == sellerId);
 
-        public GetProductBySellerIdUseCase(IProductRepository productRepository, IMapper mapper)
-        {
-            _mapper = mapper;
-            _productRepository = productRepository;
-        }
+        if (!products.Any())
+            throw new NotFoundException(Messages.ProductNotFoundBySellerId);
 
-        public async Task<OperationResult<List<GetProductOutputDTO>>> ExecuteAsync(long sellerId,
-            CancellationToken token)
-        {
-            var products = await _productRepository.SelectAllBySellerIdAsync(sellerId, token);
-
-            if (!products.Any())
-                throw new NotFoundException(Messages.ProductNotFoundBySellerId);
-
-            var productDTO = _mapper.Map<List<GetProductOutputDTO>>(products);
-            return OperationResult<List<GetProductOutputDTO>>.Success(productDTO, OperationError.Success);
-        }
+        return products.Select(x => ToDto(x)).ToList();
     }
+
+    private GetProductOutputDto ToDto(Product product) => new(product.Id, product.SellerId, product.CategoryId,
+        product.Name, product.Description, product.Number, product.Price, product.ImageProduct);
 }

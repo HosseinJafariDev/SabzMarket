@@ -10,7 +10,7 @@ public class GetSellerByIdUseCase(ISellerRepository sellerRepository) : IGetSell
 {
     public async Task<GetSellerOutputDto> ExecuteAsync(long id, CancellationToken token)
     {
-        var seller = await sellerRepository.GetByIdAsync(id, token, include: x => x.User!);
+        var seller = await sellerRepository.GetWithUserAsync(id, token);
         if (seller == null)
         {
             throw new NotFoundException(CommonMessages.NotFoundWarning(SellerMessages.Seller));

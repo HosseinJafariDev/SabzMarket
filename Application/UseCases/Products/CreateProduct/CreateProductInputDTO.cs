@@ -7,4 +7,4 @@ public record CreateProductInputDto(
     string Description,
     int Price,
     int Number,
-    string? ImageProduct);
+    string ImageProduct);

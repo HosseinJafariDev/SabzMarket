@@ -26,16 +26,17 @@ public class CreateSellerUseCase(
         if (user is null)
             throw new NotFoundException(CommonMessages.NotFoundWarning(UserMessages.User));
 
-
         var seller = new Seller(user.Id, inputDto.Address, inputDto.WorkHistory);
-        sellerRepository.Add(seller);
-        await unitOfWork.SaveChangesAsync(token);
 
         var imageUrl =
             await fileStorageService.SaveAsync(stream, fileName, FileFolder.SellerProfile, seller.Id, token);
 
+        sellerRepository.Add(seller);
+        await unitOfWork.SaveChangesAsync(token);
 
         seller.UpdateProfileImage(imageUrl);
+
+        sellerRepository.Update(seller);
 
         await unitOfWork.SaveChangesAsync(token);
     }

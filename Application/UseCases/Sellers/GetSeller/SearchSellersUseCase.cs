@@ -8,12 +8,12 @@ namespace SabzMarket.Application.UseCases.Sellers.GetSeller;
 
 public class SearchSellersUseCase(ISellerRepository sellerRepository) : ISearchSellersUseCase
 {
-    public async Task<GetSellersPagedOutputDto> ExecuteAsync(SearchSellerFilterInputDto inputDto,
+    public async Task<GetSellersPagedOutputDto> ExecuteAsync(SearchSellerFilterInputInputDto inputInputDto,
         CancellationToken token)
     {
-        var result = await sellerRepository.GetWithPaginationAsync<SearchSellerFilterInputDto>(token, where: x =>
-                x.User!.Phone == inputDto.Phone || x.User.UserName == inputDto.UserName, include: x => x.User!,
-            skip: inputDto.Skip, take: inputDto.Take);
+        var result = await sellerRepository.GetPagedWithUserAsync(inputInputDto.Phone, inputInputDto.UserName,
+            inputInputDto.PageNumber, inputInputDto.PageSize, token);
+
         if (result.TotalCount == 0)
         {
             throw new NotFoundException(CommonMessages.NotFoundWarning(SellerMessages.Seller));

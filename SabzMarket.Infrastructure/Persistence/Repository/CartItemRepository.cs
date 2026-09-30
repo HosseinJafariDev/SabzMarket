@@ -2,7 +2,7 @@
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Domain.Entities.CartItems;
 using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore;
-using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Repositories;
+using SabzMarket.Infrastructure.Persistence.PostgreSql.EfCore.Repositories.Base;
 
 namespace SabzMarket.Infrastructure.Persistence.Repository
 {

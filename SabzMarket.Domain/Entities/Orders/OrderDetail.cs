@@ -11,7 +11,7 @@ public class OrderDetail : BaseEntity
     public long ProductId { get; private set; }
     public int Price { get; private set; }
     public int Number { get; private set; }
-    public string Status { get; set; } = nameof(OrderStatus.Pending);
+    public OrderStatus Status { get; set; } = OrderStatus.Pending;
 
     public Order? Order { get; private init; }
     public Product? Product { get; private init; }

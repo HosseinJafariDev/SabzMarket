@@ -10,7 +10,6 @@ public record GetOrdersForSellerResponse(
     long FarmerId,
     string Address,
     string FarmerProfileImage,
-    string Phone,
     string FirstName,
     string LastName,
     string CodePosti);

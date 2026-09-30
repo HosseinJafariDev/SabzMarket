@@ -2,9 +2,9 @@
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Domain.Entities.SmsOtps;
 using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore;
-using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Repositories;
+using SabzMarket.Infrastructure.Persistence.PostgreSql.EfCore.Repositories.Base;
 
-namespace SabzMarket.Infrastructure.Persistence.Repository;
+namespace SabzMarket.Infrastructure.Persistence.PostgreSql.EfCore.Repositories;
 
 public class SmsOtpRepository(SabzMarketDbContext context) : RepositoryBase<SmsOtp, long>(context), ISmsOtpRepository
 {
