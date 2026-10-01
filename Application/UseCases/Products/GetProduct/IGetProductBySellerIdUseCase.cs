@@ -2,5 +2,5 @@
 
 public interface IGetProductBySellerIdUseCase
 {
-    Task<List<GetProductOutputDto>> ExecuteAsync(long sellerId, CancellationToken token);
+    Task<List<GetProductOutputDto>> ExecuteAsync(SearchProductFilterInputDto inputDto, CancellationToken token);
 }

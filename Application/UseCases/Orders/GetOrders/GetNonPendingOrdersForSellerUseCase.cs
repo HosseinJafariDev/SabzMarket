@@ -1,4 +1,5 @@
 ﻿using SabzMarket.Application.Common;
+using SabzMarket.Application.Common.Dtos;
 using SabzMarket.Application.Constants.Common.Messages;
 using SabzMarket.Application.Constants.Order;
 using SabzMarket.Application.Exceptions;
@@ -12,21 +13,19 @@ namespace SabzMarket.Application.UseCases.Orders.GetOrders;
 public class GetNonPendingOrdersForSellerUseCase(IOrderRepository orderRepository, IUnitOfWork unitOfWork)
     : IGetNonPendingOrdersForSellerUseCase
 {
-    public async Task<GetOrderPagedOutputDto> ExecuteAsync(long sellerId, SearchOrderFilterInputInputDto inputInputDto,
+    public async Task<PagedResult<GetOrdersForSellerOutputDto>> ExecuteAsync(long sellerId,
+        SearchOrderFilterInputDto inputDto,
         CancellationToken token)
     {
         var orders = await orderRepository
-            .GetWithPaginationAsync(token,
-                x => x.OrderDetails.Any(s => s.Status != OrderStatus.Pending) && x.SellerId == sellerId,
-                filter: inputInputDto,
-                skip: inputInputDto.Skip,
-                take: inputInputDto.Take);
+            .GetOrderBySellerId(sellerId, inputDto.Search, inputDto.Price, inputDto.Number, inputDto.PageNumber,
+                inputDto.PageSize, token, inputDto.Status);
 
 
         if (!orders.Items.Any())
             throw new NotFoundException(CommonMessages.NotFoundWarning(OrderMessages.Order));
 
-        return new GetOrderPagedOutputDto(ToDto(orders.Items), orders.TotalCount);
+        return new PagedResult<GetOrdersForSellerOutputDto>(ToDto(orders.Items), orders.TotalCount);
     }
 
     private static IReadOnlyList<GetOrdersForSellerOutputDto> ToDto(IReadOnlyList<Order> orders) =>

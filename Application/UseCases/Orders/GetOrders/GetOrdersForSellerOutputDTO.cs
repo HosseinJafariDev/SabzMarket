@@ -3,7 +3,7 @@
 namespace SabzMarket.Application.UseCases.Orders.GetOrders;
 
 public record GetOrdersForSellerOutputDto(
-        long OrderId,
+        long OrderId,   
         long OrderDetailId,
         long ProductId,
         string ImageProduct,

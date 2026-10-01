@@ -10,7 +10,7 @@ public class Order : BaseEntity
     public long SellerId { get; private set; }
     public long FarmerId { get; private set; }
     public DateTime OrderDate { get; private set; }
-    private readonly List<OrderDetail> _orderDetails = [];
+    private readonly List<OrderDetail> _orderDetails = [];  
 
     public Seller? Seller { get; private init; }
     public Farmer? Farmer { get; private init; }

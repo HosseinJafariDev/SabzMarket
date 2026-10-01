@@ -1,19 +1,14 @@
-using SabzMarket.Application.Common.Attributes;
 using SabzMarket.Application.Common.Dtos;
-using SabzMarket.Application.Common.Enums;
-using SabzMarket.Domain.Entities.Products;
 using SabzMarket.Domain.Enums;
 
 namespace SabzMarket.Application.UseCases.Orders.GetOrders;
 
-public class SearchOrderFilterInputInputDto : BasePaginationInputDto
+public class SearchOrderFilterInputDto : BasePaginationInputDto
 {
-    [Filter(nameof(Product.Name), FilterOperator.Equal)]
-    public int Price { get; private set; }
+    public int? Price { get; set; }
 
-    [Filter(nameof(Product.Name), FilterOperator.Equal)]
-    public int Number { get; private set; }
+    public int? Number { get; set; }
+    public string? Search { get; set; }
 
-    [Filter(nameof(Product.Name), FilterOperator.Equal)]
     public OrderStatus Status { get; set; }
 }

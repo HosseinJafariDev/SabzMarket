@@ -2,5 +2,5 @@
 
 public interface IGetProductByNameUseCase
 {
-    Task<List<GetProductOutputDto>> ExecuteAsync(string name, CancellationToken token);
+    Task<List<GetProductOutputDto>> ExecuteAsync(SearchProductFilterInputDto inputDto, CancellationToken token);
 }

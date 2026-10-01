@@ -1,7 +1,9 @@
-﻿namespace SabzMarket.Application.UseCases.Orders.GetOrders;
+﻿using SabzMarket.Application.Common.Dtos;
+
+namespace SabzMarket.Application.UseCases.Orders.GetOrders;
 
 public interface IGetNonPendingOrdersForSellerUseCase
 {
-    Task<GetOrderPagedOutputDto> ExecuteAsync(long sellerId, SearchOrderFilterInputInputDto inputInputDto,
+    Task<PagedResult<GetOrdersForSellerOutputDto>> ExecuteAsync(long sellerId, SearchOrderFilterInputDto inputInputDto,
         CancellationToken token);
 }

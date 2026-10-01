@@ -7,9 +7,11 @@ namespace SabzMarket.Application.UseCases.Products.GetProduct;
 
 public class GetProductByNameUseCase(IProductRepository productRepository) : IGetProductByNameUseCase
 {
-    public async Task<List<GetProductOutputDto>> ExecuteAsync(string name, CancellationToken token)
+    public async Task<List<GetProductOutputDto>> ExecuteAsync(SearchProductFilterInputDto inputDto,
+        CancellationToken token)
     {
-        var products = await productRepository.GetAllAsync(token, x => x.Name == name);
+        var products = await productRepository.GetAllAsync(inputDto.SellerId, inputDto.Name, inputDto.PageNumber,
+            inputDto.PageSize, token);
 
         if (!products.Any())
             throw new NotFoundException(Messages.ProductNotFoundByName);
