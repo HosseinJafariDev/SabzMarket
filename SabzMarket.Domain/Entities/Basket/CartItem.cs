@@ -11,7 +11,7 @@ public class CartItem : BaseEntity<int>
     public int Quantity { get; set; }
     public DateTime AddedDate { get; set; }
 
-    public Farmer? Farmer { get; private init; }
+    public Buyer? Farmer { get; private init; }
     public Product? Product { get; private init; }
 
     private CartItem()

@@ -13,7 +13,7 @@ public class Order : BaseEntity
     private readonly List<OrderDetail> _orderDetails = [];  
 
     public Seller? Seller { get; private init; }
-    public Farmer? Farmer { get; private init; }
+    public Buyer? Farmer { get; private init; }
     public ICollection<OrderDetail> OrderDetails => _orderDetails.AsReadOnly();
 
     private Order()

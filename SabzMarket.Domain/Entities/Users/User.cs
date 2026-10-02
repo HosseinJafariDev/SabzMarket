@@ -16,7 +16,7 @@ public class User : BaseEntity
     public string? PasswordHash { get; private set; }
 
     public Seller? Seller { get; private init; }
-    public Farmer? Farmer { get; private init; }
+    public Buyer? Farmer { get; private init; }
     public Chat? Chat { get; private init; }
 
     private User()

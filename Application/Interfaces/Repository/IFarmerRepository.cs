@@ -3,7 +3,7 @@ using SabzMarket.Application.Interfaces.Persistence;
 
 namespace SabzMarket.Application.Interfaces.Repository
 {
-    public interface IFarmerRepository : IRepository<Farmer, long>
+    public interface IFarmerRepository : IRepository<Buyer, long>
     {
     }
 }

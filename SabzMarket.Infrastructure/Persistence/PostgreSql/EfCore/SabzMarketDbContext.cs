@@ -26,7 +26,7 @@ namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore
         public DbSet<Category> Categories { get; set; }
         public DbSet<Chat> Chats { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
-        public DbSet<Farmer> Farmers { get; set; }
+        public DbSet<Buyer> Farmers { get; set; }
         public DbSet<FeaturedSeller> FeaturedSellers { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<SmsOtp> smsOtps { get; set; }

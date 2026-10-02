@@ -6,16 +6,16 @@ using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations.Bas
 
 namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations
 {
-    public class FarmerConfiguration : BaseEntityConfiguration<Farmer, long>
+    public class FarmerConfiguration : BaseEntityConfiguration<Buyer, long>
     {
-        public override void Configure(EntityTypeBuilder<Farmer> builder)
+        public override void Configure(EntityTypeBuilder<Buyer> builder)
         {
             base.Configure(builder);
 
             builder.ToTable("Farmer")
                 .HasOne(f => f.User)
                 .WithOne(u => u.Farmer)
-                .HasForeignKey<Farmer>(x => x.UserId)
+                .HasForeignKey<Buyer>(x => x.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
