@@ -1,6 +1,6 @@
 namespace SabzMarket.Domain.Entities.Account;
 
-public class AdminPermissions
+public class RoleMenu
 {
     
 }
