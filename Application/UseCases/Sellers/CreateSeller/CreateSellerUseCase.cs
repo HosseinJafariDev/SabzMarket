@@ -7,7 +7,7 @@ using SabzMarket.Application.Exceptions;
 using SabzMarket.Application.Interfaces.Persistence;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Application.Interfaces.Services;
-using SabzMarket.Domain.Entities.Sellers;
+using SabzMarket.Domain.Entities.Seller;
 
 namespace SabzMarket.Application.UseCases.Sellers.CreateSeller;
 

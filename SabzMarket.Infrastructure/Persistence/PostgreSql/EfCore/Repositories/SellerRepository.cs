@@ -2,7 +2,7 @@
 using SabzMarket.Application.Common.Dtos;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Application.UseCases.Sellers.GetSeller;
-using SabzMarket.Domain.Entities.Sellers;
+using SabzMarket.Domain.Entities.Seller;
 using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore;
 using SabzMarket.Infrastructure.Persistence.PostgreSql.EfCore.Repositories.Base;
 

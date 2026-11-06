@@ -1,5 +1,5 @@
 ﻿using SabzMarket.Application.Interfaces.Persistence;
-using SabzMarket.Domain.Entities.Chats;
+using SabzMarket.Domain.Entities.Chat;
 
 namespace SabzMarket.Application.Interfaces.Repository
 {

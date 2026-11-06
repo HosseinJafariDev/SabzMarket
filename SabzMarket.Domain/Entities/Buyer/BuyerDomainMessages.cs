@@ -1,4 +1,4 @@
-namespace SabzMarket.Domain.Entities.Farmers;
+namespace SabzMarket.Domain.Entities.Buyer;
 
 public static class BuyerDomainMessages
 {

@@ -1,6 +1,6 @@
 ﻿using SabzMarket.Application.Interfaces.Persistence;
 using SabzMarket.Application.UseCases.Products.GetProduct;
-using SabzMarket.Domain.Entities.Products;
+using SabzMarket.Domain.Entities.Product;
 
 namespace SabzMarket.Application.Interfaces.Repository
 {

@@ -2,7 +2,7 @@
 using SabzMarket.Application.Constants.Common.Messages;
 using SabzMarket.Application.Exceptions;
 using SabzMarket.Application.Interfaces.Repository;
-using SabzMarket.Domain.Entities.Users;
+using SabzMarket.Domain.Entities.User;
 using UserMessages = SabzMarket.Application.Constants.User.UserMessages;
 
 namespace SabzMarket.Application.UseCases.Users.GetUser;

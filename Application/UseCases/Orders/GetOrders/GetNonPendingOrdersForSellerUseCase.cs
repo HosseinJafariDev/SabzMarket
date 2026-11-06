@@ -5,7 +5,7 @@ using SabzMarket.Application.Constants.Order;
 using SabzMarket.Application.Exceptions;
 using SabzMarket.Application.Interfaces.Persistence;
 using SabzMarket.Application.Interfaces.Repository;
-using SabzMarket.Domain.Entities.Orders;
+using SabzMarket.Domain.Entities.Order;
 using SabzMarket.Domain.Enums;
 
 namespace SabzMarket.Application.UseCases.Orders.GetOrders;

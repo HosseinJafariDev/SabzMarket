@@ -1,8 +1,7 @@
 ﻿using SabzMarket.Domain.Entities.Base;
-using SabzMarket.Domain.Entities.Users;
 using SabzMarket.Domain.Exceptions;
 
-namespace SabzMarket.Domain.Entities.Farmers;
+namespace SabzMarket.Domain.Entities.Buyer;
 
 public class Buyer : BaseEntity
 {
@@ -15,7 +14,7 @@ public class Buyer : BaseEntity
     public string ProfileImage { get; private set; }
     public string CodePosti { get; private set; }
 
-    public User? User { get; private init; }
+    public User.User? User { get; private init; }
 
     private Buyer()
     {

@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using SabzMarket.Application.Constants.Sms;
 using SabzMarket.Application.Exceptions;
 using SabzMarket.Application.Interfaces.Persistence;
-using SabzMarket.Domain.Entities.SmsOtps;
+using SabzMarket.Domain.Entities.SmsOtp;
 
 namespace SabzMarket.Application.UseCases.Sms.SendSmsOtp;
 

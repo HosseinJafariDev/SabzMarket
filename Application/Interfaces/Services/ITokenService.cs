@@ -1,4 +1,4 @@
-using SabzMarket.Domain.Entities.Users;
+using SabzMarket.Domain.Entities.User;
 
 namespace SabzMarket.Application.Interfaces.Services;
 

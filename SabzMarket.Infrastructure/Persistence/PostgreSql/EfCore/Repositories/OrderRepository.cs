@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SabzMarket.Application.Common.Dtos;
 using SabzMarket.Application.Interfaces.Repository;
-using SabzMarket.Domain.Entities.Orders;
+using SabzMarket.Domain.Entities.Order;
 using SabzMarket.Domain.Enums;
 using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore;
 using SabzMarket.Infrastructure.Persistence.PostgreSql.EfCore.Repositories.Base;

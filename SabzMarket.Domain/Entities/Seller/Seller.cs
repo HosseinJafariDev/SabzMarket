@@ -1,0 +1,55 @@
+﻿using SabzMarket.Domain.Entities.Base;
+using SabzMarket.Domain.Exceptions;
+
+namespace SabzMarket.Domain.Entities.Seller;
+
+public class Seller : BaseEntity
+{
+    public long UserId { get; private set; }
+    public string Address { get; private set; }
+    public string ProfileImage { get; private set; }
+    public string WorkHistory { get; private set; }
+    public User.User? User { get; private init; }
+
+    private Seller()
+    {
+    }
+
+    public Seller(long userId, string address, string workHistory)
+    {
+        if (string.IsNullOrWhiteSpace(address))
+            throw new DomainException(SellerDomainMessages.AddressRequired);
+
+        if (string.IsNullOrWhiteSpace(workHistory))
+            throw new DomainException(SellerDomainMessages.WorkHistoryRequired);
+
+        if (userId <= 0)
+            throw new DomainException(SellerDomainMessages.UserIdRequired);
+
+        UserId = userId;
+        Address = address;
+        WorkHistory = workHistory;
+    }
+
+    public void Update(long id, string address, string workHistory)
+    {
+        if (string.IsNullOrWhiteSpace(address))
+            throw new DomainException(SellerDomainMessages.AddressRequired);
+        if (string.IsNullOrWhiteSpace(workHistory))
+            throw new DomainException(SellerDomainMessages.WorkHistoryRequired);
+        if (Id <= 0)
+            throw new DomainException(SellerDomainMessages.SellerIdRequired);
+
+        Id = id;
+        Address = address;
+        WorkHistory = workHistory;
+    }
+
+    public void UpdateProfileImage(string profileImage)
+    {
+        if (string.IsNullOrWhiteSpace(profileImage))
+            throw new DomainException(SellerDomainMessages.SellerProfileImageRequired);
+
+        ProfileImage = profileImage;
+    }
+}

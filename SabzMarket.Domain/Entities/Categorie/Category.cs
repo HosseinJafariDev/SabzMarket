@@ -1,0 +1,22 @@
+﻿using SabzMarket.Domain.Entities.Base;
+using SabzMarket.Domain.Exceptions;
+
+namespace SabzMarket.Domain.Entities.Categorie;
+
+public class Category : BaseEntity
+{
+    public string Name { get; private set; }
+
+    private Category()
+    {
+    }
+
+    public Category(long id, string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            throw new DomainException(CategoryDomainMessages.NameRequired);
+
+        Id = id;
+        Name = name;
+    }
+}

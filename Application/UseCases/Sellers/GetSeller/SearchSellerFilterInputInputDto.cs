@@ -1,6 +1,5 @@
 using SabzMarket.Application.Common.Dtos;
 using SabzMarket.Application.Common.Enums;
-using SabzMarket.Domain.Entities.Products;
 
 namespace SabzMarket.Application.UseCases.Sellers.GetSeller;
 

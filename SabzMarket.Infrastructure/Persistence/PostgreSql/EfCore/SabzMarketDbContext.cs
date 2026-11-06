@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SabzMarket.Domain.Entities.Buyer;
 using SabzMarket.Domain.Entities.CartItems;
-using SabzMarket.Domain.Entities.Categories;
-using SabzMarket.Domain.Entities.Chats;
-using SabzMarket.Domain.Entities.Farmers;
-using SabzMarket.Domain.Entities.FeaturedSellers;
-using SabzMarket.Domain.Entities.Orders;
-using SabzMarket.Domain.Entities.Products;
-using SabzMarket.Domain.Entities.Sellers;
-using SabzMarket.Domain.Entities.SmsOtps;
-using SabzMarket.Domain.Entities.Users;
+using SabzMarket.Domain.Entities.Categorie;
+using SabzMarket.Domain.Entities.Chat;
+using SabzMarket.Domain.Entities.FeaturedSeller;
+using SabzMarket.Domain.Entities.Order;
+using SabzMarket.Domain.Entities.Product;
+using SabzMarket.Domain.Entities.Seller;
+using SabzMarket.Domain.Entities.SmsOtp;
+using SabzMarket.Domain.Entities.User;
 
 namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore
 {

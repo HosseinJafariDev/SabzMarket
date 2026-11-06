@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using SabzMarket.Application.UseCases.Auth.SignUp;
-using SabzMarket.Domain.Entities.Users;
+using SabzMarket.Domain.Entities.User;
 
 namespace SabzMarket.Application.UseCases.Auth.Mappers
 {

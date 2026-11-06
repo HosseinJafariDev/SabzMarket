@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver.Linq;
 using SabzMarket.Application.Interfaces.Repository;
-using SabzMarket.Domain.Entities.Products;
+using SabzMarket.Domain.Entities.Product;
 using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore;
 using SabzMarket.Infrastructure.Persistence.PostgreSql.EfCore.Repositories.Base;
 

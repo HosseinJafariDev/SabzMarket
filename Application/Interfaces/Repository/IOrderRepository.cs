@@ -1,6 +1,6 @@
 ﻿using SabzMarket.Application.Common.Dtos;
 using SabzMarket.Application.Interfaces.Persistence;
-using SabzMarket.Domain.Entities.Orders;
+using SabzMarket.Domain.Entities.Order;
 using SabzMarket.Domain.Enums;
 
 namespace SabzMarket.Application.Interfaces.Repository

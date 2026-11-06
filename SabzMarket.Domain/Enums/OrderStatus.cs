@@ -9,11 +9,8 @@ namespace SabzMarket.Domain.Enums
 {
     public enum OrderStatus
     {
-        [Display(Name = "ارسال شد")]
-        Sent,
-        [Display(Name = "رد شده")]
-        Rejected,
-        [Display(Name = "درحال پردازش")]
-        Pending
+        [Display(Name = "ارسال شد")] Sent,
+        [Display(Name = "رد شده")] Rejected,
+        [Display(Name = "درحال پردازش")] Pending
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SabzMarket.Domain.Entities.Chats;
+using SabzMarket.Domain.Entities.Chat;
 using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations.Base;
 
 namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations

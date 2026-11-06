@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SabzMarket.Application.Interfaces.Repository;
-using SabzMarket.Domain.Entities.SmsOtps;
+using SabzMarket.Domain.Entities.SmsOtp;
 using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore;
 using SabzMarket.Infrastructure.Persistence.PostgreSql.EfCore.Repositories.Base;
 

@@ -2,7 +2,7 @@
 using SabzMarket.Application.Constants.Seller;
 using SabzMarket.Application.Exceptions;
 using SabzMarket.Application.Interfaces.Repository;
-using SabzMarket.Domain.Entities.Sellers;
+using SabzMarket.Domain.Entities.Seller;
 
 namespace SabzMarket.Application.UseCases.Sellers.GetSeller;
 

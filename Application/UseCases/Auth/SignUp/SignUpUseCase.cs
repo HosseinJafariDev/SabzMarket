@@ -4,7 +4,6 @@ using SabzMarket.Application.Common;
 using SabzMarket.Application.Exceptions;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Application.Interfaces.Services;
-using SabzMarket.Domain.Entities.Users;
 
 namespace SabzMarket.Application.UseCases.Auth.SignUp
 {

@@ -1,5 +1,5 @@
 ﻿using SabzMarket.Application.Interfaces.Persistence;
-using SabzMarket.Domain.Entities.Categories;
+using SabzMarket.Domain.Entities.Categorie;
 
 namespace SabzMarket.Application.Interfaces.Repository
 {

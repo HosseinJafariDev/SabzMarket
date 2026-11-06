@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SabzMarket.Domain.Constants;
-using SabzMarket.Domain.Entities.Farmers;
+using SabzMarket.Domain.Entities.Buyer;
 using SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations.Base;
 
 namespace SabzMarket.Infrastructure.Persistence.Postgresql.EfCore.Configurations

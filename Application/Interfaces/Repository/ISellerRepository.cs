@@ -1,7 +1,7 @@
 ﻿using SabzMarket.Application.Common.Dtos;
 using SabzMarket.Application.Interfaces.Persistence;
 using SabzMarket.Application.UseCases.Sellers.GetSeller;
-using SabzMarket.Domain.Entities.Sellers;
+using SabzMarket.Domain.Entities.Seller;
 
 namespace SabzMarket.Application.Interfaces.Repository
 {

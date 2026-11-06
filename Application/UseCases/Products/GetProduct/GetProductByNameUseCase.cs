@@ -1,7 +1,7 @@
 ﻿using SabzMarket.Application.Common;
 using SabzMarket.Application.Exceptions;
 using SabzMarket.Application.Interfaces.Repository;
-using SabzMarket.Domain.Entities.Products;
+using SabzMarket.Domain.Entities.Product;
 
 namespace SabzMarket.Application.UseCases.Products.GetProduct;
 

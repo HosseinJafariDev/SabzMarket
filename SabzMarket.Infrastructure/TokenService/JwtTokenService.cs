@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SabzMarket.Application.Interfaces.Services;
-using SabzMarket.Domain.Entities.Users;
+using SabzMarket.Domain.Entities.User;
 using SabzMarket.Infrastructure.TokenService.Configuration;
 
 namespace SabzMarket.Infrastructure.TokenService;

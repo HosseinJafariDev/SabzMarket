@@ -6,7 +6,7 @@ using SabzMarket.Application.Exceptions;
 using SabzMarket.Application.Interfaces.Persistence;
 using SabzMarket.Application.Interfaces.Repository;
 using SabzMarket.Application.Interfaces.Services;
-using SabzMarket.Domain.Entities.Products;
+using SabzMarket.Domain.Entities.Product;
 
 namespace SabzMarket.Application.UseCases.Products.CreateProduct;
 

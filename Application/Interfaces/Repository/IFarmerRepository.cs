@@ -1,5 +1,5 @@
-﻿using SabzMarket.Domain.Entities.Farmers;
-using SabzMarket.Application.Interfaces.Persistence;
+﻿using SabzMarket.Application.Interfaces.Persistence;
+using SabzMarket.Domain.Entities.Buyer;
 
 namespace SabzMarket.Application.Interfaces.Repository
 {
